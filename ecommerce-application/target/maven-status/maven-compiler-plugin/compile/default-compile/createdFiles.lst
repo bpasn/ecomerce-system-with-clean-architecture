@@ -1,0 +1,3 @@
+com\app\application\service\BaseService.class
+com\app\application\usecase\UserUseCase.class
+com\app\application\service\UserService.class
