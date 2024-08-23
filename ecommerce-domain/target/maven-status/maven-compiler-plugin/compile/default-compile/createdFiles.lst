@@ -1,7 +1,0 @@
-com\app\domain\entity\BaseEntity.class
-com\app\domain\entity\ProductEntity.class
-com\app\domain\entity\ProductOptionGroup.class
-com\app\domain\entity\UserEntity.class
-com\app\domain\entity\ProductOption.class
-com\app\domain\repositories\UserRepository.class
-com\app\domain\entity\CategoriesEntity.class
