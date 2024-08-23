@@ -69,5 +69,22 @@ public class ProductOptionGroupEntity extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
+    public ProductEntity getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductEntity product) {
+        this.product = product;
+    }
+
+    public List<ProductOptionEntity> getProductOptions() {
+        return productOptions;
+    }
+
+    public void setProductOptions(List<ProductOptionEntity> productOptions) {
+        this.productOptions = productOptions;
+    }
+    
+
     
 }

@@ -21,7 +21,6 @@ public class CategoriesEntity extends BaseEntity {
     @ManyToMany(mappedBy = "categories")
     private List<ProductEntity> products = new ArrayList<>();
 
-
     @CreationTimestamp
     @Column(name = "created_at",updatable = false)
     private LocalDateTime createdAt;
@@ -29,6 +28,12 @@ public class CategoriesEntity extends BaseEntity {
     @UpdateTimestamp
     @Column(name = "updated_at",updatable = false)
     private LocalDateTime updatedAt;
+
+    
+
+    public CategoriesEntity(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;

@@ -6,18 +6,10 @@ import jakarta.persistence.Entity;
 
 @Entity(name = "users")
 public class UserEntity extends BaseEntity {
-
-    private String username;
-    private String password;
     private String email;
+    private String password;
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getPassword() {
         return password;
@@ -44,21 +36,21 @@ public class UserEntity extends BaseEntity {
 
         UserEntity user = (UserEntity) obj;
         return Objects.equals(getId(), user.getId()) &&
-                Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), username, password, email);
+        return Objects.hash(getId(),  password, email);
     }
 
     @Override
     public String toString() {
-        return "UserModel [username=" + username + ", password=" + password + ", email=" + email + ", id ="
-                + getId() + "]";
+        return "UserEntity{" +
+                "id= '"+getId()+"'," +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
-
-    
 }

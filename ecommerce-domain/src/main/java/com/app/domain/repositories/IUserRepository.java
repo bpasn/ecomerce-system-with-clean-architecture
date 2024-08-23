@@ -1,8 +1,10 @@
 package com.app.domain.repositories;
 
+import java.util.Optional;
 
 import com.app.domain.entity.UserEntity;
 
 public interface IUserRepository {
-    UserEntity findCustom(String username,String email);
+        Optional<UserEntity> findByCustomUser(String email);
+
 }

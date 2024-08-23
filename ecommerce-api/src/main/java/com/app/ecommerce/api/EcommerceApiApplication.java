@@ -7,9 +7,15 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = {"com.app.ecommerce.api", "com.app.application", "com.app.domain", "com.app.infrastructure"})
-@EnableJpaRepositories(basePackages = "com.app.domain.repositories")
-@ComponentScan(basePackages = {"com.app.domain.repositories"})
+@SpringBootApplication(scanBasePackages = { "com.app.ecommerce.api", "com.app.application", "com.app.domain",
+        "com.app.infrastructure" })
+@EnableJpaRepositories(basePackages = "com.app.infrastructure.repositories")
+@ComponentScan(basePackages = {
+        "com.app.domain.repositories",
+        "com.app.ecommerce.api",
+        "com.app.application",
+        "com.app.domain",
+        "com.app.infrastructure" })
 @EntityScan(basePackages = "com.app.domain.entity")
 public class EcommerceApiApplication {
     public static void main(String[] args) {

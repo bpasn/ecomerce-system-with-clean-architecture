@@ -9,10 +9,13 @@ import com.app.application.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("${api.prefix.route}/users")
 @Tag(name = "Users",description = "User management API")
 public class UserController {
 
@@ -23,8 +26,19 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getMethodName(@RequestParam String name, @RequestParam String email) {
-        return ResponseEntity.ok(userService.getMethodName(name, email));
+    public ResponseEntity<String> get(@RequestParam String email) {
+        return ResponseEntity.ok(userService.getMethodName(email));
     }
-
+    @PostMapping
+    public ResponseEntity<String> post() {
+        return ResponseEntity.ok("Users API already");
+    }
+    @PutMapping
+    public ResponseEntity<String> put() {
+        return ResponseEntity.ok("Users API already");
+    }
+    @DeleteMapping
+    public ResponseEntity<String> delete() {
+        return ResponseEntity.ok("Users API already");
+    }
 }

@@ -32,6 +32,13 @@ public class ProductImageEntity extends BaseEntity {
     @Column(name = "updated_at",updatable = false)
     private LocalDateTime updatedAt;
 
+    
+    public ProductImageEntity(String url, String source, String type) {
+        this.url = url;
+        this.source = source;
+        this.type = type;
+    }
+
     public Optional<String> getUrl() {
         return Optional.ofNullable(url);
     }
