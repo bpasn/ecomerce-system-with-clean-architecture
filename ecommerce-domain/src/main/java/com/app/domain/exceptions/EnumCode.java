@@ -1,4 +1,4 @@
-package com.app.application.handler;
+package com.app.domain.exceptions;
 
 public enum EnumCode {
     OK(200),

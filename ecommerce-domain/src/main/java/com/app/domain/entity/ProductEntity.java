@@ -32,14 +32,14 @@ public class ProductEntity extends BaseEntity {
     public ProductEntity(){}
 
     public ProductEntity(String name, String description, double price, int quantity, List<CategoriesEntity> categories,
-            List<ProductImageEntity> productImages, List<ProductOptionGroupEntity> productOptionGroups) {
+            List<ProductImageEntity> productImages, List<ProductGroupEntity> productGroups) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.categories = categories;
         this.productImages = productImages;
-        this.productOptionGroups = productOptionGroups;
+        this.productGroups = productGroups;
     }
 
     @ManyToMany
@@ -50,17 +50,12 @@ public class ProductEntity extends BaseEntity {
     private List<ProductImageEntity> productImages = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductOptionGroupEntity> productOptionGroups = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "group_options",joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "product_group_id"))
+    private List<ProductGroupEntity> productGroups = new ArrayList<>();
 
 
-    public List<ProductOptionGroupEntity> getProductOptionGroups() {
-        return productOptionGroups;
-    }
-
-    public void setProductOptionGroups(List<ProductOptionGroupEntity> productOptionGroups) {
-        this.productOptionGroups = productOptionGroups;
-    }
+   
 
     public List<ProductImageEntity> getProductImages() {
         return productImages;

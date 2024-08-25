@@ -2,7 +2,7 @@ package com.app.application.dto;
 
 import java.util.List;
 
-public class ProductOptionGroupDTO {
+public class ProductGroupDTO {
     String groupName;
     boolean isRequired;
     List<ProductOptionDTO> productOptions;

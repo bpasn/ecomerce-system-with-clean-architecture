@@ -3,9 +3,9 @@ package com.app.application.service;
 import org.springframework.stereotype.Service;
 
 import com.app.domain.entity.UserEntity;
+import com.app.domain.exceptions.CustomExceptionHandler;
+import com.app.domain.exceptions.EnumCode;
 import com.app.infrastructure.repositories.UserJpaRepository;
-import com.app.application.handler.CustomExceptionHandler;
-import com.app.application.handler.EnumCode;
 
 @Service
 public class UserService {

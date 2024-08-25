@@ -1,5 +1,6 @@
 package com.app.ecommerce.api.controllers;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,24 +12,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.application.dto.CategoriesDTO;
-import com.app.application.service.CategoriesServiceImpl;
+import com.app.application.interfaces.CategoryService;
+import com.app.application.mapper.CategoryMapper;
 
 @RestController
 @RequestMapping("${api.prefix.route}/categories")
 public class CategoriesController {
-    private final CategoriesServiceImpl categoriesService;
+    private final CategoryService categoriesService;
 
-    CategoriesController(CategoriesServiceImpl categoriesService) {
+    CategoriesController(CategoryService categoriesService) {
         this.categoriesService = categoriesService;
     }
 
     @GetMapping
-    public ResponseEntity<String> get(@RequestParam String email) {
-        return ResponseEntity.ok("Categories API already");
+    public ResponseEntity<Page<CategoriesDTO>> get(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(categoriesService.getAll(page, size));
     }
     @PostMapping
     public ResponseEntity<String> post(@RequestBody CategoriesDTO categories) {
-        categoriesService.create(categories);
+        categoriesService.create(CategoryMapper.INSTANCE.toEntity(categories));
         return ResponseEntity.ok("Categories has created");
     }
     @PutMapping

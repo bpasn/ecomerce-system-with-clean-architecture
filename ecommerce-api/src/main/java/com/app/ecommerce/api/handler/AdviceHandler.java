@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.app.application.handler.CustomExceptionHandler;
+import com.app.domain.exceptions.CustomExceptionHandler;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -18,7 +18,7 @@ public class AdviceHandler {
 
     @ExceptionHandler(CustomExceptionHandler.class)
     public ResponseEntity<IAdviceHandler> handlerRuntimeException(CustomExceptionHandler e) {
-
+        System.out.println("HANDLER ADVICE : "+e.getMessage());
         IAdviceHandler adviceHandler = new IAdviceHandler();
         adviceHandler.setMessage(e.getMessage());
         adviceHandler.setCode(e.getStatus().getCode());

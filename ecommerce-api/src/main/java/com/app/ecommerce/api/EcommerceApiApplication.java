@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = "com.app.infrastructure.repositories")
 @ComponentScan(basePackages = {
         "com.app.domain.repositories",
+        "com.app.domain.usecase",
         "com.app.ecommerce.api",
         "com.app.application",
         "com.app.domain",

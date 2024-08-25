@@ -1,6 +1,7 @@
 package com.app.application.interfaces;
 
 import com.app.application.dto.ProductImageDTO;
-public interface ProductImageService extends BaseService<ProductImageDTO> {
+import com.app.domain.entity.ProductImageEntity;
+public interface ProductImageService extends BaseService<ProductImageEntity,ProductImageDTO> {
 
 }

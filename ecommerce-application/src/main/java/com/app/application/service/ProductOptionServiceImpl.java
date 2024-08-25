@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.interfaces.ProductOptionService;
-import com.app.application.mapper.ProductOptionMapper;
+import com.app.domain.entity.ProductOptionEntity;
 import com.app.infrastructure.repositories.ProductOptionJpaRepository;
 
 @Service
@@ -17,7 +17,6 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     ProductOptionServiceImpl(ProductOptionJpaRepository repository) {
         this.repository = repository;
     }
-
 
     @Override
     public Page<ProductOptionDTO> getAll(int page, int size) {
@@ -38,18 +37,19 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     }
 
     @Override
-    public String create(ProductOptionDTO model) {
+    public String create(ProductOptionEntity model) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'create'");
     }
 
     @Override
-    public void createAll(List<ProductOptionDTO> models) {
-         repository.saveAll(models.stream().map(ProductOptionMapper.INSTANCE::toEntity).toList());
+    public void createAll(List<ProductOptionEntity> models) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createAll'");
     }
 
     @Override
-    public void update(Long id, ProductOptionDTO model) {
+    public void update(Long id, ProductOptionEntity model) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
@@ -59,6 +59,6 @@ public class ProductOptionServiceImpl implements ProductOptionService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
-    
+
 
 }

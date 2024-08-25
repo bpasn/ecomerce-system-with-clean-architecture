@@ -18,19 +18,35 @@ public class ProductOptionEntity extends BaseEntity {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "product_option_group_id")
-    private ProductOptionGroupEntity productOptionGroup;
+    @JoinColumn(name = "product_group_id")
+    private ProductGroupEntity productGroup;
 
-    
+
+    public ProductOptionEntity(){}
+   
+    public ProductOptionEntity(String optionName, double price, ProductGroupEntity productGroup) {
+        this.optionName = optionName;
+        this.price = price;
+        this.productGroup = productGroup;
+    }
+
+    public ProductGroupEntity getProductGroup() {
+        return productGroup;
+    }
+
+    public void setProductGroup(ProductGroupEntity productGroup) {
+        this.productGroup = productGroup;
+    }
+
     @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at",updatable = false)
+    @Column(name = "updated_at", updatable = false)
     private LocalDateTime updatedAt;
 
-    
+
     public String getOptionName() {
         return optionName;
     }
@@ -52,13 +68,7 @@ public class ProductOptionEntity extends BaseEntity {
         return "ProductOption [optionName=" + optionName + ", price=" + price + "]";
     }
 
-    public ProductOptionGroupEntity getProductOptionGroup() {
-        return productOptionGroup;
-    }
-
-    public void setProductOptionGroup(ProductOptionGroupEntity productOptionGroup) {
-        this.productOptionGroup = productOptionGroup;
-    }
+   
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

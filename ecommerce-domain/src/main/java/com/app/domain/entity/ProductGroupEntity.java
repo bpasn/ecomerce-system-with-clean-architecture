@@ -7,24 +7,25 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.app.domain.exceptions.CustomExceptionHandler;
+import com.app.domain.exceptions.EnumCode;
+import com.app.domain.usecase.ProductGroupUseCase;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 
-@Entity(name = "product_option_groups")
-public class ProductOptionGroupEntity extends BaseEntity {
+@Entity(name = "product_groups")
+public class ProductGroupEntity extends BaseEntity {
     @Column(name = "group_name")
     private String groupName;
     @Column(name = "is_required")
     private boolean isRequired;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private ProductEntity product;
+    @ManyToMany(mappedBy = "productGroups")
+    private List<ProductEntity> products = new ArrayList<>();
 
-    @OneToMany(mappedBy = "productOptionGroup")
+    @ManyToMany(mappedBy = "productGroup")
     private List<ProductOptionEntity> productOptions = new ArrayList<>();
     
 
@@ -69,12 +70,12 @@ public class ProductOptionGroupEntity extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
-    public ProductEntity getProduct() {
-        return product;
+    public List<ProductEntity> getProducts() {
+        return products;
     }
 
-    public void setProduct(ProductEntity product) {
-        this.product = product;
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
     }
 
     public List<ProductOptionEntity> getProductOptions() {
@@ -84,7 +85,21 @@ public class ProductOptionGroupEntity extends BaseEntity {
     public void setProductOptions(List<ProductOptionEntity> productOptions) {
         this.productOptions = productOptions;
     }
+
+    @Override
+    public String toString() {
+        return "ProductGroupEntity [groupName=" + groupName + ", isRequired=" + isRequired + ", products=" + products
+                + ", productOptions=" + productOptions.toString() + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+    }
     
 
+
+    public void validateGroupNameUnique(ProductGroupUseCase pu){
+        if(pu.isGroupNameExists(this.groupName)){
+            throw new CustomExceptionHandler("ProductGroup with name " + this.groupName + " already exists",
+                    EnumCode.BAD_REQUEST);
+        }
+
+    }
     
 }

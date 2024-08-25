@@ -8,7 +8,7 @@ public class ProductsDTO {
     int quantity;
     List<CategoriesDTO> categories;
     List<ProductImageDTO> productImages;
-    List<ProductOptionGroupDTO> productOptionGroups;
+    List<ProductGroupDTO> productOptionGroups;
     public String getName() {
         return name;
     }
@@ -45,10 +45,10 @@ public class ProductsDTO {
     public void setProductImages(List<ProductImageDTO> productImages) {
         this.productImages = productImages;
     }
-    public List<ProductOptionGroupDTO> getProductOptionGroups() {
+    public List<ProductGroupDTO> getProductOptionGroups() {
         return productOptionGroups;
     }
-    public void setProductOptionGroups(List<ProductOptionGroupDTO> productOptionGroups) {
+    public void setProductOptionGroups(List<ProductGroupDTO> productOptionGroups) {
         this.productOptionGroups = productOptionGroups;
     }
     @Override

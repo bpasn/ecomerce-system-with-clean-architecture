@@ -1,11 +1,8 @@
-package com.app.application.handler;
+package com.app.domain.exceptions;
 
 public class CustomExceptionHandler extends RuntimeException {
     EnumCode status;
 
-    public CustomExceptionHandler(String message) {
-        super("EXCEPTION : " + message);
-    }
 
     public CustomExceptionHandler(String message, EnumCode status) {
         super(message);

@@ -1,5 +1,6 @@
 package com.app.ecommerce.api.controllers;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,25 +11,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.application.dto.ProductOptionGroupDTO;
-import com.app.application.service.ProductOptionGroupServiceImpl;
+import com.app.application.dto.ProductGroupDTO;
+import com.app.application.mapper.ProductGroupMapper;
+import com.app.application.service.ProductGroupServiceImpl;
 
 @RestController
-@RequestMapping("${api.prefix.route}/product-option-groups")
-public class ProductOptionGroupController {
-    private final ProductOptionGroupServiceImpl productOptionGroupService;
+@RequestMapping("${api.prefix.route}/product-groups")
+public class ProductGroupController {
+    private final ProductGroupServiceImpl productGroupService;
 
-    ProductOptionGroupController(ProductOptionGroupServiceImpl productOptionGroupService) {
-        this.productOptionGroupService = productOptionGroupService;
+    ProductGroupController(ProductGroupServiceImpl productGroupService) {
+        this.productGroupService = productGroupService;
     }
 
     @GetMapping
-    public ResponseEntity<String> get(@RequestParam String email) {
-        return ResponseEntity.ok("ProductOptionGroup API already");
+    public ResponseEntity<Page<ProductGroupDTO>> get(@RequestParam int page,@RequestParam int size) {
+        return ResponseEntity.ok(productGroupService.getAll(page, size));
     }
     @PostMapping
-    public ResponseEntity<String> post(@RequestBody ProductOptionGroupDTO productOptionGroup) {
-        productOptionGroupService.create(productOptionGroup);
+    public ResponseEntity<String> post(@RequestBody ProductGroupDTO productOptionGroup) {
+        productGroupService.create(ProductGroupMapper.INSTANCE.toEntity(productOptionGroup));
         return ResponseEntity.ok("ProductOptionGroup API already");
     }
     @PutMapping
