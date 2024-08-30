@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,7 +28,8 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "quantity")
     private int quantity;
 
-
+    @OneToOne(mappedBy = "product")
+    private StockEntity stocks;
     
     public ProductEntity(){}
 
@@ -54,8 +56,6 @@ public class ProductEntity extends BaseEntity {
     @JoinTable(name = "group_options",joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "product_group_id"))
     private List<ProductGroupEntity> productGroups = new ArrayList<>();
 
-
-   
 
     public List<ProductImageEntity> getProductImages() {
         return productImages;
@@ -105,6 +105,23 @@ public class ProductEntity extends BaseEntity {
         this.quantity = quantity;
     }
 
+    
+    public StockEntity getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(StockEntity stocks) {
+        this.stocks = stocks;
+    }
+
+    public List<ProductGroupEntity> getProductGroups() {
+        return productGroups;
+    }
+
+    public void setProductGroups(List<ProductGroupEntity> productGroups) {
+        this.productGroups = productGroups;
+    }
+
     public List<CategoriesEntity> getCategories() {
         return categories;
     }
@@ -128,6 +145,7 @@ public class ProductEntity extends BaseEntity {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+    
 
     @Override
     public int hashCode() {

@@ -5,4 +5,5 @@ import com.app.domain.repositories.ICategoriesRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoriesJpaRepository extends JpaRepository<CategoriesEntity,Long> , ICategoriesRepository {
+    boolean existsByName(String name);
 }

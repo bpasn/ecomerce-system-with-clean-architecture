@@ -1,11 +1,20 @@
 package com.app.application.dto;
 
-import java.util.List;;
+import java.util.List;
+
 public class ProductsDTO {
     String name;
     String description;
     double price;
     int quantity;
+    StockDTO stocks;
+
+    public StockDTO getStocks() {
+        return stocks;
+    }
+    public void setStocks(StockDTO stocks) {
+        this.stocks = stocks;
+    }
     List<CategoriesDTO> categories;
     List<ProductImageDTO> productImages;
     List<ProductGroupDTO> productOptionGroups;
@@ -33,6 +42,8 @@ public class ProductsDTO {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    
     public List<CategoriesDTO> getCategories() {
         return categories;
     }

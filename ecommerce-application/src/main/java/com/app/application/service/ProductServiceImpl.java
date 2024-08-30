@@ -7,21 +7,26 @@ import org.springframework.stereotype.Service;
 
 import com.app.application.dto.ProductsDTO;
 import com.app.application.interfaces.ProductService;
-import com.app.domain.entity.ProductEntity;
+import com.app.application.mapper.ProductMapper;
+import com.app.domain.usecase.ProductUseCase;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    private final ProductUseCase productUseCase;
+
+    public ProductServiceImpl(ProductUseCase productUseCase) {
+        this.productUseCase = productUseCase;
+    }
+
     @Override
     public Page<ProductsDTO> getAll(int page, int size) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        return productUseCase.findAllWithPageable(size, page).map(ProductMapper.INSTANCE::toDTO);
     }
 
     @Override
     public ProductsDTO getByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByName'");
+        return ProductMapper.INSTANCE.toDTO(productUseCase.findByName(name).orElse(null));
     }
 
     @Override
@@ -31,19 +36,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String create(ProductEntity model) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+    public String create(ProductsDTO model) {
+        productUseCase.insert(ProductMapper.INSTANCE.toEntity(model));
+        return "Product has created";
     }
 
     @Override
-    public void createAll(List<ProductEntity> models) {
+    public void createAll(List<ProductsDTO> models) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createAll'");
     }
 
     @Override
-    public void update(Long id, ProductEntity model) {
+    public void update(Long id, ProductsDTO model) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
@@ -53,7 +58,5 @@ public class ProductServiceImpl implements ProductService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
-
-    
 
 }

@@ -6,5 +6,4 @@ import com.app.domain.entity.CategoriesEntity;
 
 public interface ICategoriesRepository {
     Optional<CategoriesEntity> findByName(String name);
-    boolean existsByName(String name);
 }

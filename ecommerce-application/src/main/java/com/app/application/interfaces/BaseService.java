@@ -8,8 +8,8 @@ public interface BaseService<E,D> {
     Page<D> getAll(int page,int size);
     D getByName(String name);
     D getById(Long id);
-    String create(E model);
-    void createAll(List<E> models);
-    void update(Long id,E model);
+    String create(D model);
+    void createAll(List<D> models);
+    void update(Long id,D model);
     void delete(Long id);
 }

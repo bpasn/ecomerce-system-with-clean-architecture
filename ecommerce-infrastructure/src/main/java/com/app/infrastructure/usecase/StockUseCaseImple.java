@@ -6,45 +6,38 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import com.app.domain.entity.ProductImageEntity;
-import com.app.domain.usecase.ProductImageUseCase;
-import com.app.infrastructure.repositories.ProductImageJpaRepository;
+import com.app.domain.entity.StockEntity;
+import com.app.domain.usecase.StockUseCase;
 
-@Service()
-public class ProductImageUseCaseImpl implements ProductImageUseCase {
-
-    private final ProductImageJpaRepository repository;
-
-    public ProductImageUseCaseImpl(ProductImageJpaRepository repository) {
-        this.repository = repository;
-    }
+@Service
+public class StockUseCaseImple implements StockUseCase {
 
     @Override
-    public ProductImageEntity insert(ProductImageEntity entity) {
+    public StockEntity insert(StockEntity entity) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'insert'");
     }
 
     @Override
-    public ProductImageEntity update(Long id, ProductImageEntity entity) {
+    public StockEntity update(Long id, StockEntity entity) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
     @Override
-    public List<ProductImageEntity> insertAll(List<ProductImageEntity> entity) {
+    public List<StockEntity> insertAll(List<StockEntity> entity) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'insertAll'");
     }
 
     @Override
-    public Optional<ProductImageEntity> findById(Long id) {
+    public Optional<StockEntity> findById(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findById'");
     }
 
     @Override
-    public Page<ProductImageEntity> findAllWithPageable(int size, int page) {
+    public Page<StockEntity> findAllWithPageable(int size, int page) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAllWithPageable'");
     }
@@ -54,4 +47,5 @@ public class ProductImageUseCaseImpl implements ProductImageUseCase {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
+    
 }

@@ -30,7 +30,7 @@ public class CategoriesController {
     }
     @PostMapping
     public ResponseEntity<String> post(@RequestBody CategoriesDTO categories) {
-        categoriesService.create(CategoryMapper.INSTANCE.toEntity(categories));
+        categoriesService.create(categories);
         return ResponseEntity.ok("Categories has created");
     }
     @PutMapping

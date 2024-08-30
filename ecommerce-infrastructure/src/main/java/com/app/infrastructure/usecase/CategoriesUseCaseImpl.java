@@ -17,8 +17,6 @@ import jakarta.transaction.Transactional;
 public class CategoriesUseCaseImpl implements CategoryUseCase{
     private final CategoriesJpaRepository categoriesJpaRepository;
 
-    
-
     public CategoriesUseCaseImpl(CategoriesJpaRepository categoriesJpaRepository) {
         this.categoriesJpaRepository = categoriesJpaRepository;
     }

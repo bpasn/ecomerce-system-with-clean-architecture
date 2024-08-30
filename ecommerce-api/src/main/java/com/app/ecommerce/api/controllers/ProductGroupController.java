@@ -30,7 +30,7 @@ public class ProductGroupController {
     }
     @PostMapping
     public ResponseEntity<String> post(@RequestBody ProductGroupDTO productOptionGroup) {
-        productGroupService.create(ProductGroupMapper.INSTANCE.toEntity(productOptionGroup));
+        productGroupService.create(productOptionGroup);
         return ResponseEntity.ok("ProductOptionGroup API already");
     }
     @PutMapping

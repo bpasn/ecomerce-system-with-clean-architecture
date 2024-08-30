@@ -35,7 +35,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<String> post(@RequestBody ProductsDTO products) {
-        return ResponseEntity.ok(products.toString());
+        return ResponseEntity.ok(productService.create(products));
     }
 
     @PutMapping

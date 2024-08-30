@@ -7,21 +7,20 @@ import org.springframework.stereotype.Service;
 
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.interfaces.ProductOptionService;
-import com.app.domain.entity.ProductOptionEntity;
-import com.app.infrastructure.repositories.ProductOptionJpaRepository;
+import com.app.application.mapper.ProductOptionMapper;
+import com.app.domain.usecase.ProductOptionUseCase;
 
 @Service
 public class ProductOptionServiceImpl implements ProductOptionService {
-    private final ProductOptionJpaRepository repository;
+    private ProductOptionUseCase useCase;
 
-    ProductOptionServiceImpl(ProductOptionJpaRepository repository) {
-        this.repository = repository;
+    ProductOptionServiceImpl(ProductOptionUseCase useCase) {
+        this.useCase = useCase;
     }
 
     @Override
     public Page<ProductOptionDTO> getAll(int page, int size) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        return useCase.findAllWithPageable(page, size).map(ProductOptionMapper.INSTANCE::toDTO);
     }
 
     @Override
@@ -37,19 +36,19 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     }
 
     @Override
-    public String create(ProductOptionEntity model) {
+    public String create(ProductOptionDTO model) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'create'");
     }
 
     @Override
-    public void createAll(List<ProductOptionEntity> models) {
+    public void createAll(List<ProductOptionDTO> models) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createAll'");
     }
 
     @Override
-    public void update(Long id, ProductOptionEntity model) {
+    public void update(Long id, ProductOptionDTO model) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }

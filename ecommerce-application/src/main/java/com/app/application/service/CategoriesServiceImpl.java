@@ -38,14 +38,15 @@ public class CategoriesServiceImpl implements CategoryService {
     }
 
     @Override
-    public String create(CategoriesEntity model) {
-        model.validateCategoryNameExists(categoryUseCase);
-        categoryUseCase.insert(model);
+    public String create(CategoriesDTO model) {
+        CategoriesEntity entity = CategoryMapper.INSTANCE.toEntity(model);
+        entity.validateCategoryNameExists(categoryUseCase);
+        categoryUseCase.insert(entity);
         return "Category created";
     }
 
     @Override
-    public void update(Long id, CategoriesEntity model) {
+    public void update(Long id, CategoriesDTO model) {
         Optional<CategoriesEntity> cateOptional = categoryUseCase.findById(id);
         if (cateOptional.isEmpty()) {
             throw new CustomExceptionHandler("Category with id " + id + " not found", EnumCode.NOT_FOUND);
@@ -62,8 +63,9 @@ public class CategoriesServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public void createAll(List<CategoriesEntity> models) {
-        categoryUseCase.insertAll(models);
+    public void createAll(List<CategoriesDTO> models) {
+        List<CategoriesEntity> entities = models.stream().map(CategoryMapper.INSTANCE::toEntity).toList();
+        categoryUseCase.insertAll(entities);
     }
 
     @Override
