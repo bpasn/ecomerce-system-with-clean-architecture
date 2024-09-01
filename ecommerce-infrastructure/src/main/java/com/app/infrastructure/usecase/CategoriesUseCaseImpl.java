@@ -65,5 +65,10 @@ public class CategoriesUseCaseImpl implements CategoryUseCase{
     public boolean isExistsName(String name) {
         return categoriesJpaRepository.existsByName(name);
     }
+
+    @Override
+    public List<CategoriesEntity> findAll() {
+       return categoriesJpaRepository.findAll();
+    }
     
 }

@@ -8,10 +8,12 @@ public class StockDTO {
     double unitQuantity;
     int quantity;
     EStatusStock status;
+    boolean reOrder;
 
     public StockDTO() {
         setUnitType(EUnitType.PIECE);
         setStatus(EStatusStock.IN_STOCK);
+        setReOrder(false);
     }
 
     public EUnitType getUnitType() {
@@ -46,4 +48,19 @@ public class StockDTO {
         this.status = status;
     }
 
+    public boolean isReOrder() {
+        return reOrder;
+    }
+
+    public void setReOrder(boolean reOrder) {
+        this.reOrder = reOrder;
+    }
+
+    @Override
+    public String toString() {
+        return "StockDTO [unitType=" + unitType + ", unitQuantity=" + unitQuantity + ", quantity=" + quantity
+                + ", status=" + status + ", reOrder=" + reOrder + "]";
+    }
+
+    
 }

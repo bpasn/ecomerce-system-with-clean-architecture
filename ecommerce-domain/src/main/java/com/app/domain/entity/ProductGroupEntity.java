@@ -24,9 +24,6 @@ public class ProductGroupEntity extends BaseEntity {
 
     @ManyToMany(mappedBy = "productGroups")
     private List<ProductEntity> products = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "productGroup")
-    private List<ProductOptionEntity> productOptions = new ArrayList<>();
     
 
 
@@ -78,18 +75,12 @@ public class ProductGroupEntity extends BaseEntity {
         this.products = products;
     }
 
-    public List<ProductOptionEntity> getProductOptions() {
-        return productOptions;
-    }
-
-    public void setProductOptions(List<ProductOptionEntity> productOptions) {
-        this.productOptions = productOptions;
-    }
+   
 
     @Override
     public String toString() {
         return "ProductGroupEntity [groupName=" + groupName + ", isRequired=" + isRequired + ", products=" + products
-                + ", productOptions=" + productOptions.toString() + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
     
 

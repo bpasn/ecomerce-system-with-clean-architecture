@@ -21,8 +21,7 @@ public class ProductImageUseCaseImpl implements ProductImageUseCase {
 
     @Override
     public ProductImageEntity insert(ProductImageEntity entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insert'");
+       return repository.save(entity);
     }
 
     @Override
@@ -33,8 +32,8 @@ public class ProductImageUseCaseImpl implements ProductImageUseCase {
 
     @Override
     public List<ProductImageEntity> insertAll(List<ProductImageEntity> entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertAll'");
+        System.out.println(entity.get(0));
+       return repository.saveAll(entity);
     }
 
     @Override
@@ -53,5 +52,10 @@ public class ProductImageUseCaseImpl implements ProductImageUseCase {
     public void delete(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
+
+    @Override
+    public List<ProductImageEntity> findAll() {
+        return repository.findAll();
     }
 }

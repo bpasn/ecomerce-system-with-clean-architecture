@@ -4,4 +4,5 @@ import com.app.domain.entity.ProductGroupEntity;
 
 public interface ProductGroupUseCase extends BaseUseCase<ProductGroupEntity>{
     boolean isGroupNameExists(String groupName);
+    ProductGroupEntity getByGroupName(String groupName);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.app.application.dto.ProductImageDTO;
 import com.app.application.interfaces.ProductImageService;
 import com.app.application.mapper.ProductImageMapper;
+import com.app.application.mapper.ProductMapper;
 import com.app.domain.entity.ProductImageEntity;
 import com.app.domain.exceptions.CustomExceptionHandler;
 import com.app.domain.exceptions.EnumCode;
@@ -23,8 +24,13 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public Page<ProductImageDTO> getAll(int page, int size) {
-        return productImageUseCase.findAllWithPageable(page, size).map(ProductImageMapper.INSTANCE::toDTO);
+    public Page<ProductImageDTO> getAllWithPage(int page, int size) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAllWithPage'");
+    }
+    @Override
+    public List<ProductImageDTO> getAll() {
+        return productImageUseCase.findAll().stream().map(ProductImageMapper.INSTANCE::toDTO).toList();
     }
 
     @Override
@@ -33,10 +39,10 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public String create(ProductImageDTO model) {
+    public ProductImageDTO create(ProductImageDTO model) {
         ProductImageEntity entity = ProductImageMapper.INSTANCE.toEntity(model);
-        productImageUseCase.insert(entity);
-        return "ProudctImage has created";
+        
+        return ProductImageMapper.INSTANCE.toDTO(productImageUseCase.insert(entity));
     }
 
     @Override
@@ -51,8 +57,7 @@ public class ProductImageServiceImpl implements ProductImageService {
         if (entity == null) {
             throw new CustomExceptionHandler("Image with id " + id + " not found", EnumCode.NOT_FOUND);
         }
-        entity.setSource(model.getSource());
-        entity.setType(model.getType());
+        entity.setSource(ProductMapper.INSTANCE.fileToString(model.getSource()));
         productImageUseCase.insert(entity);
     }
 
@@ -60,11 +65,6 @@ public class ProductImageServiceImpl implements ProductImageService {
     public void delete(Long id) {
         productImageUseCase.delete(id);
     }
-
-    @Override
-    public ProductImageDTO getByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByName'");
-    }
+   
 
 }

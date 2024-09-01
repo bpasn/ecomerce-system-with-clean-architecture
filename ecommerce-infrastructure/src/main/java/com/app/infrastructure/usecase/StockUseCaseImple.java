@@ -8,14 +8,20 @@ import org.springframework.stereotype.Service;
 
 import com.app.domain.entity.StockEntity;
 import com.app.domain.usecase.StockUseCase;
+import com.app.infrastructure.repositories.StockJpaRepository;
 
 @Service
 public class StockUseCaseImple implements StockUseCase {
+    private StockJpaRepository stockJpaRepository;
+    
+
+    public StockUseCaseImple(StockJpaRepository stockJpaRepository) {
+        this.stockJpaRepository = stockJpaRepository;
+    }
 
     @Override
     public StockEntity insert(StockEntity entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insert'");
+        return stockJpaRepository.save(entity);
     }
 
     @Override
@@ -46,6 +52,11 @@ public class StockUseCaseImple implements StockUseCase {
     public void delete(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
+
+    @Override
+    public List<StockEntity> findAll() {
+      return stockJpaRepository.findAll();
     }
     
 }

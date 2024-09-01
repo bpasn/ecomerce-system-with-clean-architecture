@@ -11,6 +11,7 @@ public interface BaseUseCase<E> {
     List<E> insertAll(List<E> entity);
     Optional<E> findById(Long id);
     Page<E> findAllWithPageable(int size,int page);
+    List<E> findAll();
     void delete(Long id);
 
 }

@@ -11,6 +11,8 @@ import com.app.domain.entity.ProductEntity;
 import com.app.domain.usecase.ProductUseCase;
 import com.app.infrastructure.repositories.ProductJpaRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ProductUseCaseImpl implements ProductUseCase {
     private final ProductJpaRepository productJpaRepository;
@@ -46,13 +48,19 @@ public class ProductUseCaseImpl implements ProductUseCase {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
          productJpaRepository.deleteById(id);
     }
 
     @Override
-    public Optional<ProductEntity> findByName(String name) {
-        return productJpaRepository.findByName(name);
+    public Optional<ProductEntity> findByNameTH(String name) {
+        return productJpaRepository.findByNameTH(name);
+    }
+
+    @Override
+    public List<ProductEntity> findAll() {
+        return productJpaRepository.findAll();
     }
 
 }

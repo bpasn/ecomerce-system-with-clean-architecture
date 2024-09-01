@@ -8,14 +8,21 @@ import org.springframework.stereotype.Service;
 
 import com.app.domain.entity.ProductOptionEntity;
 import com.app.domain.usecase.ProductOptionUseCase;
+import com.app.infrastructure.repositories.ProductOptionJpaRepository;
 
 @Service
 public class ProductOptionUseCaseImpl implements ProductOptionUseCase{
 
+    private final ProductOptionJpaRepository productOptionJpaRepository;
+    
+
+    public ProductOptionUseCaseImpl(ProductOptionJpaRepository productOptionJpaRepository) {
+        this.productOptionJpaRepository = productOptionJpaRepository;
+    }
+
     @Override
     public ProductOptionEntity insert(ProductOptionEntity entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insert'");
+        return productOptionJpaRepository.save(entity);
     }
 
     @Override
@@ -46,6 +53,16 @@ public class ProductOptionUseCaseImpl implements ProductOptionUseCase{
     public void delete(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
+
+    @Override
+    public List<ProductOptionEntity> findAll() {
+       return productOptionJpaRepository.findAll();
+    }
+
+    @Override
+    public ProductOptionEntity getByOptionName(String optionName) {
+       return productOptionJpaRepository.findByOptionName(optionName);
     }
     
 }

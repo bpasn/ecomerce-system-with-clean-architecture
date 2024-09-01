@@ -4,5 +4,5 @@ import com.app.application.dto.ProductOptionDTO;
 import com.app.domain.entity.ProductOptionEntity;
 
 public interface ProductOptionService extends BaseService<ProductOptionEntity,ProductOptionDTO> {
-    
+    ProductOptionDTO getByOptionName(String optionName);
 }

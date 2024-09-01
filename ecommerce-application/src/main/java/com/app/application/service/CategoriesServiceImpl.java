@@ -26,7 +26,7 @@ public class CategoriesServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<CategoriesDTO> getAll(int page, int size) {
+    public Page<CategoriesDTO> getAllWithPage(int page, int size) {
         Page<CategoriesEntity> cPage = categoryUseCase.findAllWithPageable(size, page);
         System.out.println(cPage.toString());
         return cPage.map(CategoryMapper.INSTANCE::toDTO);
@@ -38,11 +38,10 @@ public class CategoriesServiceImpl implements CategoryService {
     }
 
     @Override
-    public String create(CategoriesDTO model) {
+    public CategoriesDTO create(CategoriesDTO model) {
         CategoriesEntity entity = CategoryMapper.INSTANCE.toEntity(model);
         entity.validateCategoryNameExists(categoryUseCase);
-        categoryUseCase.insert(entity);
-        return "Category created";
+        return CategoryMapper.INSTANCE.toDTO(categoryUseCase.insert(entity));
     }
 
     @Override
@@ -71,6 +70,11 @@ public class CategoriesServiceImpl implements CategoryService {
     @Override
     public CategoriesDTO getByName(String name) {
         return CategoryMapper.INSTANCE.toDTO(categoryUseCase.findByName(name));
+    }
+
+    @Override
+    public List<CategoriesDTO> getAll() {
+        return categoryUseCase.findAll().stream().map(CategoryMapper.INSTANCE::toDTO).toList();
     }
     
 }

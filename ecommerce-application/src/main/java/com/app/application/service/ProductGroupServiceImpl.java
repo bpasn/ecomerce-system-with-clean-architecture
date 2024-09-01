@@ -18,17 +18,17 @@ public class ProductGroupServiceImpl implements ProductGroupService {
         this.productGroupUseCase = productGroupUseCase;
     }
 
-
     @Override
-    public Page<ProductGroupDTO> getAll(int page, int size) {
-        return productGroupUseCase.findAllWithPageable(size, page).map(ProductGroupMapper.INSTANCE::toDTO);
+    public Page<ProductGroupDTO> getAllWithPage(int page, int size) {
+       return productGroupUseCase.findAllWithPageable(size, page).map(ProductGroupMapper.INSTANCE::toDTO);
     }
 
     @Override
-    public ProductGroupDTO getByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByName'");
+    public List<ProductGroupDTO> getAll() {
+        return productGroupUseCase.findAll().stream().map(ProductGroupMapper.INSTANCE::toDTO).toList();
     }
+
+   
 
     @Override
     public ProductGroupDTO getById(Long id) {
@@ -37,9 +37,9 @@ public class ProductGroupServiceImpl implements ProductGroupService {
     }
 
     @Override
-    public String create(ProductGroupDTO model) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+    public ProductGroupDTO create(ProductGroupDTO model) {
+        System.out.println(model.getGroupName());
+        return ProductGroupMapper.INSTANCE.toDTO(productGroupUseCase.insert(ProductGroupMapper.INSTANCE.toEntity(model)));
     }
 
     @Override
@@ -59,6 +59,14 @@ public class ProductGroupServiceImpl implements ProductGroupService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
+
+    @Override
+    public ProductGroupDTO getByGroupname(String groupName) {
+        return ProductGroupMapper.INSTANCE.toDTO(productGroupUseCase.getByGroupName(groupName));
+    }
+
+
+    
     
 
 }

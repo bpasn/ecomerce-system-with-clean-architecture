@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -19,26 +20,29 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "products")
 public class ProductEntity extends BaseEntity {
-    @Column(name = "name")
-    private String name;
-    @Column(name = "description")
-    private String description;
+    @Column(name = "name_th")
+    private String nameTH;
+    @Column(name = "name_en")
+    private String nameEN;
+    @Column(name = "description_th")
+    private String descriptionTH;
+    @Column(name = "description_en")
+    private String descriptionEN;
     @Column(name = "price")
     private double price;
-    @Column(name = "quantity")
-    private int quantity;
 
-    @OneToOne(mappedBy = "product")
-    private StockEntity stocks;
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private StockEntity stock;
     
     public ProductEntity(){}
 
-    public ProductEntity(String name, String description, double price, int quantity, List<CategoriesEntity> categories,
+    public ProductEntity(String nameTH,String nameEN, String descriptionTH,String descriptionEN, double price,  List<CategoriesEntity> categories,
             List<ProductImageEntity> productImages, List<ProductGroupEntity> productGroups) {
-        this.name = name;
-        this.description = description;
+        this.nameTH = nameTH;
+        this.nameEN = nameEN;
+        this.descriptionTH = descriptionTH;
+        this.descriptionEN = descriptionEN;
         this.price = price;
-        this.quantity = quantity;
         this.categories = categories;
         this.productImages = productImages;
         this.productGroups = productGroups;
@@ -53,8 +57,12 @@ public class ProductEntity extends BaseEntity {
 
 
     @ManyToMany
-    @JoinTable(name = "group_options",joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "product_group_id"))
+    @JoinTable(name = "group_product",joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "product_group_id"))
     private List<ProductGroupEntity> productGroups = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "option_product",joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "product_option_id"))
+    private List<ProductOptionEntity> productOptions = new ArrayList<>();
 
 
     public List<ProductImageEntity> getProductImages() {
@@ -73,21 +81,15 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "updated_at", updatable = false)
     private LocalDateTime updatedAt;
 
-    public String getName() {
-        return name;
+    public String getNameTH() {
+        return nameTH;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameTH(String nameTH) {
+        this.nameTH = nameTH;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+   
 
     public double getPrice() {
         return price;
@@ -97,21 +99,13 @@ public class ProductEntity extends BaseEntity {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     
-    public StockEntity getStocks() {
-        return stocks;
+    public StockEntity getStock() {
+        return stock;
     }
 
-    public void setStocks(StockEntity stocks) {
-        this.stocks = stocks;
+    public void setStock(StockEntity stock) {
+        this.stock = stock;
     }
 
     public List<ProductGroupEntity> getProductGroups() {
@@ -147,17 +141,53 @@ public class ProductEntity extends BaseEntity {
     }
     
 
+    public String getNameEN() {
+        return nameEN;
+    }
+
+    public void setNameEN(String nameEN) {
+        this.nameEN = nameEN;
+    }
+
+    public String getDescriptionTH() {
+        return descriptionTH;
+    }
+
+    public void setDescriptionTH(String descriptionTH) {
+        this.descriptionTH = descriptionTH;
+    }
+
+    public String getDescriptionEN() {
+        return descriptionEN;
+    }
+
+    public void setDescriptionEN(String descriptionEN) {
+        this.descriptionEN = descriptionEN;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductEntity [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
+                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", stock="
+                + stock + ", categories=" + categories + ", productImages=" + productImages + ", productGroups="
+                + productGroups + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((nameTH == null) ? 0 : nameTH.hashCode());
+        result = prime * result + ((nameEN == null) ? 0 : nameEN.hashCode());
+        result = prime * result + ((descriptionTH == null) ? 0 : descriptionTH.hashCode());
+        result = prime * result + ((descriptionEN == null) ? 0 : descriptionEN.hashCode());
         long temp;
         temp = Double.doubleToLongBits(price);
         result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + quantity;
+        result = prime * result + ((stock == null) ? 0 : stock.hashCode());
         result = prime * result + ((categories == null) ? 0 : categories.hashCode());
+        result = prime * result + ((productImages == null) ? 0 : productImages.hashCode());
+        result = prime * result + ((productGroups == null) ? 0 : productGroups.hashCode());
         result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
         result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
         return result;
@@ -172,24 +202,47 @@ public class ProductEntity extends BaseEntity {
         if (getClass() != obj.getClass())
             return false;
         ProductEntity other = (ProductEntity) obj;
-        if (name == null) {
-            if (other.name != null)
+        if (nameTH == null) {
+            if (other.nameTH != null)
                 return false;
-        } else if (!name.equals(other.name))
+        } else if (!nameTH.equals(other.nameTH))
             return false;
-        if (description == null) {
-            if (other.description != null)
+        if (nameEN == null) {
+            if (other.nameEN != null)
                 return false;
-        } else if (!description.equals(other.description))
+        } else if (!nameEN.equals(other.nameEN))
+            return false;
+        if (descriptionTH == null) {
+            if (other.descriptionTH != null)
+                return false;
+        } else if (!descriptionTH.equals(other.descriptionTH))
+            return false;
+        if (descriptionEN == null) {
+            if (other.descriptionEN != null)
+                return false;
+        } else if (!descriptionEN.equals(other.descriptionEN))
             return false;
         if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
             return false;
-        if (quantity != other.quantity)
+        if (stock == null) {
+            if (other.stock != null)
+                return false;
+        } else if (!stock.equals(other.stock))
             return false;
         if (categories == null) {
             if (other.categories != null)
                 return false;
         } else if (!categories.equals(other.categories))
+            return false;
+        if (productImages == null) {
+            if (other.productImages != null)
+                return false;
+        } else if (!productImages.equals(other.productImages))
+            return false;
+        if (productGroups == null) {
+            if (other.productGroups != null)
+                return false;
+        } else if (!productGroups.equals(other.productGroups))
             return false;
         if (createdAt == null) {
             if (other.createdAt != null)
@@ -204,11 +257,6 @@ public class ProductEntity extends BaseEntity {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "ProductEntity [name=" + name + ", description=" + description + ", price=" + price + ", quantity="
-                + quantity + ", categories=" + categories + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-                + "]";
-    }
+    
 
 }

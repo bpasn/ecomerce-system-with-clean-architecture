@@ -26,7 +26,7 @@ public class CategoriesController {
 
     @GetMapping
     public ResponseEntity<Page<CategoriesDTO>> get(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(categoriesService.getAll(page, size));
+        return ResponseEntity.ok(categoriesService.getAllWithPage(page, size));
     }
     @PostMapping
     public ResponseEntity<String> post(@RequestBody CategoriesDTO categories) {

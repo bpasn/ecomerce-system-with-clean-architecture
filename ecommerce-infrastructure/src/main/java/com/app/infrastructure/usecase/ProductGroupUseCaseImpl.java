@@ -67,4 +67,14 @@ public class ProductGroupUseCaseImpl implements ProductGroupUseCase {
      return productGroupJpaRepository.findAll(Pageable.ofSize(size).withPage(page));
    }
 
+   @Override
+   public List<ProductGroupEntity> findAll() {
+    return productGroupJpaRepository.findAll();
+   }
+
+   @Override
+   public ProductGroupEntity getByGroupName(String groupName) {
+     return productGroupJpaRepository.findByGroupName(groupName).orElse(null);
+   }
+
 }
