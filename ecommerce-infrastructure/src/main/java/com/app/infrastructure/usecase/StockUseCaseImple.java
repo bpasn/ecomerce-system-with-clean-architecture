@@ -11,52 +11,10 @@ import com.app.domain.usecase.StockUseCase;
 import com.app.infrastructure.repositories.StockJpaRepository;
 
 @Service
-public class StockUseCaseImple implements StockUseCase {
-    private StockJpaRepository stockJpaRepository;
-    
+public class StockUseCaseImple extends BaseUseCaseImpl<StockEntity> implements StockUseCase {
 
     public StockUseCaseImple(StockJpaRepository stockJpaRepository) {
-        this.stockJpaRepository = stockJpaRepository;
-    }
-
-    @Override
-    public StockEntity insert(StockEntity entity) {
-        return stockJpaRepository.save(entity);
-    }
-
-    @Override
-    public StockEntity update(Long id, StockEntity entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
-    public List<StockEntity> insertAll(List<StockEntity> entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertAll'");
-    }
-
-    @Override
-    public Optional<StockEntity> findById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
-    @Override
-    public Page<StockEntity> findAllWithPageable(int size, int page) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllWithPageable'");
-    }
-
-    @Override
-    public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
-
-    @Override
-    public List<StockEntity> findAll() {
-      return stockJpaRepository.findAll();
+        super(stockJpaRepository);
     }
     
 }

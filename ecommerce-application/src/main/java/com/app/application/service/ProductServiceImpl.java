@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.app.application.ApiResponse;
 import com.app.application.dto.ProductsDTO;
 import com.app.application.interfaces.ProductService;
 import com.app.application.mapper.ProductMapper;
@@ -24,29 +25,25 @@ import com.app.domain.usecase.StockUseCase;
 import jakarta.transaction.Transactional;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsDTO> implements ProductService {
 
     @Value("${mount-path}")
     private String mountPath;
     private final ProductUseCase productUseCase;
     private final ProductImageUseCase productImageUseCase;
     private final StockUseCase stockUseCase;
+    private final ProductMapper productMapper;
 
-    public ProductServiceImpl(ProductUseCase productUseCase, ProductImageUseCase productImageUseCase,
+    public ProductServiceImpl(
+            ProductUseCase productUseCase,
+            ProductImageUseCase productImageUseCase,
+            ProductMapper productMapper,
             StockUseCase stockUseCase) {
+        super(productUseCase, productMapper);
+        this.productMapper = productMapper;
         this.productUseCase = productUseCase;
         this.productImageUseCase = productImageUseCase;
         this.stockUseCase = stockUseCase;
-    }
-
-    @Override
-    public Page<ProductsDTO> getAllWithPage(int page, int size) {
-      return productUseCase.findAllWithPageable(size, page).map(ProductMapper.INSTANCE::toDTO);
-    }
-    
-    @Override
-    public List<ProductsDTO> getAll() {
-        return productUseCase.findAll().stream().map(ProductMapper.INSTANCE::toDTO).toList();
     }
 
     @Override
@@ -55,14 +52,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductsDTO getById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
-    }
-
-    @Override
     @Transactional
-    public ProductsDTO create(ProductsDTO model) {
+    public ApiResponse<ProductsDTO> create(ProductsDTO model) {
         // แปลง DTO เป็น Entity
         ProductEntity productEntity = ProductMapper.INSTANCE.toEntity(model);
 
@@ -82,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
             model.getProductImages().forEach(file -> {
                 ProductImageEntity productImageEntity = new ProductImageEntity();
                 try {
-                    String pathFile = createPathFile(file,productEntity.getId());
+                    String pathFile = createPathFile(file, productEntity.getId().toString());
                     productImageEntity.setProduct(savedProduct);
                     productImageEntity.setSource(pathFile);
                     productImageUseCase.insert(productImageEntity);
@@ -92,31 +83,12 @@ public class ProductServiceImpl implements ProductService {
                     e.printStackTrace();
                 }
 
-
             });
         }
-        return ProductMapper.INSTANCE.toDTO(productEntity);
+        return new ApiResponse<>(ProductMapper.INSTANCE.toDTO(productEntity));
     }
 
-    @Override
-    public void createAll(List<ProductsDTO> models) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createAll'");
-    }
-
-    @Override
-    public void update(Long id, ProductsDTO model) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
-    public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
-
-    public String createPathFile(MultipartFile multipartFile,Long id) throws IOException {
+    public String createPathFile(MultipartFile multipartFile, String id) throws IOException {
         // กำหนดชื่อไฟล์และตำแหน่งในการบันทึก
         Path destination = Paths.get(mountPath + id, multipartFile.getOriginalFilename());
 
@@ -125,13 +97,11 @@ public class ProductServiceImpl implements ProductService {
             Files.createDirectories(destination.getParent());
         }
 
-        if(!destination.toFile().exists()){
+        if (!destination.toFile().exists()) {
             destination.toFile().createNewFile();
         }
         Files.write(destination, multipartFile.getBytes());
         return destination.toString();
     }
-
-    
 
 }

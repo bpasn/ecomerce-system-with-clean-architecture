@@ -5,7 +5,7 @@ import com.app.domain.entity.ProductOptionEntity;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ProductOptionMapper extends BaseMapper<ProductOptionDTO, ProductOptionEntity>{
     ProductOptionMapper INSTANCE = Mappers.getMapper(ProductOptionMapper.class);
 

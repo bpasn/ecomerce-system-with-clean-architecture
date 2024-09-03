@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+
+import com.app.application.ApiResponse;
 import com.app.application.dto.ProductGroupDTO;
 import com.app.application.interfaces.ProductGroupService;
 
@@ -22,7 +24,7 @@ public class ProductGroupController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductGroupDTO>> get() {
+    public ResponseEntity<ApiResponse<List<ProductGroupDTO>>> get() {
         return ResponseEntity.ok(productGroupService.getAll());
     }
 

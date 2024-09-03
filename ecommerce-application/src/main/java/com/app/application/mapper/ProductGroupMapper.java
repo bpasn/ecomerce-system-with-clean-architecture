@@ -5,7 +5,7 @@ import com.app.domain.entity.ProductGroupEntity;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ProductGroupMapper extends BaseMapper<ProductGroupDTO, ProductGroupEntity>{
     ProductGroupMapper INSTANCE = Mappers.getMapper(ProductGroupMapper.class);
 

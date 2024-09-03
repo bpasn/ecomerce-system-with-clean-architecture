@@ -13,12 +13,14 @@ public class ProductsDTO {
     int quantity;
     StockDTO stock;
     List<MultipartFile> productImages;
-    List<ProductGroupDTO> productGroups;
+    List<CategoriesDTO> categoriesDTOs;
     List<ProductOptionDTO> productOptions;
 
     public double getPrice() {
         return price;
     }
+
+    
 
     public void setPrice(double price) {
         this.price = price;
@@ -32,25 +34,12 @@ public class ProductsDTO {
         this.quantity = quantity;
     }
 
-    // public List<CategoriesDTO> getCategories() {
-    // return categories;
-    // }
-    // public void setCategories(List<CategoriesDTO> categories) {
-    // this.categories = categories;
-    // }
     public List<MultipartFile> getProductImages() {
         return productImages;
     }
 
     public void setProductImages(List<MultipartFile> productImages) {
         this.productImages = productImages;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductsDTO [name=" + nameTH + ", descriptionTH=" + descriptionTH + "descriptionEN" + descriptionEN + ", price="
-                + price + ", quantity="
-                + quantity + ", productImages=" + productImages.toString() + "]";
     }
 
     public StockDTO getStock() {
@@ -67,14 +56,6 @@ public class ProductsDTO {
 
     public void setNameTH(String nameTH) {
         this.nameTH = nameTH;
-    }
-
-    public List<ProductGroupDTO> getProductGroups() {
-        return productGroups;
-    }
-
-    public void setProductGroups(List<ProductGroupDTO> productGroups) {
-        this.productGroups = productGroups;
     }
 
     public List<ProductOptionDTO> getProductOptions() {
@@ -109,6 +90,30 @@ public class ProductsDTO {
         this.descriptionEN = descriptionEN;
     }
 
+
+
+    public List<CategoriesDTO> getCategoriesDTOs() {
+        return categoriesDTOs;
+    }
+
+
+
+    public void setCategoriesDTOs(List<CategoriesDTO> categoriesDTOs) {
+        this.categoriesDTOs = categoriesDTOs;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "ProductsDTO [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
+                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", quantity=" + quantity + ", stock="
+                + stock + ", productImages=" + productImages + ", categoriesDTOs=" + categoriesDTOs
+                + ", productOptions=" + productOptions + "]";
+    }
+
+
+    
     
 
 }

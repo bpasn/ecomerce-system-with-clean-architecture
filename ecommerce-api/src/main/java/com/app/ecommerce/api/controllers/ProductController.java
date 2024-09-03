@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.application.ApiResponse;
 import com.app.application.dto.ProductsDTO;
 import com.app.application.interfaces.ProductService;
 import com.app.ecommerce.api.request.ProductRequest;
@@ -33,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductsDTO>> get(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<ApiResponse<Page<ProductsDTO>>> get(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(productService.getAllWithPage(page, size));
     }

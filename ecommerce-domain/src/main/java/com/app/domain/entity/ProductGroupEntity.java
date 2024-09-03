@@ -22,8 +22,8 @@ public class ProductGroupEntity extends BaseEntity {
     @Column(name = "is_required")
     private boolean isRequired;
 
-    @ManyToMany(mappedBy = "productGroups")
-    private List<ProductEntity> products = new ArrayList<>();
+    // @ManyToMany(mappedBy = "productGroups")
+    // private List<ProductEntity> products = new ArrayList<>();
     
 
 
@@ -67,20 +67,19 @@ public class ProductGroupEntity extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
-    public List<ProductEntity> getProducts() {
-        return products;
-    }
+    // public List<ProductEntity> getProducts() {
+    //     return products;
+    // }
 
-    public void setProducts(List<ProductEntity> products) {
-        this.products = products;
-    }
+    // public void setProducts(List<ProductEntity> products) {
+    //     this.products = products;
+    // }
 
    
 
     @Override
     public String toString() {
-        return "ProductGroupEntity [groupName=" + groupName + ", isRequired=" + isRequired + ", products=" + products
-                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+        return "ProductGroupEntity [groupName=" + groupName + ", isRequired=" + isRequired + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
     
 

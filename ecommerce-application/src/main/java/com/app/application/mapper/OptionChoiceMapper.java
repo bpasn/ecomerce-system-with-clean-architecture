@@ -4,14 +4,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-import org.springframework.boot.context.properties.bind.Name;
 
 import com.app.application.dto.OptionChoiceDTO;
 import com.app.domain.entity.EChoiceEffect;
 import com.app.domain.entity.EStatusChoice;
 import com.app.domain.entity.OptionChoiceEntity;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface OptionChoiceMapper extends BaseMapper<OptionChoiceDTO,OptionChoiceEntity>{
     OptionChoiceMapper INSTANCE = Mappers.getMapper(OptionChoiceMapper.class);
 

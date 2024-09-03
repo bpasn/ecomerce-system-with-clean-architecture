@@ -23,6 +23,10 @@ api:
 
 mount-path: /Users/prpasn/Desktop/SpringBoot/images/
 
+origin:
+  merchant-portal:
+    url: http://localhost:3000
+
 logging:
   level:
    sql: debug

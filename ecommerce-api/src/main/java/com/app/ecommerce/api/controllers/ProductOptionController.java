@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.application.ApiResponse;
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.interfaces.ProductOptionService;
 import java.util.List;
@@ -24,7 +25,7 @@ public class ProductOptionController {
     }
     
     @GetMapping
-    public ResponseEntity<List<ProductOptionDTO>> get() {
+    public ResponseEntity<ApiResponse<List<ProductOptionDTO>>> get() {
         return ResponseEntity.ok(productOptionService.getAll());
     }
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

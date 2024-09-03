@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.app.application.ApiResponse;
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.interfaces.ProductOptionService;
 import com.app.application.mapper.ProductOptionMapper;
@@ -15,34 +16,19 @@ import com.app.domain.usecase.ProductOptionUseCase;
 import jakarta.transaction.Transactional;
 
 @Service
-public class ProductOptionServiceImpl implements ProductOptionService {
+public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOptionEntity,ProductOptionDTO> implements ProductOptionService {
     private ProductOptionUseCase useCase;
     private OptionChoiceUseCase optionChoiceUseCase;
-
-    ProductOptionServiceImpl(ProductOptionUseCase useCase, OptionChoiceUseCase optionChoiceUseCase) {
+    private ProductOptionMapper productOptionMapper;
+    ProductOptionServiceImpl(ProductOptionUseCase useCase, OptionChoiceUseCase optionChoiceUseCase,ProductOptionMapper productOptionMapper) {
+        super(useCase, productOptionMapper);
         this.useCase = useCase;
         this.optionChoiceUseCase = optionChoiceUseCase;
+        this.productOptionMapper = productOptionMapper;
     }
-
-    @Override
-    public Page<ProductOptionDTO> getAllWithPage(int page, int size) {
-        return useCase.findAllWithPageable(size, page).map(ProductOptionMapper.INSTANCE::toDTO);
-    }
-
-    @Override
-    public List<ProductOptionDTO> getAll() {
-        return useCase.findAll().stream().map(ProductOptionMapper.INSTANCE::toDTO).toList();
-    }
-
-    @Override
-    public ProductOptionDTO getById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
-    }
-
     @Override
     @Transactional
-    public ProductOptionDTO create(ProductOptionDTO model) {
+    public ApiResponse<ProductOptionDTO> create(ProductOptionDTO model) {
         ProductOptionEntity pOptionEntity = ProductOptionMapper.INSTANCE.toEntity(model);
         ProductOptionEntity saveOption = useCase.insert(pOptionEntity);
         
@@ -53,30 +39,13 @@ public class ProductOptionServiceImpl implements ProductOptionService {
             });
         }
 
-        return ProductOptionMapper.INSTANCE.toDTO(saveOption);
+        return new ApiResponse<>(ProductOptionMapper.INSTANCE.toDTO(saveOption));
     }
-
-    @Override
-    public void createAll(List<ProductOptionDTO> models) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createAll'");
-    }
-
-    @Override
-    public void update(Long id, ProductOptionDTO model) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
-    public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
-
     @Override
     public ProductOptionDTO getByOptionName(String optionName) {
-        return ProductOptionMapper.INSTANCE.toDTO(useCase.getByOptionName(optionName));
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getByOptionName'");
     }
+
 
 }

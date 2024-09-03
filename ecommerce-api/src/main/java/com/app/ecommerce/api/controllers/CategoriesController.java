@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.application.ApiResponse;
 import com.app.application.dto.CategoriesDTO;
 import com.app.application.interfaces.CategoryService;
-import com.app.application.mapper.CategoryMapper;
 
 @RestController
 @RequestMapping("${api.prefix.route}/categories")
@@ -25,7 +25,7 @@ public class CategoriesController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CategoriesDTO>> get(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<ApiResponse<Page<CategoriesDTO>>> get(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(categoriesService.getAllWithPage(page, size));
     }
     @PostMapping
