@@ -8,12 +8,16 @@ public class ApiResponse<D> {
     private HttpStatus status;
 
     public ApiResponse() {
-        setStatus(HttpStatus.OK);
     }
     
 
     public ApiResponse(D payload) {
-        this.payload = payload;
+        setStatus(HttpStatus.OK);
+        setPayload(payload);
+    }
+    public ApiResponse(D payload,HttpStatus status) {
+        setPayload(payload);
+        setStatus(status);
     }
 
 
@@ -33,4 +37,12 @@ public class ApiResponse<D> {
         this.status = status;
     }
 
+
+    @Override
+    public String toString() {
+        return "ApiResponse [payload=" + payload + ", status=" + status + "]";
+    }
+
+
+    
 }

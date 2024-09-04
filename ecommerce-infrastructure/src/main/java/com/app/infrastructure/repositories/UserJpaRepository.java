@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.app.domain.entity.UserEntity;
 
-public interface UserJpaRepository extends JpaRepository<UserEntity, UUID> , IUserRepository {
+public interface UserJpaRepository extends JpaRepository<UserEntity, String> , IUserRepository {
 
     @Query("SELECT u FROM users u WHERE u.email = :email")
     Optional<UserEntity> findByCustomUser(String email);

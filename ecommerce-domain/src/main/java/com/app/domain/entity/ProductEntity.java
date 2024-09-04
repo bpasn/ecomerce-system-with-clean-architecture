@@ -50,6 +50,8 @@ public class ProductEntity extends BaseEntity {
     @JoinTable(name = "option_product",joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "product_option_id"))
     private List<ProductOptionEntity> productOptions = new ArrayList<>();
 
+  
+
     public ProductEntity(){}
 
     public ProductEntity(String nameTH,String nameEN, String descriptionTH,String descriptionEN, double price,  List<CategoriesEntity> categories,
@@ -80,6 +82,8 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "updated_at", updatable = false)
     private LocalDateTime updatedAt;
 
+
+
     public String getNameTH() {
         return nameTH;
     }
@@ -87,50 +91,6 @@ public class ProductEntity extends BaseEntity {
     public void setNameTH(String nameTH) {
         this.nameTH = nameTH;
     }
-
-   
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    
-    public StockEntity getStock() {
-        return stock;
-    }
-
-    public void setStock(StockEntity stock) {
-        this.stock = stock;
-    }
-
-    public List<CategoriesEntity> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<CategoriesEntity> categories) {
-        this.categories = categories;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-    
 
     public String getNameEN() {
         return nameEN;
@@ -156,90 +116,63 @@ public class ProductEntity extends BaseEntity {
         this.descriptionEN = descriptionEN;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public StockEntity getStock() {
+        return stock;
+    }
+
+    public void setStock(StockEntity stock) {
+        this.stock = stock;
+    }
+
+    public List<CategoriesEntity> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoriesEntity> categories) {
+        this.categories = categories;
+    }
+
+    public List<ProductOptionEntity> getProductOptions() {
+        return productOptions;
+    }
+
+    public void setProductOptions(List<ProductOptionEntity> productOptions) {
+        this.productOptions = productOptions;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public String toString() {
         return "ProductEntity [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
-                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", stock="
-                + stock + ", categories=" + categories + ", productImages=" + productImages + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", stock=" + stock + ", categories="
+                + categories + ", productImages=" + productImages + ", productOptions=" + productOptions
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((nameTH == null) ? 0 : nameTH.hashCode());
-        result = prime * result + ((nameEN == null) ? 0 : nameEN.hashCode());
-        result = prime * result + ((descriptionTH == null) ? 0 : descriptionTH.hashCode());
-        result = prime * result + ((descriptionEN == null) ? 0 : descriptionEN.hashCode());
-        long temp;
-        temp = Double.doubleToLongBits(price);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + ((stock == null) ? 0 : stock.hashCode());
-        result = prime * result + ((categories == null) ? 0 : categories.hashCode());
-        result = prime * result + ((productImages == null) ? 0 : productImages.hashCode());
-        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
-        result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ProductEntity other = (ProductEntity) obj;
-        if (nameTH == null) {
-            if (other.nameTH != null)
-                return false;
-        } else if (!nameTH.equals(other.nameTH))
-            return false;
-        if (nameEN == null) {
-            if (other.nameEN != null)
-                return false;
-        } else if (!nameEN.equals(other.nameEN))
-            return false;
-        if (descriptionTH == null) {
-            if (other.descriptionTH != null)
-                return false;
-        } else if (!descriptionTH.equals(other.descriptionTH))
-            return false;
-        if (descriptionEN == null) {
-            if (other.descriptionEN != null)
-                return false;
-        } else if (!descriptionEN.equals(other.descriptionEN))
-            return false;
-        if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
-            return false;
-        if (stock == null) {
-            if (other.stock != null)
-                return false;
-        } else if (!stock.equals(other.stock))
-            return false;
-        if (categories == null) {
-            if (other.categories != null)
-                return false;
-        } else if (!categories.equals(other.categories))
-            return false;
-        if (productImages == null) {
-            if (other.productImages != null)
-                return false;
-        } else if (!productImages.equals(other.productImages))
-            return false;
-        if (createdAt == null) {
-            if (other.createdAt != null)
-                return false;
-        } else if (!createdAt.equals(other.createdAt))
-            return false;
-        if (updatedAt == null) {
-            if (other.updatedAt != null)
-                return false;
-        } else if (!updatedAt.equals(other.updatedAt))
-            return false;
-        return true;
-    }
+   
 
     
 

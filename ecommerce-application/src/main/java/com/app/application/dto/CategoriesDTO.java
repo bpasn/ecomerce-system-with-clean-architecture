@@ -5,6 +5,10 @@ public class CategoriesDTO {
     private String id;
     private String name;
 
+    public CategoriesDTO(){}
+    public CategoriesDTO(String id){
+        setId(id);
+    }
     public String getName() {
         return name;
     }

@@ -11,6 +11,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.app.application.ApiResponse;
 import com.app.application.interfaces.BaseService;
 import com.app.application.mapper.BaseMapper;
+import com.app.domain.exceptions.CustomExceptionHandler;
+import com.app.domain.exceptions.EnumCode;
 import com.app.domain.usecase.BaseUseCase;
 
 import org.springframework.http.HttpStatus;
@@ -53,10 +55,12 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     }
 
     @Override
-    public ApiResponse<D> getById(UUID id) {
+    public ApiResponse<D> getById(String id) {
         try {
-            Optional<E> entity = baseUseCase.findById(id);
-            return new ApiResponse<>(entity.map(baseMapper::toDTO).orElse(null));
+            E entity = baseUseCase.findById(id).orElseThrow(() -> new CustomExceptionHandler("Result not found",EnumCode.NOT_FOUND));
+            ApiResponse<D> response = new ApiResponse<>(baseMapper.toDTO(entity), HttpStatus.OK);
+            System.out.println(response.toString());
+            return response;
         } catch (Exception e) {
             // Logging error or additional handling
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to retrieve entity by ID", e);
@@ -89,7 +93,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     }
 
     @Override
-    public void update(UUID id, D model) {
+    public void update(String id, D model) {
         try {
             if (!baseUseCase.findById(id).isPresent()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found with ID: " + id);
@@ -105,7 +109,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         try {
             if (!baseUseCase.findById(id).isPresent()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found with ID: " + id);

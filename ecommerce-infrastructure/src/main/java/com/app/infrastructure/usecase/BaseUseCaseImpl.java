@@ -2,7 +2,6 @@ package com.app.infrastructure.usecase;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,9 +10,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.app.domain.usecase.BaseUseCase;
 
 public class BaseUseCaseImpl<E> implements BaseUseCase<E> {
-    private final JpaRepository<E, UUID> repository;
+    private final JpaRepository<E, String> repository;
 
-    public BaseUseCaseImpl(JpaRepository<E,UUID> repository) {
+    public BaseUseCaseImpl(JpaRepository<E,String> repository) {
         this.repository = repository;
     }
 
@@ -23,7 +22,7 @@ public class BaseUseCaseImpl<E> implements BaseUseCase<E> {
     }
 
     @Override
-    public E update(UUID id, E entity) {
+    public E update(String id, E entity) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
@@ -34,7 +33,7 @@ public class BaseUseCaseImpl<E> implements BaseUseCase<E> {
     }
 
     @Override
-    public Optional<E> findById(UUID id) {
+    public Optional<E> findById(String id) {
         return repository.findById(id);
     }
 
@@ -50,8 +49,13 @@ public class BaseUseCaseImpl<E> implements BaseUseCase<E> {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<E> findAllById(List<String> ids) {
+        return repository.findAllById(ids);
     }
 
 }

@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.application.ApiResponse;
 import com.app.application.dto.ProductsDTO;
 import com.app.application.interfaces.ProductService;
+import com.app.ecommerce.api.helper.ProductHelper;
 import com.app.ecommerce.api.request.ProductRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -41,13 +39,10 @@ public class ProductController {
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<String> post(
-            @ModelAttribute ProductsDTO productRequest)
-            throws JsonMappingException, JsonProcessingException {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        ProductsDTO productsDTO = objectMapper.readValue(productRequest.getProducts(), ProductsDTO.class);
-//        productsDTO.setProductImages(productRequest.getProductImages());
-//        productService.create(productRequest);
-        System.out.println(productRequest.getProductOptions().toString());
+            @ModelAttribute ProductRequest productRequest) {
+        ProductsDTO productsDTO = ProductHelper.convertoTProductsDTO(productRequest);
+        // productsDTO.setProductImages(productRequest.getProductImages());
+        productService.create(productsDTO);
         return ResponseEntity.ok("Product has create");
     }
 

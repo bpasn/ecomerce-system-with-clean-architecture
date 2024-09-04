@@ -65,11 +65,11 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
 
     @Named("mapProductImageDTOListToEntity")
     default List<ProductImageEntity> mapProductImageDTOListToEntity(List<MultipartFile> files) {
-        if (files != null) {
-            System.out.println(files.size());
-            return files.stream()
-                    .map(file -> new ProductImageEntity(fileToString(file))).toList();
-        }
+        // if (files != null) {
+        //     System.out.println(files.size());
+        //     return files.stream()
+        //             .map(file -> new ProductImageEntity(fileToString(file))).toList();
+        // }
         return new ArrayList<>();
 
     }

@@ -1,16 +1,15 @@
 package com.app.application.dto;
 
 import java.util.List;
-import java.util.UUID;
 
 public class ProductOptionDTO {
-    private UUID id;
+    private String id;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -25,6 +24,9 @@ public class ProductOptionDTO {
         setManyCanBeChosed(false);
     }
 
+    public ProductOptionDTO(String id){
+        setId(id);
+    }
     public ProductOptionDTO(
             String optionName,
             boolean oneMustBeChosen,

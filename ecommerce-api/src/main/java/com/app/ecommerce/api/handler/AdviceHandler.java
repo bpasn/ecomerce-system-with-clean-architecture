@@ -21,7 +21,7 @@ public class AdviceHandler {
         System.out.println("HANDLER ADVICE : "+e.getMessage());
         IAdviceHandler adviceHandler = new IAdviceHandler();
         adviceHandler.setMessage(e.getMessage());
-        adviceHandler.setCode(e.getStatus().getCode());
+        adviceHandler.setStatus(e.getStatus().getCode());
         return new ResponseEntity<>(adviceHandler, mappedStatus(e.getStatus().getCode()));
     }
 
@@ -29,7 +29,7 @@ public class AdviceHandler {
     public ResponseEntity<IAdviceHandler> handleMissingParams(MissingServletRequestParameterException ex, HttpServletRequest request) {
         IAdviceHandler adviceHandler = new IAdviceHandler();
         adviceHandler.setMessage(ex.getMessage());
-        adviceHandler.setCode(400);
+        adviceHandler.setStatus(400);
         return new ResponseEntity<>(adviceHandler, HttpStatus.BAD_REQUEST);
     }
 
@@ -37,14 +37,14 @@ public class AdviceHandler {
     public ResponseEntity<IAdviceHandler> handleTypeMismatch(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
         IAdviceHandler adviceHandler = new IAdviceHandler();
         adviceHandler.setMessage(ex.getMessage());
-        adviceHandler.setCode(400);
+        adviceHandler.setStatus(400);
         return new ResponseEntity<>(adviceHandler, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<IAdviceHandler> MessageNotReadable(HttpMessageNotReadableException ex, HttpServletRequest request) {
         IAdviceHandler adviceHandler = new IAdviceHandler();
         adviceHandler.setMessage(ex.getMessage());
-        adviceHandler.setCode(400);
+        adviceHandler.setStatus(400);
         return new ResponseEntity<>(adviceHandler, HttpStatus.BAD_REQUEST);
     }
 
@@ -72,7 +72,7 @@ public class AdviceHandler {
     }
     public class IAdviceHandler {
         String message;
-        int code;
+        int status;
 
         public String getMessage() {
             return message;
@@ -82,12 +82,12 @@ public class AdviceHandler {
             this.message = message;
         }
 
-        public int getCode() {
-            return code;
+        public int getStatus() {
+            return status;
         }
 
-        public void setCode(int code) {
-            this.code = code;
+        public void setStatus(int status) {
+            this.status = status;
         }
 
     }
