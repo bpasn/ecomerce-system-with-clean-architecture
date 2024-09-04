@@ -1,13 +1,11 @@
 package com.app.application.service;
 
-import java.util.List;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +30,6 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
     private final ProductUseCase productUseCase;
     private final ProductImageUseCase productImageUseCase;
     private final StockUseCase stockUseCase;
-    private final ProductMapper productMapper;
 
     public ProductServiceImpl(
             ProductUseCase productUseCase,
@@ -40,7 +37,6 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
             ProductMapper productMapper,
             StockUseCase stockUseCase) {
         super(productUseCase, productMapper);
-        this.productMapper = productMapper;
         this.productUseCase = productUseCase;
         this.productImageUseCase = productImageUseCase;
         this.stockUseCase = stockUseCase;

@@ -11,15 +11,11 @@ import com.app.domain.usecase.ProductGroupUseCase;
 @Service
 public class ProductGroupServiceImpl extends BaseServiceImpl<ProductGroupEntity, ProductGroupDTO>
         implements ProductGroupService {
-    private final ProductGroupUseCase productGroupUseCase;
-    private final ProductGroupMapper productGroupMapper;
 
     public ProductGroupServiceImpl(
             ProductGroupUseCase productGroupUseCase,
             ProductGroupMapper productGroupMapper) {
         super(productGroupUseCase, productGroupMapper);
-        this.productGroupMapper = productGroupMapper;
-        this.productGroupUseCase = productGroupUseCase;
     }
 
     @Override

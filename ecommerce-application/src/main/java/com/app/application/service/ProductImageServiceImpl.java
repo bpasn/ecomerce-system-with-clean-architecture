@@ -12,13 +12,9 @@ import com.app.domain.usecase.ProductImageUseCase;
 public class ProductImageServiceImpl extends BaseServiceImpl<ProductImageEntity, ProductImageDTO>
         implements ProductImageService {
 
-    private final ProductImageUseCase productImageUseCase;
-    private final ProductImageMapper productImageMapper;
 
     ProductImageServiceImpl(ProductImageUseCase productImageUseCase, ProductImageMapper productImageMapper) {
         super(productImageUseCase, productImageMapper);
-        this.productImageUseCase = productImageUseCase;
-        this.productImageMapper = productImageMapper;
     }
 
 }

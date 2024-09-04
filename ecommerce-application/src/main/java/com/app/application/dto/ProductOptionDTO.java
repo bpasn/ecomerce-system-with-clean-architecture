@@ -1,8 +1,19 @@
 package com.app.application.dto;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ProductOptionDTO {
+    private UUID id;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     private String optionName;
     private boolean oneMustBeChosen;
     private boolean manyCanBeChosed;
@@ -69,7 +80,7 @@ public class ProductOptionDTO {
 
     @Override
     public String toString() {
-        return "ProductOptionDTO [optionName=" + optionName + ", oneMustBeChosen=" + oneMustBeChosen
+        return "ProductOptionDTO [id = " + id + ", optionName=" + optionName + ", oneMustBeChosen=" + oneMustBeChosen
                 + ", manyCanBeChosed=" + manyCanBeChosed + ", lengthSelect=" + lengthSelect + ", choices=" + choices
                 + "]";
     }

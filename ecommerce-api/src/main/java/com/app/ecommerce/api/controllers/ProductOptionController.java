@@ -13,9 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.application.ApiResponse;
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.interfaces.ProductOptionService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 @RestController
 @RequestMapping(value = "${api.prefix.route}/product-option")
+@Tag(name = "Product Option", description = "Product option management API")
+
 public class ProductOptionController {
 
     private final ProductOptionService productOptionService;

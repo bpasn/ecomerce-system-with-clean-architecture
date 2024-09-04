@@ -15,8 +15,11 @@ import com.app.application.ApiResponse;
 import com.app.application.dto.CategoriesDTO;
 import com.app.application.interfaces.CategoryService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("${api.prefix.route}/categories")
+@Tag(name = "Categories", description = "Categories management API")
 public class CategoriesController {
     private final CategoryService categoriesService;
 

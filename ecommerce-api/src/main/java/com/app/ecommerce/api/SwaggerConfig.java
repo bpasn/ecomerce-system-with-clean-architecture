@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 @Configuration
 @OpenAPIDefinition(
     info = @Info(title="E-commerce API",version="1.0",description="API documentation for E-commerce system")
+
 )
 public class SwaggerConfig {
     

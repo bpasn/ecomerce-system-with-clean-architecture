@@ -14,8 +14,12 @@ import com.app.application.ApiResponse;
 import com.app.application.dto.ProductGroupDTO;
 import com.app.application.interfaces.ProductGroupService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("${api.prefix.route}/product-groups")
+@Tag(name = "Product Groups", description = "Product group management API")
+
 public class ProductGroupController {
     private final ProductGroupService productGroupService;
 

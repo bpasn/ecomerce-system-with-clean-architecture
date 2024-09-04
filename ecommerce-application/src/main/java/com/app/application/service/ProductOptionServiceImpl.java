@@ -1,8 +1,5 @@
 package com.app.application.service;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.app.application.ApiResponse;
@@ -19,12 +16,10 @@ import jakarta.transaction.Transactional;
 public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOptionEntity,ProductOptionDTO> implements ProductOptionService {
     private ProductOptionUseCase useCase;
     private OptionChoiceUseCase optionChoiceUseCase;
-    private ProductOptionMapper productOptionMapper;
     ProductOptionServiceImpl(ProductOptionUseCase useCase, OptionChoiceUseCase optionChoiceUseCase,ProductOptionMapper productOptionMapper) {
         super(useCase, productOptionMapper);
         this.useCase = useCase;
         this.optionChoiceUseCase = optionChoiceUseCase;
-        this.productOptionMapper = productOptionMapper;
     }
     @Override
     @Transactional

@@ -41,12 +41,13 @@ public class ProductController {
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<String> post(
-            @ModelAttribute ProductRequest productRequest)
+            @ModelAttribute ProductsDTO productRequest)
             throws JsonMappingException, JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        ProductsDTO productsDTO = objectMapper.readValue(productRequest.getProducts(), ProductsDTO.class);
-        productsDTO.setProductImages(productRequest.getProductImages());
-        productService.create(productsDTO);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        ProductsDTO productsDTO = objectMapper.readValue(productRequest.getProducts(), ProductsDTO.class);
+//        productsDTO.setProductImages(productRequest.getProductImages());
+//        productService.create(productRequest);
+        System.out.println(productRequest.getProductOptions().toString());
         return ResponseEntity.ok("Product has create");
     }
 

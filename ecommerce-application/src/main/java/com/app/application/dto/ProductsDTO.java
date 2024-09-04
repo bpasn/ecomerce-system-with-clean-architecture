@@ -13,7 +13,7 @@ public class ProductsDTO {
     int quantity;
     StockDTO stock;
     List<MultipartFile> productImages;
-    List<CategoriesDTO> categoriesDTOs;
+    List<CategoriesDTO> categories;
     List<ProductOptionDTO> productOptions;
 
     public double getPrice() {
@@ -92,14 +92,14 @@ public class ProductsDTO {
 
 
 
-    public List<CategoriesDTO> getCategoriesDTOs() {
-        return categoriesDTOs;
+    public List<CategoriesDTO> getCategories() {
+        return categories;
     }
 
 
 
-    public void setCategoriesDTOs(List<CategoriesDTO> categoriesDTOs) {
-        this.categoriesDTOs = categoriesDTOs;
+    public void setCategories(List<CategoriesDTO> categories) {
+        this.categories = categories;
     }
 
 
@@ -108,8 +108,8 @@ public class ProductsDTO {
     public String toString() {
         return "ProductsDTO [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
                 + ", descriptionEN=" + descriptionEN + ", price=" + price + ", quantity=" + quantity + ", stock="
-                + stock + ", productImages=" + productImages + ", categoriesDTOs=" + categoriesDTOs
-                + ", productOptions=" + productOptions + "]";
+                + stock + ", productImages=" + productImages + ", categoriesDTOs=" + categories
+                + ", productOptions=" + productOptions.toString() + "]";
     }
 
 

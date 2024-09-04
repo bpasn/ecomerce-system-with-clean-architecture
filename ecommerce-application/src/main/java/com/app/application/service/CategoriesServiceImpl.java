@@ -12,13 +12,9 @@ import com.app.domain.usecase.CategoryUseCase;
 @Service
 public class CategoriesServiceImpl extends BaseServiceImpl<CategoriesEntity, CategoriesDTO> implements CategoryService {
 
-    private final CategoryUseCase categoryUseCase;
-    private final CategoryMapper categoryMapper;
 
     CategoriesServiceImpl(CategoryUseCase categoryUseCase, CategoryMapper categoryMapper) {
         super(categoryUseCase, categoryMapper);
-        this.categoryUseCase = categoryUseCase;
-        this.categoryMapper = categoryMapper;
     }
 
     @Override

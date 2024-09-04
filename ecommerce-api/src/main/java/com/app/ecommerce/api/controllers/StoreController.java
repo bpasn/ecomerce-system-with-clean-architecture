@@ -13,8 +13,11 @@ import com.app.application.ApiResponse;
 import com.app.application.dto.StoreDTO;
 import com.app.application.interfaces.StoreService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(value = "${api.prefix.route}/store")
+@Tag(name = "Stores", description = "Store management API")
 public class StoreController {
     private final StoreService storeService;
 
