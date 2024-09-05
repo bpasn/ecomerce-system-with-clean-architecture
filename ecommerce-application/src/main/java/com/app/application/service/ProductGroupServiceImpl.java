@@ -15,7 +15,7 @@ public class ProductGroupServiceImpl extends BaseServiceImpl<ProductGroupEntity,
     public ProductGroupServiceImpl(
             ProductGroupUseCase productGroupUseCase,
             ProductGroupMapper productGroupMapper) {
-        super(productGroupUseCase, productGroupMapper);
+        super(productGroupUseCase, productGroupMapper,ProductGroupEntity.class);
     }
 
     @Override

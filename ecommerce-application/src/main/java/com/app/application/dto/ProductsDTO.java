@@ -12,15 +12,13 @@ public class ProductsDTO {
     double price;
     int quantity;
     StockDTO stock;
-    List<MultipartFile> productImages;
+    List<String> productImages;
     List<CategoriesDTO> categories;
     List<ProductOptionDTO> productOptions;
 
     public double getPrice() {
         return price;
     }
-
-    
 
     public void setPrice(double price) {
         this.price = price;
@@ -34,11 +32,11 @@ public class ProductsDTO {
         this.quantity = quantity;
     }
 
-    public List<MultipartFile> getProductImages() {
+    public List<String> getProductImages() {
         return productImages;
     }
 
-    public void setProductImages(List<MultipartFile> productImages) {
+    public void setProductImages(List<String> productImages) {
         this.productImages = productImages;
     }
 

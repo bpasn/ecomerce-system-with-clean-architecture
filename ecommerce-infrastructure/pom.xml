@@ -9,50 +9,51 @@
         <groupId>com.app</groupId>
         <artifactId>ecommerce-system</artifactId>
         <version>1.0</version>
-        <relativePath>../pom.xml</relativePath> <!-- ชี้ไปที่ parent POM -->
+        <relativePath>../pom.xml</relativePath>
+        <!-- ชี้ไปที่ parent POM -->
     </parent>
     <artifactId>ecommerce-infrastructure</artifactId>
     <version>1.0</version>
-
     <dependencies>
-
         <dependency>
             <groupId>com.app</groupId>
             <artifactId>ecommerce-domain</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.6.0</version> <!-- ใช้เวอร์ชันล่าสุดหรือเวอร์ชันที่เข้ากันได้ -->
+            <version>42.6.0</version>
+            <!-- ใช้เวอร์ชันล่าสุดหรือเวอร์ชันที่เข้ากันได้ -->
         </dependency>
-
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.1.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <version>3.3.3</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>6.1.11</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+            <version>3.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
     </dependencies>
 </project>

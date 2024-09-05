@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.app.application.ApiResponse;
@@ -12,15 +13,16 @@ import com.app.application.mapper.BaseMapper;
 import com.app.domain.usecase.BaseUseCase;
 import com.app.infrastructure.exception.NotFoundException;
 
-import org.springframework.http.HttpStatus;
-
 public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     private final BaseUseCase<E> baseUseCase;
     private final BaseMapper<D, E> baseMapper;
+    private final Class<E> clazz;
 
-    public BaseServiceImpl(BaseUseCase<E> baseUseCase, BaseMapper<D, E> baseMapper) {
+    public BaseServiceImpl(BaseUseCase<E> baseUseCase, BaseMapper<D, E> baseMapper,Class<E> clazz) {
         this.baseUseCase = baseUseCase;
         this.baseMapper = baseMapper;
+        this.clazz = clazz;
+
     }
 
     @Override
@@ -55,7 +57,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     public ApiResponse<D> getById(String id) {
         try {
             E entity = baseUseCase.findById(id)
-                    .orElseThrow(() -> new NotFoundException(baseUseCase.getClass().getSimpleName(), id));
+                    .orElseThrow(() -> new NotFoundException(clazz.getSimpleName(), id));
             ApiResponse<D> response = new ApiResponse<>(baseMapper.toDTO(entity), HttpStatus.OK);
             System.out.println(response.toString());
             return response;
@@ -94,11 +96,11 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     public void update(String id, D model) {
         try {
             if (!baseUseCase.findById(id).isPresent()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found with ID: " + id);
+                throw new NotFoundException(clazz.getSimpleName(), id);
             }
             E entity = baseMapper.toEntity(model);
             baseUseCase.update(id, entity);
-        } catch (ResponseStatusException e) {
+        } catch (NotFoundException e) {
             throw e; // Re-throwing to maintain specific HTTP status
         } catch (Exception e) {
             // Logging error or additional handling
@@ -110,14 +112,15 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     public void delete(String id) {
         try {
             if (!baseUseCase.findById(id).isPresent()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found with ID: " + id);
+                throw new NotFoundException(clazz.getSimpleName(), id);
             }
             baseUseCase.delete(id);
-        } catch (ResponseStatusException e) {
+        } catch (NotFoundException e) {
             throw e; // Re-throwing to maintain specific HTTP status
         } catch (Exception e) {
             // Logging error or additional handling
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to delete entity", e);
         }
     }
+
 }

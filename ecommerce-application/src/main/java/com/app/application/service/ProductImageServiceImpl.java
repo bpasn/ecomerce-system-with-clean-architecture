@@ -14,7 +14,7 @@ public class ProductImageServiceImpl extends BaseServiceImpl<ProductImageEntity,
 
 
     ProductImageServiceImpl(ProductImageUseCase productImageUseCase, ProductImageMapper productImageMapper) {
-        super(productImageUseCase, productImageMapper);
+        super(productImageUseCase, productImageMapper,ProductImageEntity.class);
     }
 
 }

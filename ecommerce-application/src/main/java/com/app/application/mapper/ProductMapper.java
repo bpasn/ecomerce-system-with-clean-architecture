@@ -2,15 +2,17 @@ package com.app.application.mapper;
 
 import com.app.application.dto.ProductsDTO;
 import com.app.application.helper.CustomMultipartFile;
-import com.app.application.dto.ProductImageDTO;
 import com.app.domain.entity.ProductEntity;
 import com.app.domain.entity.ProductImageEntity;
+
+import lombok.extern.log4j.Log4j2;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.File;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -32,17 +34,13 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
     ProductEntity toEntity(ProductsDTO dto);
 
     @Named("stringToMultipartFile")
-    default MultipartFile stringToMultipartFile(String filePath) {
+    default String stringToMultipartFile(String filePath) {
         if (filePath == null) {
             return null;
         }
         try {
             Path path = Paths.get(filePath);
-            String name = path.getFileName().toString();
-            String contentType = Files.probeContentType(path);
-            byte[] content = Files.readAllBytes(path);
-            System.out.println("PATH : " + content);
-            return new CustomMultipartFile(content, name, contentType, name);
+            return path.toString();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -55,7 +53,7 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
     }
 
     @Named("mapProductImageEntityListToDTO")
-    default List<MultipartFile> mapProductImageEntityListToDTO(List<ProductImageEntity> entities) {
+    default List<String> mapProductImageEntityListToDTO(List<ProductImageEntity> entities) {
         // Implement your logic here if needed, otherwise let MapStruct handle it if you
         // have mapping between ProductImageDTO and ProductImageEntity
         return entities.stream()
@@ -64,12 +62,12 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
     }
 
     @Named("mapProductImageDTOListToEntity")
-    default List<ProductImageEntity> mapProductImageDTOListToEntity(List<MultipartFile> files) {
-        // if (files != null) {
-        //     System.out.println(files.size());
-        //     return files.stream()
-        //             .map(file -> new ProductImageEntity(fileToString(file))).toList();
-        // }
+    default List<ProductImageEntity> mapProductImageDTOListToEntity(List<String> files) {
+        if (files != null) {
+        System.out.println(files.size());
+        return files.stream()
+        .map(file -> new ProductImageEntity(file)).toList();
+        }
         return new ArrayList<>();
 
     }
