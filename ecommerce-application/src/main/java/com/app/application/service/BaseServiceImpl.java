@@ -1,8 +1,6 @@
 package com.app.application.service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -11,9 +9,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.app.application.ApiResponse;
 import com.app.application.interfaces.BaseService;
 import com.app.application.mapper.BaseMapper;
-import com.app.domain.exceptions.CustomExceptionHandler;
-import com.app.domain.exceptions.EnumCode;
 import com.app.domain.usecase.BaseUseCase;
+import com.app.infrastructure.exception.NotFoundException;
 
 import org.springframework.http.HttpStatus;
 
@@ -57,7 +54,8 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     @Override
     public ApiResponse<D> getById(String id) {
         try {
-            E entity = baseUseCase.findById(id).orElseThrow(() -> new CustomExceptionHandler("Result not found",EnumCode.NOT_FOUND));
+            E entity = baseUseCase.findById(id)
+                    .orElseThrow(() -> new NotFoundException(baseUseCase.getClass().getSimpleName(), id));
             ApiResponse<D> response = new ApiResponse<>(baseMapper.toDTO(entity), HttpStatus.OK);
             System.out.println(response.toString());
             return response;

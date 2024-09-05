@@ -1,13 +1,13 @@
 package com.app.application.mapper;
 
 import com.app.application.dto.ProductImageDTO;
+import com.app.application.helper.CustomMultipartFile;
 import com.app.domain.entity.ProductImageEntity;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
@@ -37,7 +37,7 @@ public interface ProductImageMapper extends BaseMapper<ProductImageDTO, ProductI
             String name = path.getFileName().toString();
             String contentType = Files.probeContentType(path);
             byte[] content = Files.readAllBytes(path);
-            return new MockMultipartFile(name, name, contentType, content);
+            return new CustomMultipartFile(content, name, name, contentType);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

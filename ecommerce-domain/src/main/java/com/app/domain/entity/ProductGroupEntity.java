@@ -1,19 +1,15 @@
 package com.app.domain.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.app.domain.exceptions.CustomExceptionHandler;
-import com.app.domain.exceptions.EnumCode;
+import com.app.domain.exceptions.DomainException;
 import com.app.domain.usecase.ProductGroupUseCase;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
 
 @Entity(name = "product_groups")
 public class ProductGroupEntity extends BaseEntity {
@@ -24,8 +20,6 @@ public class ProductGroupEntity extends BaseEntity {
 
     // @ManyToMany(mappedBy = "productGroups")
     // private List<ProductEntity> products = new ArrayList<>();
-    
-
 
     public boolean isRequired() {
         return isRequired;
@@ -36,11 +30,11 @@ public class ProductGroupEntity extends BaseEntity {
     }
 
     @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at",updatable = false)
+    @Column(name = "updated_at", updatable = false)
     private LocalDateTime updatedAt;
 
     public String getGroupName() {
@@ -68,28 +62,23 @@ public class ProductGroupEntity extends BaseEntity {
     }
 
     // public List<ProductEntity> getProducts() {
-    //     return products;
+    // return products;
     // }
 
     // public void setProducts(List<ProductEntity> products) {
-    //     this.products = products;
+    // this.products = products;
     // }
-
-   
 
     @Override
     public String toString() {
-        return "ProductGroupEntity [groupName=" + groupName + ", isRequired=" + isRequired + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+        return "ProductGroupEntity [groupName=" + groupName + ", isRequired=" + isRequired + ", createdAt=" + createdAt
+                + ", updatedAt=" + updatedAt + "]";
     }
-    
 
-
-    public void validateGroupNameUnique(ProductGroupUseCase pu){
-        if(pu.isGroupNameExists(this.groupName)){
-            throw new CustomExceptionHandler("ProductGroup with name " + this.groupName + " already exists",
-                    EnumCode.BAD_REQUEST);
+    public void validateGroupNameUnique(ProductGroupUseCase pu) {
+        if (pu.isGroupNameExists(this.groupName)) {
+            throw new DomainException("ProductGroup with name " + this.groupName + " already exists");
         }
-
     }
-    
+
 }

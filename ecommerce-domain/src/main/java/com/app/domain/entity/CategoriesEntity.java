@@ -7,8 +7,7 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.app.domain.exceptions.CustomExceptionHandler;
-import com.app.domain.exceptions.EnumCode;
+import com.app.domain.exceptions.DomainException;
 import com.app.domain.usecase.CategoryUseCase;
 
 import jakarta.persistence.Column;
@@ -73,7 +72,7 @@ public class CategoriesEntity extends BaseEntity {
     
     public void validateCategoryNameExists(CategoryUseCase c){
         if(c.isExistsName(this.name)){
-            throw new CustomExceptionHandler("Category Name with '"+name+"' already exists",EnumCode.BAD_REQUEST);
+            throw new DomainException("Category Name with '"+name+"' already exists");
         }
     }
     

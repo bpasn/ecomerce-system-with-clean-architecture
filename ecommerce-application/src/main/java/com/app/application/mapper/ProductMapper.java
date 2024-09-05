@@ -1,6 +1,7 @@
 package com.app.application.mapper;
 
 import com.app.application.dto.ProductsDTO;
+import com.app.application.helper.CustomMultipartFile;
 import com.app.application.dto.ProductImageDTO;
 import com.app.domain.entity.ProductEntity;
 import com.app.domain.entity.ProductImageEntity;
@@ -15,7 +16,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 @Mapper(componentModel = "spring") // Using Spring for dependency injection
@@ -42,7 +42,7 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
             String contentType = Files.probeContentType(path);
             byte[] content = Files.readAllBytes(path);
             System.out.println("PATH : " + content);
-            return new MockMultipartFile(name, name, contentType, content);
+            return new CustomMultipartFile(content, name, contentType, name);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
