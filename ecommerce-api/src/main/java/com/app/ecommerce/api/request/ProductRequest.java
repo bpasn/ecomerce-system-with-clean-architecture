@@ -2,21 +2,20 @@ package com.app.ecommerce.api.request;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
 
 public class ProductRequest {
     ProductFormData products;
-    List<MultipartFile> productImages;
+    List<Object> productImages;
     public ProductFormData getProducts() {
         return products;
     }
     public void setProducts(ProductFormData products) {
         this.products = products;
     }
-    public List<MultipartFile> getProductImages() {
+    public List<Object> getProductImages() {
         return productImages;
     }
-    public void setProductImages(List<MultipartFile> productImages) {
+    public void setProductImages(List<Object> productImages) {
         this.productImages = productImages;
     }
     @Override

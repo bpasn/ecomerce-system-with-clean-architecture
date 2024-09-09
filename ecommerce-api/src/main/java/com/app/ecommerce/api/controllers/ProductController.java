@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,10 +32,15 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<ApiResponse<Page<ProductsDTO>>> get(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(productService.getAllWithPage(page, size));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductsDTO>> getById(@PathVariable String id) {
+        return ResponseEntity.ok(productService.getById(id));
     }
 
     @PostMapping(consumes = "multipart/form-data")
@@ -46,8 +52,10 @@ public class ProductController {
         return ResponseEntity.ok("Product has create");
     }
 
-    @PutMapping
-    public ResponseEntity<String> put(@RequestParam Long id, @RequestBody ProductsDTO products) {
+    @PutMapping("{id}")
+    public ResponseEntity<String> put(
+            @PathVariable String id,
+            @RequestBody ProductRequest products) {
         return ResponseEntity.ok("Product API already");
     }
 

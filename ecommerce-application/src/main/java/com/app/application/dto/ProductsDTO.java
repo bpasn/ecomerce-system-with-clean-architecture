@@ -2,9 +2,9 @@ package com.app.application.dto;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
 
 public class ProductsDTO {
+    String id;
     String nameTH;
     String nameEN;
     String descriptionTH;
@@ -15,6 +15,14 @@ public class ProductsDTO {
     List<String> productImages;
     List<CategoriesDTO> categories;
     List<ProductOptionDTO> productOptions;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public double getPrice() {
         return price;
