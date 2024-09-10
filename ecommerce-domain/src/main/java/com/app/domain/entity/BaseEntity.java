@@ -1,10 +1,6 @@
 package com.app.domain.entity;
 
-import java.sql.Types;
-import java.util.UUID;
-
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JdbcTypeCode;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;

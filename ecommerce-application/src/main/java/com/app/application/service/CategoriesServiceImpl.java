@@ -14,12 +14,11 @@ public class CategoriesServiceImpl extends BaseServiceImpl<CategoriesEntity, Cat
 
 
     CategoriesServiceImpl(CategoryUseCase categoryUseCase, CategoryMapper categoryMapper) {
-        super(categoryUseCase, categoryMapper);
+        super(categoryUseCase, categoryMapper,CategoriesEntity.class);
     }
 
     @Override
     public CategoriesDTO getByName(String name) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getByName'");
     }
 

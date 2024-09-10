@@ -46,9 +46,8 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
             ProductMapper productMapper,
             StockUseCase stockUseCase,
             CategoryUseCase categoryUseCase,
-            ProductOptionUseCase productOptionUseCase
-            ) {
-        super(productUseCase, productMapper);
+            ProductOptionUseCase productOptionUseCase) {
+        super(productUseCase, productMapper, ProductEntity.class);
         this.productUseCase = productUseCase;
         this.productImageUseCase = productImageUseCase;
         this.stockUseCase = stockUseCase;
@@ -60,50 +59,6 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
     @Override
     public ProductsDTO getByName(String name) {
         return ProductMapper.INSTANCE.toDTO(productUseCase.findByNameTH(name).orElse(null));
-    }
-
-    @Override
-    @Transactional
-    public ApiResponse<ProductsDTO> create(ProductsDTO model) {
-        // แปลง DTO เป็น Entity
-        ProductEntity productEntity = ProductMapper.INSTANCE.toEntity(model);
-        System.out.println(productEntity.getProductImages());
-        List<CategoriesEntity> pCategoriesEntities = categoryUseCase.findAllById(model.getCategories().stream().map(CategoriesDTO::getId).toList());
-        List<ProductOptionEntity> productOptionEntities = productOptionUseCase.findAllById(model.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
-        productEntity.setCategories(pCategoriesEntities);
-        productEntity.setProductOptions(productOptionEntities);
-        // บันทึก StockEntity ก่อน
-        ProductEntity savedProduct = productUseCase.insert(productEntity);
-
-        StockEntity stock = productEntity.getStock();
-        stock.setProduct(savedProduct);
-
-        System.out.println("Stock : " + stock.toString());
-        if (stock != null) {
-            StockEntity savedStock = stockUseCase.insert(productEntity.getStock());
-            productEntity.setStock(savedStock);
-        }
-
-        // บันทึก ProductEntity
-        // จัดการกับ ProductImageEntity
-        if (!model.getProductImages().isEmpty()) {
-            model.getProductImages().forEach(file -> {
-                System.out.println("file " + file.toString());
-                ProductImageEntity productImageEntity = new ProductImageEntity();
-                try {
-                    String pathFile = createPathFile(file, productEntity.getId().toString());
-                    productImageEntity.setProduct(savedProduct);
-                    productImageEntity.setSource(pathFile);
-                    productImageUseCase.insert(productImageEntity);
-                    productEntity.getProductImages().add(productImageEntity);
-                } catch (IOException e) {
-                    System.out.println(e);
-                    e.printStackTrace();
-                }
-            });
-        }
-        
-        return new ApiResponse<>(ProductMapper.INSTANCE.toDTO(productEntity));
     }
 
     public String createPathFile(MultipartFile multipartFile, String id) throws IOException {
@@ -120,6 +75,51 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
         }
         Files.write(destination, multipartFile.getBytes());
         return destination.toString();
+    }
+
+    @Override
+    public ApiResponse<ProductsDTO> createProduct(List<MultipartFile> multipart, ProductsDTO productsDTO) {
+        // แปลง DTO เป็น Entity
+        ProductEntity productEntity = ProductMapper.INSTANCE.toEntity(productsDTO);
+        System.out.println(productEntity.getProductImages());
+        List<CategoriesEntity> pCategoriesEntities = categoryUseCase
+                .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
+        List<ProductOptionEntity> productOptionEntities = productOptionUseCase
+                .findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
+        productEntity.setCategories(pCategoriesEntities);
+        productEntity.setProductOptions(productOptionEntities);
+        // บันทึก StockEntity ก่อน
+        ProductEntity savedProduct = productUseCase.insert(productEntity);
+
+        StockEntity stock = productEntity.getStock();
+        stock.setProduct(savedProduct);
+
+        System.out.println("Stock : " + stock.toString());
+        if (stock != null) {
+            StockEntity savedStock = stockUseCase.insert(productEntity.getStock());
+            productEntity.setStock(savedStock);
+        }
+
+        // บันทึก ProductEntity
+        // จัดการกับ ProductImageEntity
+        if (!multipart.isEmpty()) {
+            multipart.forEach(file -> {
+                System.out.println("file " + file.toString());
+                ProductImageEntity productImageEntity = new ProductImageEntity();
+                try {
+                    String pathFile = createPathFile(file, productEntity.getId().toString());
+                    productImageEntity.setProduct(savedProduct);
+                    productImageEntity.setSource(pathFile);
+                    productImageUseCase.insert(productImageEntity);
+                    productEntity.getProductImages().add(productImageEntity);
+                } catch (IOException e) {
+                    System.out.println(e);
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        return new ApiResponse<>(ProductMapper.INSTANCE.toDTO(productEntity));
     }
 
 }
