@@ -14,6 +14,5 @@ public interface BaseUseCase<E> {
     List<E> findAll();
     List<E> findAllById(List<String> ids);
     void delete(String id);
-    Class<E> getClazz();
 
 }

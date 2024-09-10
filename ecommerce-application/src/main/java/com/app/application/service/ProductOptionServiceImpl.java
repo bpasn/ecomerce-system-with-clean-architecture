@@ -17,7 +17,7 @@ public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOptionEntit
     private ProductOptionUseCase useCase;
     private OptionChoiceUseCase optionChoiceUseCase;
     ProductOptionServiceImpl(ProductOptionUseCase useCase, OptionChoiceUseCase optionChoiceUseCase,ProductOptionMapper productOptionMapper) {
-        super(useCase, productOptionMapper,ProductOptionEntity.class);
+        super(useCase, productOptionMapper);
         this.useCase = useCase;
         this.optionChoiceUseCase = optionChoiceUseCase;
     }

@@ -1,6 +1,9 @@
 package com.app.application.service;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +14,6 @@ import com.app.application.ApiResponse;
 import com.app.application.dto.CategoriesDTO;
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.dto.ProductsDTO;
-import com.app.application.helper.Utils;
 import com.app.application.interfaces.ProductService;
 import com.app.application.mapper.ProductMapper;
 import com.app.domain.entity.CategoriesEntity;
@@ -24,7 +26,8 @@ import com.app.domain.usecase.ProductImageUseCase;
 import com.app.domain.usecase.ProductOptionUseCase;
 import com.app.domain.usecase.ProductUseCase;
 import com.app.domain.usecase.StockUseCase;
-import com.app.infrastructure.exception.NotFoundException;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsDTO> implements ProductService {
@@ -36,8 +39,6 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
     private final ProductOptionUseCase productOptionUseCase;
     private final ProductImageUseCase productImageUseCase;
     private final StockUseCase stockUseCase;
-    private final Utils utils;
-    private final ProductMapper productMapper;
 
     public ProductServiceImpl(
             ProductUseCase productUseCase,
@@ -45,16 +46,14 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
             ProductMapper productMapper,
             StockUseCase stockUseCase,
             CategoryUseCase categoryUseCase,
-            ProductOptionUseCase productOptionUseCase,
-            Utils utils) {
-        super(productUseCase, productMapper, ProductEntity.class);
+            ProductOptionUseCase productOptionUseCase
+            ) {
+        super(productUseCase, productMapper);
         this.productUseCase = productUseCase;
         this.productImageUseCase = productImageUseCase;
         this.stockUseCase = stockUseCase;
         this.categoryUseCase = categoryUseCase;
         this.productOptionUseCase = productOptionUseCase;
-        this.utils = utils;
-        this.productMapper = productMapper;
 
     }
 
@@ -64,20 +63,13 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
     }
 
     @Override
-    public ApiResponse<ProductsDTO> getById(String id) {
-
-        return new ApiResponse<>(productMapper.toDTO(productUseCase.findById(id).orElse(null)));
-    }
-
-    @Override
-    public ApiResponse<ProductsDTO> createProduct(List<Object> multipart, ProductsDTO productsDTO) {
+    @Transactional
+    public ApiResponse<ProductsDTO> create(ProductsDTO model) {
         // แปลง DTO เป็น Entity
-        ProductEntity productEntity = ProductMapper.INSTANCE.toEntity(productsDTO);
+        ProductEntity productEntity = ProductMapper.INSTANCE.toEntity(model);
         System.out.println(productEntity.getProductImages());
-        List<CategoriesEntity> pCategoriesEntities = categoryUseCase
-                .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
-        List<ProductOptionEntity> productOptionEntities = productOptionUseCase
-                .findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
+        List<CategoriesEntity> pCategoriesEntities = categoryUseCase.findAllById(model.getCategories().stream().map(CategoriesDTO::getId).toList());
+        List<ProductOptionEntity> productOptionEntities = productOptionUseCase.findAllById(model.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
         productEntity.setCategories(pCategoriesEntities);
         productEntity.setProductOptions(productOptionEntities);
         // บันทึก StockEntity ก่อน
@@ -94,17 +86,14 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
 
         // บันทึก ProductEntity
         // จัดการกับ ProductImageEntity
-        if (!multipart.isEmpty()) {
-            multipart.forEach(file -> {
-
+        if (!model.getProductImages().isEmpty()) {
+            model.getProductImages().forEach(file -> {
                 System.out.println("file " + file.toString());
                 ProductImageEntity productImageEntity = new ProductImageEntity();
                 try {
-                    if (file instanceof MultipartFile) {
-                        String pathFile = utils.createPathFile((MultipartFile) file, productEntity.getId().toString());
-                        productImageEntity.setSource(pathFile);
-                    }
+                    String pathFile = createPathFile(file, productEntity.getId().toString());
                     productImageEntity.setProduct(savedProduct);
+                    productImageEntity.setSource(pathFile);
                     productImageUseCase.insert(productImageEntity);
                     productEntity.getProductImages().add(productImageEntity);
                 } catch (IOException e) {
@@ -113,53 +102,24 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
                 }
             });
         }
+        
         return new ApiResponse<>(ProductMapper.INSTANCE.toDTO(productEntity));
     }
-    @Override
-    public ApiResponse<ProductsDTO> updateProduct(String id, List<Object> multipart, ProductsDTO productsDTO) {
-        ProductEntity productEntity = productUseCase.findById(id).orElseThrow(() -> new NotFoundException("Product", id));
-       
-        List<CategoriesEntity> pCategoriesEntities = categoryUseCase
-                .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
-        List<ProductOptionEntity> productOptionEntities = productOptionUseCase
-                .findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
-        productEntity.setCategories(pCategoriesEntities);
-        productEntity.setProductOptions(productOptionEntities);
-        // บันทึก StockEntity ก่อน
-        ProductEntity savedProduct = productUseCase.update(id, productEntity);
 
-        StockEntity stock = productEntity.getStock();
-        stock.setProduct(savedProduct);
+    public String createPathFile(MultipartFile multipartFile, String id) throws IOException {
+        // กำหนดชื่อไฟล์และตำแหน่งในการบันทึก
+        Path destination = Paths.get(mountPath + id, multipartFile.getOriginalFilename());
 
-        System.out.println("Stock : " + stock.toString());
-        if (stock != null) {
-            StockEntity savedStock = stockUseCase.update(productEntity.getStock().getId(), productEntity.getStock());
-            productEntity.setStock(savedStock);
+        // สร้างไดเรกทอรีถ้ายังไม่มีอยู่
+        if (Files.notExists(destination.getParent())) {
+            Files.createDirectories(destination.getParent());
         }
 
-        // บันทึก ProductEntity
-        // จัดการกับ ProductImageEntity
-        if (!multipart.isEmpty()) {
-            multipart.forEach(file -> {
-
-                System.out.println("file " + file.toString());
-                ProductImageEntity productImageEntity = new ProductImageEntity();
-                try {
-                    if (file instanceof MultipartFile) {
-                        String pathFile = utils.createPathFile((MultipartFile) file, productEntity.getId().toString());
-                        productImageEntity.setSource(pathFile);
-                    }
-                    productImageEntity.setProduct(savedProduct);
-                    productImageUseCase.insert(productImageEntity);
-                    productEntity.getProductImages().add(productImageEntity);
-                } catch (IOException e) {
-                    System.out.println(e);
-                    e.printStackTrace();
-                }
-            });
+        if (!destination.toFile().exists()) {
+            destination.toFile().createNewFile();
         }
-
-        return new ApiResponse<>(ProductMapper.INSTANCE.toDTO(productEntity));
+        Files.write(destination, multipartFile.getBytes());
+        return destination.toString();
     }
 
 }

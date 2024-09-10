@@ -11,6 +11,7 @@ import com.app.domain.usecase.BaseUseCase;
 
 public class BaseUseCaseImpl<E> implements BaseUseCase<E> {
     private final JpaRepository<E, String> repository;
+
     public BaseUseCaseImpl(JpaRepository<E,String> repository) {
         this.repository = repository;
     }
@@ -55,11 +56,6 @@ public class BaseUseCaseImpl<E> implements BaseUseCase<E> {
     @Override
     public List<E> findAllById(List<String> ids) {
         return repository.findAllById(ids);
-    }
-
-    @Override
-    public Class<E> getClazz() {
-        return null;
     }
 
 }

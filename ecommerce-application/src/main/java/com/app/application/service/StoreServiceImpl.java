@@ -16,7 +16,7 @@ public class StoreServiceImpl extends BaseServiceImpl<StoreEntity, StoreDTO> imp
     private final StoreUseCase storeUseCase;
 
     public StoreServiceImpl(StoreUseCase storeUseCase, StoreMapper storeMapper) {
-        super(storeUseCase, storeMapper,StoreEntity.class);
+        super(storeUseCase, storeMapper);
         this.storeUseCase = storeUseCase;
     }
 
