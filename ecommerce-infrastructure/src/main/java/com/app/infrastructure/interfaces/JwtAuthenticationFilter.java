@@ -1,4 +1,4 @@
-package com.app.infrastructure.services;
+package com.app.infrastructure.interfaces;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpServletRequest;

@@ -9,6 +9,8 @@ import javax.crypto.SecretKey;
 
 import com.app.domain.entity.UserEntity;
 import com.app.infrastructure.exception.BaseException;
+import com.app.infrastructure.interfaces.JwtService;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -38,18 +40,18 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(UserEntity userDetails) {
+    public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
     @Override
-    public String generateToken(Map<String, Object> extractClaims, UserEntity userDetails) {
+    public String generateToken(Map<String, Object> extractClaims, UserDetails userDetails) {
        try {
            return Jwts.builder()
                    .claims(extractClaims)
-                   .subject(userDetails.getEmail())
+                   .subject(userDetails.getUsername())
                    .issuedAt(new Date(System.currentTimeMillis()))
-                   .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                   .expiration(new Date(System.currentTimeMillis() + 1000 * 10))
                    .signWith(getSignInKey())
                    .compact();
        }catch (Exception ex){
@@ -59,7 +61,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username =extractUsername(token);
+        final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 

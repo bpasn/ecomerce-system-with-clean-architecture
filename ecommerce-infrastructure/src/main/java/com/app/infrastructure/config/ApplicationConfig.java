@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.app.domain.entity.UserEntity;
+import com.app.infrastructure.adapter.UserDetailsAdapter;
 import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.repositories.UserJpaRepository;
 
@@ -27,8 +29,11 @@ public class ApplicationConfig {
 
     @Bean
     UserDetailsService userDetailsService() {
-        return u -> (UserDetails) userJpaRepository.findByEmail(u)
+        return u -> {
+            UserEntity userEntity = userJpaRepository.findByEmail(u)
                 .orElseThrow(() -> new BaseException("Email not found"));
+            return new UserDetailsAdapter(userEntity);
+        };
     }
 
     @Bean
