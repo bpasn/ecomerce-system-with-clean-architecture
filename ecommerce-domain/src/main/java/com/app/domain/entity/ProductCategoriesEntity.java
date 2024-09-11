@@ -8,19 +8,25 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.app.domain.exceptions.DomainException;
-import com.app.domain.usecase.CategoryUseCase;
+import com.app.domain.usecase.ProductCategoryUseCase;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "categories")
-public class CategoriesEntity extends BaseEntity {
+@Table(name = "product_categories")
+public class ProductCategoriesEntity extends BaseEntity {
     @Column(name = "name",unique = true)
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "store_id", nullable = false)
+    private StoreEntity store;
+    
     @ManyToMany(mappedBy = "categories")
     private List<ProductEntity> products = new ArrayList<>();
 
@@ -33,8 +39,8 @@ public class CategoriesEntity extends BaseEntity {
     private LocalDateTime updatedAt;
 
     
-    public CategoriesEntity(){}
-    public CategoriesEntity(String name) {
+    public ProductCategoriesEntity(){}
+    public ProductCategoriesEntity(String name) {
         this.name = name;
     }
 
@@ -70,10 +76,17 @@ public class CategoriesEntity extends BaseEntity {
         this.updatedAt = updatedAt;
     }
     
-    public void validateCategoryNameExists(CategoryUseCase c){
+    
+    public void validateCategoryNameExists(ProductCategoryUseCase c){
         if(c.isExistsName(this.name)){
             throw new DomainException("Category Name with '"+name+"' already exists");
         }
+    }
+    public StoreEntity getStore() {
+        return store;
+    }
+    public void setStore(StoreEntity store) {
+        this.store = store;
     }
     
 }

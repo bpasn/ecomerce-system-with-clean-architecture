@@ -16,12 +16,12 @@ import com.app.application.dto.ProductOptionDTO;
 import com.app.application.dto.ProductsDTO;
 import com.app.application.interfaces.ProductService;
 import com.app.application.mapper.ProductMapper;
-import com.app.domain.entity.CategoriesEntity;
+import com.app.domain.entity.ProductCategoriesEntity;
 import com.app.domain.entity.ProductEntity;
 import com.app.domain.entity.ProductImageEntity;
 import com.app.domain.entity.ProductOptionEntity;
 import com.app.domain.entity.StockEntity;
-import com.app.domain.usecase.CategoryUseCase;
+import com.app.domain.usecase.ProductCategoryUseCase;
 import com.app.domain.usecase.ProductImageUseCase;
 import com.app.domain.usecase.ProductOptionUseCase;
 import com.app.domain.usecase.ProductUseCase;
@@ -35,7 +35,7 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
     @Value("${mount-path}")
     private String mountPath;
     private final ProductUseCase productUseCase;
-    private final CategoryUseCase categoryUseCase;
+    private final ProductCategoryUseCase categoryUseCase;
     private final ProductOptionUseCase productOptionUseCase;
     private final ProductImageUseCase productImageUseCase;
     private final StockUseCase stockUseCase;
@@ -45,7 +45,7 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
             ProductImageUseCase productImageUseCase,
             ProductMapper productMapper,
             StockUseCase stockUseCase,
-            CategoryUseCase categoryUseCase,
+            ProductCategoryUseCase categoryUseCase,
             ProductOptionUseCase productOptionUseCase) {
         super(productUseCase, productMapper, ProductEntity.class);
         this.productUseCase = productUseCase;
@@ -82,7 +82,7 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
         // แปลง DTO เป็น Entity
         ProductEntity productEntity = ProductMapper.INSTANCE.toEntity(productsDTO);
         System.out.println(productEntity.getProductImages());
-        List<CategoriesEntity> pCategoriesEntities = categoryUseCase
+        List<ProductCategoriesEntity> pCategoriesEntities = categoryUseCase
                 .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
         List<ProductOptionEntity> productOptionEntities = productOptionUseCase
                 .findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());

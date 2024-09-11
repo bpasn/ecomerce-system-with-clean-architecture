@@ -41,7 +41,6 @@ public class ProductController {
     public ResponseEntity<String> post(
             @ModelAttribute ProductRequest productRequest) {
         ProductsDTO productsDTO = ProductHelper.convertoTProductsDTO(productRequest);
-        // productsDTO.setProductImages(productRequest.getProductImages());
         productService.create(productsDTO);
         return ResponseEntity.ok("Product has create");
     }

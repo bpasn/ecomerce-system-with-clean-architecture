@@ -31,6 +31,8 @@ origin:
   merchant-portal:
     url: http://localhost:3000
 
+jwt:
+  private-key: d45c48a62cfcf0c885b1865088f14e6dc1d075383bfaf879079fee4c1aef0ef6
 logging:
   level:
    sql: debug

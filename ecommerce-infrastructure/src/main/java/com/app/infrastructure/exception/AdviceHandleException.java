@@ -56,8 +56,15 @@ public class AdviceHandleException {
         adviceHandler.setStatus(400);
         return new ResponseEntity<>(adviceHandler, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<IAdviceHandler> baseException(BaseException ex) {
+        IAdviceHandler adviceHandler = new IAdviceHandler();
+        adviceHandler.setMessage(ex.getMessage());
+        adviceHandler.setStatus(400);
+        return new ResponseEntity<>(adviceHandler, HttpStatus.BAD_REQUEST);
+    }
 
-    
+
 
     public class IAdviceHandler {
         String message;

@@ -1,7 +1,5 @@
 package com.app.infrastructure.repositories;
 
-import java.util.UUID;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.app.domain.entity.StockEntity;

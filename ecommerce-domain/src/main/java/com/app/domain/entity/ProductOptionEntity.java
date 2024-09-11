@@ -9,11 +9,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity(name = "product_options")
 public class ProductOptionEntity extends BaseEntity {
+    
     @Column(name = "option_name")
     private String optionName;
 
@@ -32,6 +35,10 @@ public class ProductOptionEntity extends BaseEntity {
     @ManyToMany(mappedBy = "productOptions")
     private List<ProductEntity> products = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "store_id", nullable = false)
+    private StoreEntity store;
+    
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -112,6 +119,14 @@ public class ProductOptionEntity extends BaseEntity {
         return "ProductOptionEntity [optionName=" + optionName + ", products="
                 + products.toString()
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+    }
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
     }
 
 }

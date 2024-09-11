@@ -1,22 +1,28 @@
 package com.app.domain.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 
 @Entity(name = "users")
 public class UserEntity extends BaseEntity {
+
     private String email;
+    private String name;
     private String password;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StoreEntity> stores = new ArrayList<>();
 
+    public UserEntity(){}
 
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public UserEntity(String email,String name, String password){
+        setEmail(email);
+        setName(name);
+        setPassword(password);
     }
 
     public String getEmail() {
@@ -27,30 +33,27 @@ public class UserEntity extends BaseEntity {
         this.email = email;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-
-        UserEntity user = (UserEntity) obj;
-        return Objects.equals(getId(), user.getId()) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(email, user.email);
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(),  password, email);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id= '"+getId()+"'," +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<StoreEntity> getStores() {
+        return stores;
+    }
+
+    public void setStores(List<StoreEntity> stores) {
+        this.stores = stores;
     }
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -34,27 +35,39 @@ public class ProductEntity extends BaseEntity {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private StockEntity stock;
 
+    @ManyToOne
+    @JoinColumn(name = "store_id", nullable = false)
+    private StoreEntity store;
+
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
+    }
+
     @ManyToMany
     @JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<CategoriesEntity> categories = new ArrayList<>();
+    private List<ProductCategoriesEntity> categories = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
     private List<ProductImageEntity> productImages = new ArrayList<>();
 
-
     // @ManyToMany
-    // @JoinTable(name = "group_product",joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "product_group_id"))
+    // @JoinTable(name = "group_product",joinColumns = @JoinColumn(name =
+    // "product_id"),inverseJoinColumns = @JoinColumn(name = "product_group_id"))
     // private List<ProductGroupEntity> productGroups = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(name = "option_product",joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "product_option_id"))
+    @JoinTable(name = "option_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "product_option_id"))
     private List<ProductOptionEntity> productOptions = new ArrayList<>();
 
-  
+    public ProductEntity() {
+    }
 
-    public ProductEntity(){}
-
-    public ProductEntity(String nameTH,String nameEN, String descriptionTH,String descriptionEN, double price,  List<CategoriesEntity> categories,
+    public ProductEntity(String nameTH, String nameEN, String descriptionTH, String descriptionEN, double price,
+            List<ProductCategoriesEntity> categories,
             List<ProductImageEntity> productImages) {
         this.nameTH = nameTH;
         this.nameEN = nameEN;
@@ -81,8 +94,6 @@ public class ProductEntity extends BaseEntity {
     @UpdateTimestamp
     @Column(name = "updated_at", updatable = false)
     private LocalDateTime updatedAt;
-
-
 
     public String getNameTH() {
         return nameTH;
@@ -132,11 +143,11 @@ public class ProductEntity extends BaseEntity {
         this.stock = stock;
     }
 
-    public List<CategoriesEntity> getCategories() {
+    public List<ProductCategoriesEntity> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<CategoriesEntity> categories) {
+    public void setCategories(List<ProductCategoriesEntity> categories) {
         this.categories = categories;
     }
 
@@ -171,9 +182,5 @@ public class ProductEntity extends BaseEntity {
                 + categories + ", productImages=" + productImages + ", productOptions=" + productOptions
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
-
-   
-
-    
 
 }
