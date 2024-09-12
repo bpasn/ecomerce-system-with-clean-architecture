@@ -2,7 +2,7 @@ package com.app.application.service;
 
 import org.springframework.stereotype.Service;
 
-import com.app.application.ApiResponse;
+import com.app.application.dto.ApiResponse;
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.interfaces.ProductOptionService;
 import com.app.application.mapper.ProductOptionMapper;

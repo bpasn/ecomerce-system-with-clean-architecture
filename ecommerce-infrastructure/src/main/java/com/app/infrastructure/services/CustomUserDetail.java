@@ -8,7 +8,9 @@ import com.app.domain.entity.UserEntity;
 import com.app.infrastructure.adapter.UserDetailsAdapter;
 import com.app.infrastructure.exception.NotFoundException;
 import com.app.infrastructure.repositories.UserJpaRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomUserDetail implements UserDetailsService {
     private final UserJpaRepository userJpaRepository;
 

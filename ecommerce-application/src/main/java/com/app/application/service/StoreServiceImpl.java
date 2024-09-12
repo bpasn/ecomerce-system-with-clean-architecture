@@ -3,7 +3,7 @@ package com.app.application.service;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.app.application.ApiResponse;
+import com.app.application.dto.ApiResponse;
 import com.app.application.dto.StoreDTO;
 import com.app.application.interfaces.StoreService;
 import com.app.application.mapper.StoreMapper;
@@ -22,10 +22,7 @@ public class StoreServiceImpl extends BaseServiceImpl<StoreEntity, StoreDTO> imp
 
     @Override
     public ApiResponse<StoreDTO> findFirstByOrderByIdDesc() {
-        ApiResponse<StoreDTO> apiResponse = new ApiResponse<>();
-        apiResponse.setPayload(StoreMapper.INSTANCE.toDTO(storeUseCase.findFirstByOrderByIdDesc()));
-        apiResponse.setStatus(HttpStatus.OK);
-        return apiResponse;
+        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(storeUseCase.findFirstByOrderByIdDesc()));
     }
 
     

@@ -7,7 +7,6 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
-import com.app.domain.entity.UserEntity;
 import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.interfaces.JwtService;
 
@@ -26,7 +25,12 @@ public class JwtServiceImpl implements JwtService {
     @Value("${jwt.private-key}")
     private String SECRET_KEY;
 
-    public JwtServiceImpl(){}
+    @Value("${jwt.expired}")
+    private int expired;
+    @Value("${jwt.refreshTokenExpire}")
+    private int refreshTokenExpire;
+
+    
     
     @Override
     public String extractUsername(String token) {
@@ -41,23 +45,29 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        return generateToken(new HashMap<>(), userDetails, expired);
     }
 
     @Override
-    public String generateToken(Map<String, Object> extractClaims, UserDetails userDetails) {
+    public String generateRefreshToken(UserDetails userDetails){
+        return generateToken(new HashMap<>(),userDetails,refreshTokenExpire);
+    }
+    @Override
+    public String generateToken(Map<String, Object> extractClaims, UserDetails userDetails,long expirationTime) {
        try {
            return Jwts.builder()
                    .claims(extractClaims)
                    .subject(userDetails.getUsername())
                    .issuedAt(new Date(System.currentTimeMillis()))
-                   .expiration(new Date(System.currentTimeMillis() + 1000 * 10))
+                   .expiration(new Date(System.currentTimeMillis() + expirationTime))
                    .signWith(getSignInKey())
                    .compact();
        }catch (Exception ex){
            throw new BaseException(ex.getMessage());
        }
     }
+
+
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {

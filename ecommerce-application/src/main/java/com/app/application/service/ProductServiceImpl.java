@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.app.application.ApiResponse;
+import com.app.application.dto.ApiResponse;
 import com.app.application.dto.CategoriesDTO;
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.dto.ProductsDTO;
@@ -26,8 +26,6 @@ import com.app.domain.usecase.ProductImageUseCase;
 import com.app.domain.usecase.ProductOptionUseCase;
 import com.app.domain.usecase.ProductUseCase;
 import com.app.domain.usecase.StockUseCase;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsDTO> implements ProductService {

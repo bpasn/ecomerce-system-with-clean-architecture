@@ -1,6 +1,6 @@
 package com.app.application.interfaces;
 
-import com.app.application.ApiResponse;
+import com.app.application.dto.ApiResponse;
 import com.app.application.dto.StoreDTO;
 import com.app.domain.entity.StoreEntity;
 

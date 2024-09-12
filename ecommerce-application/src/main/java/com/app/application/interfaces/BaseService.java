@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.app.application.ApiResponse;
+import com.app.application.dto.ApiResponse;
 
 public interface BaseService<E, D> {
     ApiResponse<Page<D>> getAllWithPage(int page, int size);

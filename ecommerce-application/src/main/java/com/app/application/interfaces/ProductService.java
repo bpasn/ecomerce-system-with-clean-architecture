@@ -3,7 +3,7 @@ package com.app.application.interfaces;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.app.application.ApiResponse;
+import com.app.application.dto.ApiResponse;
 import com.app.application.dto.ProductsDTO;
 import com.app.domain.entity.ProductEntity;
 

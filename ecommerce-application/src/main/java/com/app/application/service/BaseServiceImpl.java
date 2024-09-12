@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.app.application.ApiResponse;
+import com.app.application.dto.ApiResponse;
 import com.app.application.interfaces.BaseService;
 import com.app.application.mapper.BaseMapper;
 import com.app.domain.usecase.BaseUseCase;
@@ -29,9 +29,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     public ApiResponse<Page<D>> getAllWithPage(int page, int size) {
         try {
             Page<E> cPage = baseUseCase.findAllWithPageable(size, page);
-            ApiResponse<Page<D>> response = new ApiResponse<>();
-            response.setPayload(cPage.map(baseMapper::toDTO));
-            return response;
+            return new ApiResponse<>(cPage.map(baseMapper::toDTO));
         } catch (Exception e) {
             // Logging error or additional handling
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to retrieve paginated data", e);
@@ -42,11 +40,9 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     public ApiResponse<List<D>> getAll() {
         try {
             List<E> entities = baseUseCase.findAll();
-            ApiResponse<List<D>> response = new ApiResponse<>();
-            response.setPayload(entities.stream()
+            return new ApiResponse<>(entities.stream()
                     .map(baseMapper::toDTO)
                     .collect(Collectors.toList()));
-            return response;
         } catch (Exception e) {
             // Logging error or additional handling
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to retrieve data", e);
