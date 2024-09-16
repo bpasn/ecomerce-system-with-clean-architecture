@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import com.app.domain.usecase.AuthUseCase;
 import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.interfaces.JwtService;
 
@@ -30,8 +31,13 @@ public class JwtServiceImpl implements JwtService {
     @Value("${jwt.refreshTokenExpire}")
     private int refreshTokenExpire;
 
+    private final AuthUseCase authUseCase;
     
     
+    public JwtServiceImpl(AuthUseCase authUseCase) {
+        this.authUseCase = authUseCase;
+    }
+
     @Override
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -45,7 +51,9 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails, expired);
+        HashMap<String,String> map = new HashMap<>();
+        map.put("userId", authUseCase.findByEmail(userDetails.getUsername()).getId());
+        return generateToken(map, userDetails, expired);
     }
 
     @Override
@@ -53,7 +61,7 @@ public class JwtServiceImpl implements JwtService {
         return generateToken(new HashMap<>(),userDetails,refreshTokenExpire);
     }
     @Override
-    public String generateToken(Map<String, Object> extractClaims, UserDetails userDetails,long expirationTime) {
+    public String generateToken(Map<String, ?> extractClaims, UserDetails userDetails,long expirationTime) {
        try {
            return Jwts.builder()
                    .claims(extractClaims)

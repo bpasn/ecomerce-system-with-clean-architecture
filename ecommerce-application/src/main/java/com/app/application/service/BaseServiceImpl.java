@@ -3,6 +3,7 @@ package com.app.application.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,7 +11,9 @@ import org.springframework.web.server.ResponseStatusException;
 import com.app.application.dto.ApiResponse;
 import com.app.application.interfaces.BaseService;
 import com.app.application.mapper.BaseMapper;
+import com.app.domain.usecase.AuthUseCase;
 import com.app.domain.usecase.BaseUseCase;
+import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.exception.NotFoundException;
 
 public class BaseServiceImpl<E, D> implements BaseService<E, D> {
@@ -18,7 +21,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     private final BaseMapper<D, E> baseMapper;
     private final Class<E> clazz;
 
-    public BaseServiceImpl(BaseUseCase<E> baseUseCase, BaseMapper<D, E> baseMapper,Class<E> clazz) {
+    public BaseServiceImpl(BaseUseCase<E> baseUseCase, BaseMapper<D, E> baseMapper, Class<E> clazz) {
         this.baseUseCase = baseUseCase;
         this.baseMapper = baseMapper;
         this.clazz = clazz;
@@ -55,11 +58,11 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
             E entity = baseUseCase.findById(id)
                     .orElseThrow(() -> new NotFoundException(clazz.getSimpleName(), id));
             ApiResponse<D> response = new ApiResponse<>(baseMapper.toDTO(entity), HttpStatus.OK);
-            System.out.println(response.toString());
             return response;
         } catch (Exception e) {
             // Logging error or additional handling
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to retrieve entity by ID", e);
+            throw new BaseException(String.format("Failed to retrieve %s with ID is %s",clazz.getSimpleName(),id),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -67,11 +70,13 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     public ApiResponse<D> create(D model) {
         try {
             E entity = baseMapper.toEntity(model);
+            System.out.println("ENTITY : " + entity.toString());
             E savedEntity = baseUseCase.insert(entity);
             return new ApiResponse<>(baseMapper.toDTO(savedEntity));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             // Logging error or additional handling
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to create entity", e);
+            throw new BaseException("Failed to create " + clazz.getSimpleName(), HttpStatus.BAD_REQUEST);
         }
     }
 

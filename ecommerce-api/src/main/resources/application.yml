@@ -18,8 +18,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+
 server:
   port: 8888
+
 
 api:
   prefix:
@@ -33,9 +35,9 @@ origin:
 
 jwt:
   private-key: d45c48a62cfcf0c885b1865088f14e6dc1d075383bfaf879079fee4c1aef0ef6
-  expired: 1800000 # 10 Sec
+  expired: 900000 # 15 min
   refreshTokenExpire: 604800000 # 7 DAY
+
 logging:
   level:
    sql: debug
-   org.hibernate.orm.jdbc.bind: trace

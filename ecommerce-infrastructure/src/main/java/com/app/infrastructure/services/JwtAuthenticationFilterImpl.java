@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -52,6 +53,7 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
         }
         try {
             final String jwt = extractJwtToken(authHeader);
+            System.out.println("JWT : "+jwt+"");
             if (jwt == null || jwt.equals("null")) {
                 handleInvalidToken(request, response);
                 return;
@@ -63,7 +65,7 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            resolver.resolveException(request, response, null, new BaseException(e.getMessage()));
+            resolver.resolveException(request, response, null, new BaseException(e.getMessage(),HttpStatus.UNAUTHORIZED));
         }
     }
 
@@ -79,12 +81,13 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
 
     @Override
     public void handleInvalidToken(HttpServletRequest request, HttpServletResponse response) {
-        resolver.resolveException(request, response, null, new BaseException("Token invalid"));
+        resolver.resolveException(request, response, null, new BaseException("Token invalid",HttpStatus.UNAUTHORIZED));
     }
 
     @Override
     public void handleValidToken(String userEmail, String jwt, HttpServletRequest request) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+        System.out.println(String.format("USER DETAILS : "));
         if (jwtService.isTokenValid(jwt, userDetails)) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request, null,
                     userDetails.getAuthorities());

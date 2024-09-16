@@ -60,8 +60,8 @@ public class AdviceHandleException {
     public ResponseEntity<IAdviceHandler> baseException(BaseException ex) {
         IAdviceHandler adviceHandler = new IAdviceHandler();
         adviceHandler.setMessage(ex.getMessage());
-        adviceHandler.setStatus(400);
-        return new ResponseEntity<>(adviceHandler, HttpStatus.BAD_REQUEST);
+        adviceHandler.setStatus(ex.status.value());
+        return new ResponseEntity<>(adviceHandler, ex.status);
     }
 
 

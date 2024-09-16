@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.application.dto.ApiResponse;
 import com.app.application.dto.StoreDTO;
+import com.app.application.interfaces.AuthenService;
 import com.app.application.interfaces.StoreService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;

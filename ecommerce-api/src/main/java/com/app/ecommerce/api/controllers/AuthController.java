@@ -15,7 +15,6 @@ import com.app.application.interfaces.AuthenService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Map;
 
 @RestController
 @RequestMapping("${api.prefix.route}/auth")
@@ -38,6 +37,7 @@ public class AuthController {
 
     @PostMapping("/refresh-token")
     public ResponseEntity<AuthResponse> refreshToken(@RequestBody  RefreshToken refreshToken){
+        System.out.println("REFRESH TOKEN");
         return ResponseEntity.ok(authenService.refreshToken(refreshToken.refreshToken));
     }
 

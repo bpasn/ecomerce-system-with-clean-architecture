@@ -10,6 +10,9 @@ import com.app.domain.entity.UserEntity;
 
 public class UserDetailsAdapter implements UserDetails {
     private final UserEntity user;
+    public UserEntity getUser() {
+        return user;
+    }
 
     public UserDetailsAdapter(UserEntity user) {
         this.user = user;
