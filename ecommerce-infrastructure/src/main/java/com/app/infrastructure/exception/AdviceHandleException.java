@@ -49,6 +49,7 @@ public class AdviceHandleException {
         adviceHandler.setStatus(400);
         return new ResponseEntity<>(adviceHandler, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<IAdviceHandler> notFoundEntity(NotFoundException ex) {
         IAdviceHandler adviceHandler = new IAdviceHandler();
@@ -56,6 +57,7 @@ public class AdviceHandleException {
         adviceHandler.setStatus(400);
         return new ResponseEntity<>(adviceHandler, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<IAdviceHandler> baseException(BaseException ex) {
         IAdviceHandler adviceHandler = new IAdviceHandler();
@@ -64,7 +66,13 @@ public class AdviceHandleException {
         return new ResponseEntity<>(adviceHandler, ex.status);
     }
 
-
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<IAdviceHandler> handleGeneralException(Exception ex, HttpServletRequest request) {
+        IAdviceHandler adviceHandler = new IAdviceHandler();
+        adviceHandler.setMessage("An unexpected error occurred: " + ex.getMessage());
+        adviceHandler.setStatus(500);
+        return new ResponseEntity<>(adviceHandler, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     public class IAdviceHandler {
         String message;

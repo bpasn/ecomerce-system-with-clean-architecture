@@ -10,10 +10,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+import com.app.infrastructure.config.SecurityConfig;
 import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.interfaces.JwtAuthenticationFilter;
 import com.app.infrastructure.interfaces.JwtService;
@@ -45,6 +48,15 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        String uri = request.getRequestURI();
+
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+        for (String publicPath : SecurityConfig.publicRouter) {
+            if (pathMatcher.match(publicPath, uri)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
         final String authHeader = request.getHeader("Authorization");
         if (isTokenMissingOrInValid(authHeader)) {
             filterChain.doFilter(request, response);
@@ -53,7 +65,6 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
         }
         try {
             final String jwt = extractJwtToken(authHeader);
-            System.out.println("JWT : "+jwt+"");
             if (jwt == null || jwt.equals("null")) {
                 handleInvalidToken(request, response);
                 return;
@@ -65,7 +76,8 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            resolver.resolveException(request, response, null, new BaseException(e.getMessage(),HttpStatus.UNAUTHORIZED));
+            resolver.resolveException(request, response, null,
+                    new BaseException(e.getMessage(), HttpStatus.UNAUTHORIZED));
         }
     }
 
@@ -81,15 +93,14 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
 
     @Override
     public void handleInvalidToken(HttpServletRequest request, HttpServletResponse response) {
-        resolver.resolveException(request, response, null, new BaseException("Token invalid",HttpStatus.UNAUTHORIZED));
+        resolver.resolveException(request, response, null, new BaseException("Token invalid", HttpStatus.UNAUTHORIZED));
     }
 
     @Override
     public void handleValidToken(String userEmail, String jwt, HttpServletRequest request) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
-        System.out.println(String.format("USER DETAILS : "));
         if (jwtService.isTokenValid(jwt, userDetails)) {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request, null,
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null,
                     userDetails.getAuthorities());
             token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(token);

@@ -63,4 +63,37 @@ public class StoreEntity extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public List<ProductEntity> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
+    }
+
+    public List<ProductCategoriesEntity> getProductCategories() {
+        return productCategories;
+    }
+
+    public void setProductCategories(List<ProductCategoriesEntity> productCategories) {
+        this.productCategories = productCategories;
+    }
+
+    public List<ProductOptionEntity> getProductOption() {
+        return productOption;
+    }
+
+    public void setProductOption(List<ProductOptionEntity> productOption) {
+        this.productOption = productOption;
+    }
+
+    
 }

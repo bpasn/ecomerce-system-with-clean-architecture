@@ -3,15 +3,16 @@ package com.app.application.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.app.application.dto.ApiResponse;
 import com.app.application.interfaces.BaseService;
 import com.app.application.mapper.BaseMapper;
-import com.app.domain.usecase.AuthUseCase;
 import com.app.domain.usecase.BaseUseCase;
 import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.exception.NotFoundException;
@@ -48,7 +49,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
                     .collect(Collectors.toList()));
         } catch (Exception e) {
             // Logging error or additional handling
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to retrieve data", e);
+            throw new BaseException( "Failed to retrieve data", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -61,7 +62,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
             return response;
         } catch (Exception e) {
             // Logging error or additional handling
-            throw new BaseException(String.format("Failed to retrieve %s with ID is %s",clazz.getSimpleName(),id),
+            throw new BaseException(String.format("Failed to retrieve %s with ID is %s", clazz.getSimpleName(), id),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -122,6 +123,16 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
             // Logging error or additional handling
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to delete entity", e);
         }
+    }
+
+    @Override
+    public UserDetails getUserDetails() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetails) {
+            return (UserDetails) principal;
+        }
+        return null;
     }
 
 }

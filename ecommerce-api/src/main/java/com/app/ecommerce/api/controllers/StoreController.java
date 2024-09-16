@@ -14,6 +14,7 @@ import com.app.application.dto.ApiResponse;
 import com.app.application.dto.StoreDTO;
 import com.app.application.interfaces.AuthenService;
 import com.app.application.interfaces.StoreService;
+import com.app.ecommerce.api.request.StoreRequest;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -40,7 +41,9 @@ public class StoreController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<StoreDTO>> create(@RequestBody StoreDTO body){
-        return ResponseEntity.ok(storeService.create(body));
+    public ResponseEntity<ApiResponse<StoreDTO>> create(@RequestBody StoreRequest body){
+        StoreDTO storeDTO = new StoreDTO();
+        storeDTO.setStoreName(body.storeName());
+        return ResponseEntity.ok(storeService.create(storeDTO));
     }
 }

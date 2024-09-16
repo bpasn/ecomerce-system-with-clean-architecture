@@ -30,7 +30,7 @@ public class SecurityConfig {
                 this.exception = exception;
         }
 
-        private final String[] publicRouter = {
+        public static final String[] publicRouter = {
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html",

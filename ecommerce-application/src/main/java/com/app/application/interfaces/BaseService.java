@@ -3,6 +3,7 @@ package com.app.application.interfaces;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.app.application.dto.ApiResponse;
 
@@ -20,4 +21,6 @@ public interface BaseService<E, D> {
     void update(String id, D model);
 
     void delete(String id);
+
+    UserDetails getUserDetails();
 }
