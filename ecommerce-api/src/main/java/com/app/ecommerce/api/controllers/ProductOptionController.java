@@ -2,13 +2,7 @@ package com.app.ecommerce.api.controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.app.application.dto.ApiResponse;
 import com.app.application.dto.ProductOptionDTO;
@@ -30,8 +24,13 @@ public class ProductOptionController {
     }
     
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ProductOptionDTO>>> get() {
-        return ResponseEntity.ok(productOptionService.getAll());
+    public ResponseEntity<ApiResponse<List<ProductOptionDTO>>> get(@RequestParam(value = "storeId",required = true) String storeId) {
+        return ResponseEntity.ok(productOptionService.getAllByStoreId(storeId));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductOptionDTO>> getById(@PathVariable String id){
+        return ResponseEntity.ok(productOptionService.getById(id));
     }
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> post(@RequestBody ProductOptionDTO productOptionDTO) {

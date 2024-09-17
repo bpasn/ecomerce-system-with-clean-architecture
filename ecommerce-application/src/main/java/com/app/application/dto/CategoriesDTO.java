@@ -4,7 +4,14 @@ package com.app.application.dto;
 public class CategoriesDTO {
     private String id;
     private String name;
+    private String storeId;
 
+    public String getStoreId() {
+        return storeId;
+    }
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
     public CategoriesDTO(){}
     public CategoriesDTO(String id){
         setId(id);

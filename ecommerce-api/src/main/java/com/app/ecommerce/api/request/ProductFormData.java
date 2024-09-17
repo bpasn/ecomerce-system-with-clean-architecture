@@ -5,6 +5,8 @@ import java.util.List;
 import com.app.application.dto.StockDTO;
 
 public class ProductFormData {
+    String id;
+    
     String nameTH;
     String nameEN;
     String descriptionTH;
@@ -14,6 +16,19 @@ public class ProductFormData {
     StockDTO stock;
     List<String> categories;
     List<String> productOptions;
+    String storeId;
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getStoreId() {
+        return storeId;
+    }
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
     public String getNameTH() {
         return nameTH;
     }

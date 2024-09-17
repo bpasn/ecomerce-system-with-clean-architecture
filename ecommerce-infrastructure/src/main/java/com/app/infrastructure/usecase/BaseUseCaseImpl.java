@@ -62,4 +62,6 @@ public class BaseUseCaseImpl<E> implements BaseUseCase<E> {
         return null;
     }
 
+    
+
 }

@@ -8,6 +8,4 @@ import com.app.domain.entity.UserEntity;
 
 public interface UserJpaRepository extends JpaRepository<UserEntity, String>, IAuthRepository {
 
-
-
 }

@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,11 +22,14 @@ import com.app.domain.entity.ProductEntity;
 import com.app.domain.entity.ProductImageEntity;
 import com.app.domain.entity.ProductOptionEntity;
 import com.app.domain.entity.StockEntity;
+import com.app.domain.entity.StoreEntity;
 import com.app.domain.usecase.ProductCategoryUseCase;
 import com.app.domain.usecase.ProductImageUseCase;
 import com.app.domain.usecase.ProductOptionUseCase;
 import com.app.domain.usecase.ProductUseCase;
 import com.app.domain.usecase.StockUseCase;
+import com.app.domain.usecase.StoreUseCase;
+import com.app.infrastructure.exception.NotFoundException;
 
 @Service
 public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsDTO> implements ProductService {
@@ -37,6 +41,8 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
     private final ProductOptionUseCase productOptionUseCase;
     private final ProductImageUseCase productImageUseCase;
     private final StockUseCase stockUseCase;
+    private final ProductMapper productMapper;
+    private final StoreUseCase storeUseCase;
 
     public ProductServiceImpl(
             ProductUseCase productUseCase,
@@ -44,13 +50,16 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
             ProductMapper productMapper,
             StockUseCase stockUseCase,
             ProductCategoryUseCase categoryUseCase,
-            ProductOptionUseCase productOptionUseCase) {
+            ProductOptionUseCase productOptionUseCase,
+            StoreUseCase storeUseCase) {
         super(productUseCase, productMapper, ProductEntity.class);
         this.productUseCase = productUseCase;
         this.productImageUseCase = productImageUseCase;
         this.stockUseCase = stockUseCase;
         this.categoryUseCase = categoryUseCase;
         this.productOptionUseCase = productOptionUseCase;
+        this.productMapper = productMapper;
+        this.storeUseCase = storeUseCase;
 
     }
 
@@ -72,14 +81,16 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
             destination.toFile().createNewFile();
         }
         Files.write(destination, multipartFile.getBytes());
-        return destination.toString();
+        return String.format("images/%s/%s", id, multipartFile.getOriginalFilename());
     }
 
     @Override
     public ApiResponse<ProductsDTO> createProduct(List<MultipartFile> multipart, ProductsDTO productsDTO) {
         // แปลง DTO เป็น Entity
         ProductEntity productEntity = ProductMapper.INSTANCE.toEntity(productsDTO);
-        System.out.println(productEntity.getProductImages());
+        StoreEntity storeEntity = storeUseCase.findById(productsDTO.getStoreId())
+                .orElseThrow(() -> new NotFoundException("Store", productsDTO.getStoreId()));
+        productEntity.setStore(storeEntity);
         List<ProductCategoriesEntity> pCategoriesEntities = categoryUseCase
                 .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
         List<ProductOptionEntity> productOptionEntities = productOptionUseCase
@@ -120,4 +131,14 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
         return new ApiResponse<>(ProductMapper.INSTANCE.toDTO(productEntity));
     }
 
+    @Override
+    public ApiResponse<ProductsDTO> getById(String id) {
+        return new ApiResponse<>(productMapper.toDTO(productUseCase.findById(id).orElse(null)));
+    }
+
+    @Override
+    public ApiResponse<Page<ProductsDTO>> findAllByStoreIdWithPageable(String storeId, int page, int size) {
+        Page<ProductEntity> cPage = productUseCase.findAllByStoreIdWithPageable(storeId, page, size);
+        return new ApiResponse<>(cPage.map(productMapper::toDTO));
+    }
 }

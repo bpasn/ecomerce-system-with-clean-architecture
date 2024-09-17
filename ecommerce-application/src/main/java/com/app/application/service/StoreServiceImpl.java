@@ -34,8 +34,9 @@ public class StoreServiceImpl extends BaseServiceImpl<StoreEntity, StoreDTO> imp
         StoreEntity storeEntity = new StoreEntity();
         storeEntity.setStoreName(storeDTO.getStoreName());
         storeEntity.setUser(authUseCase.findByEmail(userDetails.getUsername()));
-        ;
         return new ApiResponse<StoreDTO>(StoreMapper.INSTANCE.toDTO(storeUseCase.insert(storeEntity)));
     }
+
+
 
 }

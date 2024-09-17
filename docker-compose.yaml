@@ -16,6 +16,18 @@ services:
         - postgres-data:/var/lib/postgresql/data
       networks:
         - backend
+  
+  nginx:
+    image: nginx:latest
+    volumes:
+      -  D:/me/SpringBoot:/var/www/files
+      - ./file-server.conf:/etc/nginx/conf.d/file-server.conf
+    ports:
+      - 8080:8080
+    networks:
+      - backend
+    environment:
+      - NGINX_PORT=8080
 
 volumes:
   postgres-data:

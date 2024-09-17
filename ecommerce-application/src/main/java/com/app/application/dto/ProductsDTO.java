@@ -3,6 +3,7 @@ package com.app.application.dto;
 import java.util.List;
 
 public class ProductsDTO {
+    String id;
     String nameTH;
     String nameEN;
     String descriptionTH;
@@ -13,6 +14,15 @@ public class ProductsDTO {
     List<String> productImages;
     List<CategoriesDTO> categories;
     List<ProductOptionDTO> productOptions;
+    String storeId;
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
 
     public double getPrice() {
         return price;
@@ -86,19 +96,13 @@ public class ProductsDTO {
         this.descriptionEN = descriptionEN;
     }
 
-
-
     public List<CategoriesDTO> getCategories() {
         return categories;
     }
 
-
-
     public void setCategories(List<CategoriesDTO> categories) {
         this.categories = categories;
     }
-
-
 
     @Override
     public String toString() {
@@ -108,8 +112,12 @@ public class ProductsDTO {
                 + ", productOptions=" + productOptions.toString() + "]";
     }
 
+    public String getId() {
+        return id;
+    }
 
-    
-    
+    public void setId(String id) {
+        this.id = id;
+    }
 
 }

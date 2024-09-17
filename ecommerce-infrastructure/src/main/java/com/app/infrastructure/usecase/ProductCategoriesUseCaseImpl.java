@@ -1,10 +1,14 @@
 package com.app.infrastructure.usecase;
 
+import com.app.domain.entity.StoreEntity;
+import com.app.infrastructure.exception.BaseException;
 import org.springframework.stereotype.Service;
 
 import com.app.domain.entity.ProductCategoriesEntity;
 import com.app.domain.usecase.ProductCategoryUseCase;
 import com.app.infrastructure.repositories.ProductCategoriesJpaRepository;
+
+import java.util.List;
 
 
 @Service
@@ -26,5 +30,15 @@ public class ProductCategoriesUseCaseImpl extends BaseUseCaseImpl<ProductCategor
        return categoriesJpaRepository.existsByName(name);
     }
 
+
+    @Override
+    public List<ProductCategoriesEntity> findAllByStore(StoreEntity storeId){
+        return categoriesJpaRepository.findAllByStore(storeId);
+    }
+
+    @Override
+    public List<ProductCategoriesEntity> findAllByStoreId(String storeId) {
+        return categoriesJpaRepository.findAllByStoreId(storeId);
+    }
     
 }

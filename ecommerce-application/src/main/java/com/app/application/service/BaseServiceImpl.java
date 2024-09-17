@@ -56,8 +56,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     @Override
     public ApiResponse<D> getById(String id) {
         try {
-            E entity = baseUseCase.findById(id)
-                    .orElseThrow(() -> new NotFoundException(clazz.getSimpleName(), id));
+            E entity = baseUseCase.findById(id).orElse(null);
             ApiResponse<D> response = new ApiResponse<>(baseMapper.toDTO(entity), HttpStatus.OK);
             return response;
         } catch (Exception e) {
@@ -134,5 +133,6 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
         }
         return null;
     }
+
 
 }

@@ -18,6 +18,15 @@ public class ProductOptionDTO {
     private boolean manyCanBeChosed;
     private int lengthSelect;
     private List<OptionChoiceDTO> choices;
+    private String storeId;
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
 
     public ProductOptionDTO() {
         setOneMustBeChosen(false);

@@ -27,7 +27,7 @@ api:
   prefix:
     route: /api/v1
 
-mount-path: /Users/prpasn/Desktop/SpringBoot/images/
+mount-path: D:/me/SpringBoot/images/
 
 origin:
   merchant-portal:
@@ -35,7 +35,7 @@ origin:
 
 jwt:
   private-key: d45c48a62cfcf0c885b1865088f14e6dc1d075383bfaf879079fee4c1aef0ef6
-  expired: 60000 # 15 min
+  expired: 900000 # 15 min
   refreshTokenExpire: 604800000 # 7 DAY
 
 logging:

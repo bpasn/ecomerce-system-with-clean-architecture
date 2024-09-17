@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.app.application.dto.ProductsDTO;
 import com.app.domain.entity.ProductEntity;
 import com.app.domain.entity.ProductImageEntity;
+import com.app.domain.entity.StoreEntity;
 
 @Mapper(componentModel = "spring") // Using Spring for dependency injection
 public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
@@ -22,6 +23,7 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
 
     @Override
     @Mapping(source = "productImages", target = "productImages", qualifiedByName = "mapProductImageEntityListToDTO")
+    @Mapping(source = "store", target = "storeId", qualifiedByName = "storeToStringId")
     ProductsDTO toDTO(ProductEntity entity);
 
     @Override
@@ -65,5 +67,10 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
         }
         return new ArrayList<>();
 
+    }
+
+    @Named("storeToStringId")
+    default String storeToStringId(StoreEntity store){
+        return store.getId();
     }
 }

@@ -22,6 +22,7 @@ public class ProductHelper {
         productsDTO.setPrice(productFormData.getPrice());
         productsDTO.setQuantity(productFormData.getQuantity());
         productsDTO.setStock(productFormData.getStock());
+        productsDTO.setStoreId(productFormData.getStoreId());
 
         // Convert categories (assuming there's a conversion needed, adjust as needed)
         List<CategoriesDTO> categoriesDTOs = productFormData.getCategories().stream()
