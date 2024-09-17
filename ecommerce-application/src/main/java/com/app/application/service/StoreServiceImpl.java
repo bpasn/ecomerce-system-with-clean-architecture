@@ -1,5 +1,7 @@
 package com.app.application.service;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -24,19 +26,32 @@ public class StoreServiceImpl extends BaseServiceImpl<StoreEntity, StoreDTO> imp
     }
 
     @Override
-    public ApiResponse<StoreDTO> findFirstByOrderByIdDesc() {
-        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(storeUseCase.findFirstByOrderByIdDesc()));
-    }
-
-    @Override
     public ApiResponse<StoreDTO> create(StoreDTO storeDTO) {
         UserDetails userDetails = getUserDetails();
         StoreEntity storeEntity = new StoreEntity();
         storeEntity.setStoreName(storeDTO.getStoreName());
         storeEntity.setUser(authUseCase.findByEmail(userDetails.getUsername()));
-        return new ApiResponse<StoreDTO>(StoreMapper.INSTANCE.toDTO(storeUseCase.insert(storeEntity)));
+        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(storeUseCase.insert(storeEntity)));
     }
 
+    @Override
+    public ApiResponse<StoreDTO> findFirstByUserEmailOrderByIdDesc() {
+        UserDetails u = getUserDetails();
+        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(storeUseCase.findFirstByUserEmailOrderByIdDesc(u.getUsername())));
+    }
 
+    @Override
+    public ApiResponse<List<StoreDTO>> findAllByUserEmail() {
+        UserDetails u = getUserDetails();
+        return new ApiResponse<>(storeUseCase.findAllByUserEmail(u.getUsername()).stream().map(StoreMapper.INSTANCE::toDTO).toList());
+    }
+
+    @Override
+    public ApiResponse<StoreDTO> getByUserEmailAndId(String id) {
+        UserDetails u = getUserDetails();
+        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(storeUseCase.findByUserEmailAndId(u.getUsername(), id)));
+    }
+
+    
 
 }

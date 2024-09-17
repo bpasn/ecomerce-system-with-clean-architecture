@@ -2,7 +2,9 @@ package com.app.ecommerce.api.controllers;
 
 import java.util.List;
 
+import org.hibernate.grammars.hql.HqlParser.SecondContext;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.application.dto.ApiResponse;
 import com.app.application.dto.StoreDTO;
-import com.app.application.interfaces.AuthenService;
 import com.app.application.interfaces.StoreService;
 import com.app.ecommerce.api.request.StoreRequest;
 
@@ -29,15 +30,15 @@ public class StoreController {
     }
     @GetMapping
     public ResponseEntity<ApiResponse<List<StoreDTO>>> getAll(){
-        return ResponseEntity.ok(storeService.getAll());
+        return ResponseEntity.ok(storeService.findAllByUserEmail());
     }
     @GetMapping("find-one")
     public ResponseEntity<ApiResponse<StoreDTO>> findOne(){
-        return ResponseEntity.ok(storeService.findFirstByOrderByIdDesc());
+        return ResponseEntity.ok(storeService.findFirstByUserEmailOrderByIdDesc());
     }
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<StoreDTO>> findById(@PathVariable String id){
-        return ResponseEntity.ok(storeService.getById(id));
+        return ResponseEntity.ok(storeService.getByUserEmailAndId(id));
     }
 
     @PostMapping

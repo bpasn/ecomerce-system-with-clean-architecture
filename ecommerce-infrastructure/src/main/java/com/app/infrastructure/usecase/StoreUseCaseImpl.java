@@ -1,6 +1,8 @@
 package com.app.infrastructure.usecase;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.app.domain.entity.StoreEntity;
@@ -20,5 +22,23 @@ public class StoreUseCaseImpl extends BaseUseCaseImpl<StoreEntity> implements St
     public StoreEntity findFirstByOrderByIdDesc() {
         return storeJpaRepository.findFirstByOrderByIdDesc().orElse(null);
     }
+
+    @Override
+    public StoreEntity findFirstByUserEmailOrderByIdDesc(String email) {
+        return storeJpaRepository.findFirstByUserEmailOrderByIdDesc(email).orElse(null);
+    }
+
+    @Override
+    public List<StoreEntity> findAllByUserEmail(String email) {
+        return storeJpaRepository.findAllByUserEmail(email);
+    }
+
+    @Override
+    public StoreEntity findByUserEmailAndId(String email, String id) {
+        return storeJpaRepository.findByUserEmailAndId(email, id);
+    }
+
+    
+
     
 }
