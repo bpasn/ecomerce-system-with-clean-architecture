@@ -3,7 +3,8 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <properties>
-        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <org.mapstruct.version>1.6.0</org.mapstruct.version>
     </properties>
     <parent>
@@ -11,6 +12,7 @@
         <artifactId>ecommerce-system</artifactId>
         <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
+        <!-- ชี้ไปที่ parent POM -->
     </parent>
     <artifactId>ecommerce-application</artifactId>
     <version>1.0</version>
@@ -26,7 +28,7 @@
             <artifactId>ecommerce-infrastructure</artifactId>
             <version>1.0</version>
         </dependency>
-
+        
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -39,7 +41,7 @@
             <scope>provided</scope> <!-- หรือ annotationProcessor -->
         </dependency>
     </dependencies>
-
+    
     <build>
         <plugins>
             <plugin>
