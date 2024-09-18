@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,8 +31,10 @@ import com.app.domain.usecase.ProductOptionUseCase;
 import com.app.domain.usecase.ProductUseCase;
 import com.app.domain.usecase.StockUseCase;
 import com.app.domain.usecase.StoreUseCase;
+import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.exception.NotFoundException;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 
 @Service
@@ -91,8 +94,10 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
     }
 
     @Override
+    @Transactional
     public ApiResponse<ProductsDTO> createProduct(List<MultipartFile> multipart, ProductsDTO productsDTO) {
-        // แปลง DTO เป็น Entity
+        try {
+            // แปลง DTO เป็น Entity
         ProductEntity productEntity = ProductMapper.INSTANCE.toEntity(productsDTO);
 
         // Find store for create product to store
@@ -129,13 +134,17 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
 
         // บันทึก ProductEntity
         // จัดการกับ ProductImageEntity
-        if (!multipart.isEmpty()) {
+        if (multipart != null && !multipart.isEmpty()) {
             multipart.forEach(file -> {
                 productEntity.getProductImages().add(createProductImage(file, savedProduct));
             });
         }
 
         return new ApiResponse<>(ProductMapper.INSTANCE.toDTO(productEntity));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
