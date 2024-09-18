@@ -16,25 +16,16 @@ public class BaseUseCaseImpl<E> implements BaseUseCase<E> {
     }
 
     @Override
-    public E insert(E entity) {
+    public E save(E entity) {
         return repository.save(entity);
     }
 
     @Override
-    public E update(String id, E entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
-    public List<E> insertAll(List<E> entity) {
+    public List<E> saveAll(List<E> entity) {
         return repository.saveAll(entity);
     }
 
-    @Override
-    public Optional<E> findById(String id) {
-        return repository.findById(id);
-    }
+    
 
     @Override
     public Page<E> findAllWithPageable(int size, int page) {
@@ -60,6 +51,11 @@ public class BaseUseCaseImpl<E> implements BaseUseCase<E> {
     @Override
     public Class<E> getClazz() {
         return null;
+    }
+
+    @Override
+    public Optional<E> findById(String id) {
+        return repository.findById(id);
     }
 
     

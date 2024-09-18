@@ -47,7 +47,7 @@ public class AuthenServiceImpl implements AuthenService {
             throw new BaseException(String.format("Email '%s' already exists", body.getEmail()));
         }
         String passwordEncode = passwordEncoder.encode(body.getPassword());
-        authUseCase.insert(new UserEntity(body.getEmail(), body.getName(), passwordEncode));
+        authUseCase.save(new UserEntity(body.getEmail(), body.getName(), passwordEncode));
         return new BaseResponse(HttpStatus.OK);
     }
 

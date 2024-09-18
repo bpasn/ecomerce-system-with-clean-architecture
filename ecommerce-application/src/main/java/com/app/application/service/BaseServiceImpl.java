@@ -71,7 +71,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
         try {
             E entity = baseMapper.toEntity(model);
             System.out.println("ENTITY : " + entity.toString());
-            E savedEntity = baseUseCase.insert(entity);
+            E savedEntity = baseUseCase.save(entity);
             return new ApiResponse<>(baseMapper.toDTO(savedEntity));
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -86,7 +86,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
             List<E> entities = models.stream()
                     .map(baseMapper::toEntity)
                     .collect(Collectors.toList());
-            return new ApiResponse<>(baseUseCase.insertAll(entities).stream().map(baseMapper::toDTO).toList());
+            return new ApiResponse<>(baseUseCase.saveAll(entities).stream().map(baseMapper::toDTO).toList());
         } catch (Exception e) {
             // Logging error or additional handling
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to create entities", e);
@@ -94,13 +94,9 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     }
 
     @Override
-    public void update(String id, D model) {
+    public void update(E model) {
         try {
-            if (!baseUseCase.findById(id).isPresent()) {
-                throw new NotFoundException(clazz.getSimpleName(), id);
-            }
-            E entity = baseMapper.toEntity(model);
-            baseUseCase.update(id, entity);
+            baseUseCase.save(model);
         } catch (NotFoundException e) {
             throw e; // Re-throwing to maintain specific HTTP status
         } catch (Exception e) {

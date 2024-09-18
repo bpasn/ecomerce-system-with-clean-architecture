@@ -17,7 +17,7 @@ public class ProductImageUseCaseImpl extends BaseUseCaseImpl<ProductImageEntity>
     }
 
     @Override
-    public ProductImageEntity insert(ProductImageEntity entity) {
+    public ProductImageEntity save(ProductImageEntity entity) {
        return repository.save(entity);
     }
 

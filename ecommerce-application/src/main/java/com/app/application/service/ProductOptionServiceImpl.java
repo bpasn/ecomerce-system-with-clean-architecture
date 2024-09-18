@@ -45,12 +45,12 @@ public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOptionEntit
         StoreEntity store = storeUseCase.findById(model.getStoreId())
                 .orElseThrow(() -> new NotFoundException("Store", model.getStoreId()));
         pOptionEntity.setStore(store);
-        ProductOptionEntity saveOption = useCase.insert(pOptionEntity);
+        ProductOptionEntity saveOption = useCase.save(pOptionEntity);
 
         if (!pOptionEntity.getChoices().isEmpty()) {
             pOptionEntity.getChoices().stream().forEach((OptionChoiceEntity e) -> {
                 e.setProductOption(saveOption);
-                optionChoiceUseCase.insert(e);
+                optionChoiceUseCase.save(e);
             });
         }
 

@@ -6,9 +6,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 
 public interface BaseUseCase<E> {
-    E insert(E entity);
-    E update(String id,E entity);
-    List<E> insertAll(List<E> entity);
+    E save(E entity);
+    List<E> saveAll(List<E> entity);
     Optional<E> findById(String id);
     Page<E> findAllWithPageable(int size,int page);
     List<E> findAll();

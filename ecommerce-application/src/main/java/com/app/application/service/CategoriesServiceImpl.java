@@ -50,6 +50,6 @@ public class CategoriesServiceImpl extends BaseServiceImpl<ProductCategoriesEnti
         ProductCategoriesEntity p = categoryMapper.toEntity(dto);
         StoreEntity storeEntity = storeUseCase.findById(dto.getStoreId()).orElseThrow(() -> new NotFoundException("Store", dto.getStoreId()));
         p.setStore(storeEntity);
-        return new ApiResponse<>(categoryMapper.toDTO(productCategoryUseCase.insert(p)));
+        return new ApiResponse<>(categoryMapper.toDTO(productCategoryUseCase.save(p)));
     }
 }

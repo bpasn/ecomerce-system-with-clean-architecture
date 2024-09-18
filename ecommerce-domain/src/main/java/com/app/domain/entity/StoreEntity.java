@@ -96,4 +96,5 @@ public class StoreEntity extends BaseEntity {
     }
 
     
+    
 }

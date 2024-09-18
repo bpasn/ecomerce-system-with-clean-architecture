@@ -9,8 +9,12 @@ import com.app.application.dto.ApiResponse;
 import com.app.application.dto.ProductsDTO;
 import com.app.domain.entity.ProductEntity;
 
-public interface ProductService extends BaseService<ProductEntity,ProductsDTO>{
+public interface ProductService extends BaseService<ProductEntity, ProductsDTO> {
     ProductsDTO getByName(String name);
-    ApiResponse<ProductsDTO> createProduct(List<MultipartFile> multipart,ProductsDTO productsDTO);
-    ApiResponse<Page<ProductsDTO>> findAllByStoreIdWithPageable(String storeId,int page,int size);
+
+    ApiResponse<ProductsDTO> createProduct(List<MultipartFile> multipart, ProductsDTO productsDTO);
+
+    ApiResponse<ProductsDTO> updateProduct(String productId, List<MultipartFile> files, ProductsDTO productsDTO);
+
+    ApiResponse<Page<ProductsDTO>> findAllByStoreIdWithPageable(String storeId, int page, int size);
 }
