@@ -27,7 +27,7 @@ api:
   prefix:
     route: /api/v1
 
-mount-path: D:/me/SpringBoot/images/
+mount-path: /Users/prpasn/Desktop/SpringBoot/
 
 origin:
   merchant-portal:

@@ -34,6 +34,10 @@ public class ProductImageEntity extends BaseEntity {
     public ProductImageEntity(String source) {
         this.source = source;
     }
+    public ProductImageEntity(String id,String source) {
+        setId(id);
+        this.source = source;
+    }
 
     public String getSource() {
         return source;

@@ -1,22 +1,33 @@
 package com.app.application.dto;
 
-import org.springframework.web.multipart.MultipartFile;
+public class ProductImageDTO {
+    private String uri;
+    private String id;
 
-public class ProductImageDTO{
-    private MultipartFile source;
-
-    public MultipartFile getSource() {
-        return source;
+    public ProductImageDTO(String id, String uri) {
+        this.uri = uri;
+        this.id = id;
     }
 
-    public void setSource(MultipartFile source) {
-        this.source = source;
+    public String getUri() {
+        return uri;
     }
 
-    public ProductImageDTO(MultipartFile source) {
-        this.source = source;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
-    
 
-    
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductImageDTO [uri=" + uri + ", id=" + id + "]";
+    }
+
 }

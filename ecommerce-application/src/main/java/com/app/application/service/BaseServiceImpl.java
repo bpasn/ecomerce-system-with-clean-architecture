@@ -49,7 +49,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
                     .collect(Collectors.toList()));
         } catch (Exception e) {
             // Logging error or additional handling
-            throw new BaseException( "Failed to retrieve data", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new BaseException("Failed to retrieve data", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -113,10 +113,9 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
             }
             baseUseCase.delete(id);
         } catch (NotFoundException e) {
-            throw e; // Re-throwing to maintain specific HTTP status
-        } catch (Exception e) {
-            // Logging error or additional handling
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to delete entity", e);
+            e.printStackTrace();
+            throw new BaseException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR); // Re-throwing to maintain
+                                                                                       // specific HTTP status
         }
     }
 
@@ -129,6 +128,5 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
         }
         return null;
     }
-
 
 }

@@ -22,7 +22,7 @@ public class ProductController {
     private final ProductService productService;
     private final ProductImageService productImageService;
 
-    ProductController(ProductService productService,ProductImageService productImageService) {
+    ProductController(ProductService productService, ProductImageService productImageService) {
         this.productService = productService;
         this.productImageService = productImageService;
     }
@@ -48,22 +48,24 @@ public class ProductController {
         return ResponseEntity.ok("Product has been create");
     }
 
-    // @PutMapping(value="{id}",consumes = "multipart/form-data")
-    // public ResponseEntity<String> put(@RequestParam String id, @ModelAttribute ProductRequest productRequest) {
-    //     ProductsDTO productsDTO = ProductHelper.convertoTProductsDTO(productRequest);
-    //     productService.updateProduct(id, productRequest.getProductImages(), productsDTO);
-    //     return ResponseEntity.ok("Product has been updated");
-    // }
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> delete(@PathVariable String id){
+        productService.delete(id);
+        return ResponseEntity.ok("Product has been delete");
+    }
+    @PutMapping(value = "/{id}", consumes = "multipart/form-data")
+    public ResponseEntity<String> put(
+            @PathVariable String id,
+            @ModelAttribute ProductRequest productRequest) {
+        ProductsDTO productsDTO = ProductHelper.convertoTProductsDTO(productRequest);
+        productService.updateProduct(id, productRequest.getProductImages(), productsDTO);
+        return ResponseEntity.ok("Product has been updated");
+    }
 
-    // @DeleteMapping
-    // public ResponseEntity<String> delete() {
-    //     return ResponseEntity.ok("Product API already");
-    // }
-
-    // @DeleteMapping("/product-image/{id}")
-    // public ResponseEntity<String> deleteProductImageById(@PathVariable(value = "id") String id){
-    //     productImageService.delete(id);
-    //     return ResponseEntity.ok("Product image has been delete");
-    // }
+    @DeleteMapping("product-image/{id}")
+    public ResponseEntity<String> deleteProductImageById(@PathVariable(value = "id") String id) {
+        productImageService.delete(id);
+        return ResponseEntity.ok("Product image has been delete");
+    }
 
 }

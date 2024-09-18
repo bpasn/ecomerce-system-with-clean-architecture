@@ -17,4 +17,5 @@ public interface ProductService extends BaseService<ProductEntity, ProductsDTO> 
     ApiResponse<ProductsDTO> updateProduct(String productId, List<MultipartFile> files, ProductsDTO productsDTO);
 
     ApiResponse<Page<ProductsDTO>> findAllByStoreIdWithPageable(String storeId, int page, int size);
+
 }

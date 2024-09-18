@@ -11,7 +11,7 @@ public class ProductsDTO {
     double price;
     int quantity;
     StockDTO stock;
-    List<String> productImages;
+    List<ProductImageDTO> productImages;
     List<CategoriesDTO> categories;
     List<ProductOptionDTO> productOptions;
     String storeId;
@@ -40,11 +40,11 @@ public class ProductsDTO {
         this.quantity = quantity;
     }
 
-    public List<String> getProductImages() {
+    public List<ProductImageDTO> getProductImages() {
         return productImages;
     }
 
-    public void setProductImages(List<String> productImages) {
+    public void setProductImages(List<ProductImageDTO> productImages) {
         this.productImages = productImages;
     }
 
