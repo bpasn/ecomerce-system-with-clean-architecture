@@ -10,7 +10,10 @@ import com.app.ecommerce.api.request.ProductFormData;
 import com.app.ecommerce.api.request.ProductRequest;
 
 public class ProductHelper {
-    
+
+    ProductHelper() {
+    }
+
     public static ProductsDTO convertoTProductsDTO(ProductRequest productRequest) {
         ProductFormData productFormData = productRequest.getProducts();
 
@@ -20,21 +23,21 @@ public class ProductHelper {
         productsDTO.setDescriptionTH(productFormData.getDescriptionTH());
         productsDTO.setDescriptionEN(productFormData.getDescriptionEN());
         productsDTO.setPrice(productFormData.getPrice());
-        productsDTO.setQuantity(productFormData.getQuantity());
         productsDTO.setStock(productFormData.getStock());
         productsDTO.setStoreId(productFormData.getStoreId());
-
-        // Convert categories (assuming there's a conversion needed, adjust as needed)
-        List<CategoriesDTO> categoriesDTOs = productFormData.getCategories().stream()
-                .map(category -> new CategoriesDTO(category)) // Assuming CategoriesDTO has a constructor accepting a string
-                .collect(Collectors.toList());
-        productsDTO.setCategories(categoriesDTOs);
-
-        // Convert product options (assuming there's a conversion needed, adjust as needed)
-        List<ProductOptionDTO> productOptionDTOs = productFormData.getProductOptions().stream()
-                .map(option -> new ProductOptionDTO(option)) // Assuming ProductOptionDTO has a constructor accepting a string
-                .collect(Collectors.toList());
-        productsDTO.setProductOptions(productOptionDTOs);
+        
+        if (!productFormData.getCategories().isEmpty()) {
+            List<CategoriesDTO> categoriesDTOs = productFormData.getCategories().stream()
+                    .map(category -> new CategoriesDTO(category))
+                    .collect(Collectors.toList());
+            productsDTO.setCategories(categoriesDTOs);
+        }
+        if (!productFormData.getProductOptions().isEmpty()) {
+            List<ProductOptionDTO> productOptionDTOs = productFormData.getProductOptions().stream()
+                    .map(option -> new ProductOptionDTO(option))
+                    .collect(Collectors.toList());
+            productsDTO.setProductOptions(productOptionDTOs);
+        }
 
         return productsDTO;
     }

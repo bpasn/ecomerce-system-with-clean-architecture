@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductRequest {
     ProductFormData products;
     List<MultipartFile> productImages;
+
     public ProductFormData getProducts() {
         return products;
     }
@@ -23,5 +24,8 @@ public class ProductRequest {
     public String toString() {
         return "ProductRequest [products=" + products + ", productImages=" + productImages + "]";
     }
+
+    
+
     
 }

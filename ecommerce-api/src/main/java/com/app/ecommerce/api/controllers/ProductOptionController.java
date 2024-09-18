@@ -35,7 +35,7 @@ public class ProductOptionController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> post(@RequestBody ProductOptionDTO productOptionDTO) {
         productOptionService.create(productOptionDTO);
-        return ResponseEntity.ok("Product option has created!!");
+        return ResponseEntity.ok("Product option has been created!!");
     }
     @PutMapping
     public ResponseEntity<String> put() {
