@@ -18,8 +18,6 @@ public interface BaseService<E, D> {
 
     ApiResponse<List<D>> createAll(List<D> models);
 
-    void update(E model);
-
     void delete(String id);
 
     UserDetails getUserDetails();

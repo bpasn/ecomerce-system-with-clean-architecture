@@ -4,6 +4,7 @@ import com.app.domain.entity.EStatusStock;
 import com.app.domain.entity.EUnitType;
 
 public class StockDTO {
+    String id;
     EUnitType unitType;
     double unitQuantity;
     int quantity;
@@ -14,6 +15,14 @@ public class StockDTO {
         setUnitType(EUnitType.PIECE);
         setStatus(EStatusStock.IN_STOCK);
         setReOrder(false);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public EUnitType getUnitType() {
@@ -62,5 +71,4 @@ public class StockDTO {
                 + ", status=" + status + ", reOrder=" + reOrder + "]";
     }
 
-    
 }

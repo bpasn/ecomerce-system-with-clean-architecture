@@ -1,9 +1,6 @@
 package com.app.application.service;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +33,6 @@ import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.exception.NotFoundException;
 
 import jakarta.transaction.Transactional;
-import lombok.extern.log4j.Log4j2;
 
 @Service
 public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsDTO> implements ProductService {
@@ -79,7 +75,7 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = RuntimeException.class)
     public ApiResponse<ProductsDTO> createProduct(List<MultipartFile> multipart, ProductsDTO productsDTO) {
         try {
             // แปลง DTO เป็น Entity
@@ -177,13 +173,13 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
 
         // บันทึก ProductEntity
         // จัดการกับ ProductImageEntity
-        if (!files.isEmpty()) {
+        if (files != null && !files.isEmpty()) {
             files.forEach(file -> {
                 productEntity.getProductImages().add(createProductImage(file, productEntity));
             });
         }
 
-        return new ApiResponse<>(null);
+        return new ApiResponse<>(productMapper.toDTO(productEntity));
     }
 
     public ProductImageEntity createProductImage(MultipartFile file, ProductEntity product) {

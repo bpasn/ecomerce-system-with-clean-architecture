@@ -19,7 +19,7 @@ public class FileManagement {
 
     public String createPathFile(MultipartFile multipartFile, String id) throws IOException {
         // กำหนดชื่อไฟล์และตำแหน่งในการบันทึก
-        Path destination = Paths.get(mountPath + id, multipartFile.getOriginalFilename());
+        Path destination = Paths.get(mountPath + "images/" + id, multipartFile.getOriginalFilename());
 
         // สร้างไดเรกทอรีถ้ายังไม่มีอยู่
         if (Files.notExists(destination.getParent())) {

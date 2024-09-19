@@ -4,6 +4,7 @@ public class ProductImageDTO {
     private String uri;
     private String id;
 
+    public ProductImageDTO(){}
     public ProductImageDTO(String id, String uri) {
         this.uri = uri;
         this.id = id;

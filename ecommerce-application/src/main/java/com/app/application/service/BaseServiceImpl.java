@@ -60,7 +60,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
             ApiResponse<D> response = new ApiResponse<>(baseMapper.toDTO(entity), HttpStatus.OK);
             return response;
         } catch (Exception e) {
-            // Logging error or additional handling
+            e.printStackTrace();
             throw new BaseException(String.format("Failed to retrieve %s with ID is %s", clazz.getSimpleName(), id),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -70,12 +70,10 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     public ApiResponse<D> create(D model) {
         try {
             E entity = baseMapper.toEntity(model);
-            System.out.println("ENTITY : " + entity.toString());
             E savedEntity = baseUseCase.save(entity);
             return new ApiResponse<>(baseMapper.toDTO(savedEntity));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            // Logging error or additional handling
+            e.printStackTrace();
             throw new BaseException("Failed to create " + clazz.getSimpleName(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -88,20 +86,8 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
                     .collect(Collectors.toList());
             return new ApiResponse<>(baseUseCase.saveAll(entities).stream().map(baseMapper::toDTO).toList());
         } catch (Exception e) {
-            // Logging error or additional handling
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to create entities", e);
-        }
-    }
-
-    @Override
-    public void update(E model) {
-        try {
-            baseUseCase.save(model);
-        } catch (NotFoundException e) {
-            throw e; // Re-throwing to maintain specific HTTP status
-        } catch (Exception e) {
-            // Logging error or additional handling
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to update entity", e);
         }
     }
 
