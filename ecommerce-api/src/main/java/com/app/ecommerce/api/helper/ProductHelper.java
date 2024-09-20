@@ -26,13 +26,13 @@ public class ProductHelper {
         productsDTO.setStock(productFormData.getStock());
         productsDTO.setStoreId(productFormData.getStoreId());
         
-        if (!productFormData.getCategories().isEmpty()) {
+        if (productFormData.getCategories() != null && !productFormData.getCategories().isEmpty()) {
             List<CategoriesDTO> categoriesDTOs = productFormData.getCategories().stream()
                     .map(category -> new CategoriesDTO(category))
                     .collect(Collectors.toList());
             productsDTO.setCategories(categoriesDTOs);
         }
-        if (!productFormData.getProductOptions().isEmpty()) {
+        if (productFormData.getProductOptions() != null && !productFormData.getProductOptions().isEmpty()) {
             List<ProductOptionDTO> productOptionDTOs = productFormData.getProductOptions().stream()
                     .map(option -> new ProductOptionDTO(option))
                     .collect(Collectors.toList());

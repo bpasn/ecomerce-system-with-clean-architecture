@@ -88,12 +88,12 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
             // set store_id in product
             productEntity.setStore(storeEntity);
 
-            if (!productsDTO.getCategories().isEmpty()) {
+            if (productsDTO.getCategories() != null && !productsDTO.getCategories().isEmpty()) {
                 List<ProductCategoriesEntity> pCategoriesEntities = categoryUseCase
                         .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
                 productEntity.setCategories(pCategoriesEntities);
             }
-            if (!productsDTO.getProductOptions().isEmpty()) {
+            if (productsDTO.getProductOptions() != null && !productsDTO.getProductOptions().isEmpty()) {
                 List<ProductOptionEntity> productOptionEntities = productOptionUseCase
                         .findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
                 productEntity.setProductOptions(productOptionEntities);
