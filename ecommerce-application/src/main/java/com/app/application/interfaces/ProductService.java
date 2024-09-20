@@ -18,4 +18,6 @@ public interface ProductService extends BaseService<ProductEntity, ProductsDTO> 
 
     ApiResponse<Page<ProductsDTO>> findAllByStoreIdWithPageable(String storeId, int page, int size);
 
+    ApiResponse<List<ProductsDTO>> getProduct();
+
 }

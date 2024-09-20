@@ -26,6 +26,9 @@ server:
 api:
   prefix:
     route: /api/v1
+    client: /api/v1/client
+  security:
+    x-api-key: SPM5o11aV5YgOFv8iWk5AgCKy1FMcNTVshHvzMFf02o=
 
 mount-path: /Users/prpasn/Desktop/SpringBoot/
 

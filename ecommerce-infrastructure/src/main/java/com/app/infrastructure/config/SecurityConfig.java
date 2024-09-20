@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.app.infrastructure.interfaces.FilterCustomPublic;
 import com.app.infrastructure.interfaces.JwtAuthenticationFilter;
 
 @EnableWebSecurity
@@ -19,22 +20,25 @@ public class SecurityConfig {
 
         private final AuthenticationProvider authenticationProvider;
         private final JwtAuthenticationFilter jwtAuthFilter;
+        private final FilterCustomPublic filterCustomPublic;
         private final AuthException exception;
 
         public SecurityConfig(
                         AuthenticationProvider authorize,
                         JwtAuthenticationFilter jwtAuthFilter,
-                        AuthException exception) {
+                        AuthException exception,
+                        FilterCustomPublic filterCustomPublic) {
                 this.authenticationProvider = authorize;
                 this.jwtAuthFilter = jwtAuthFilter;
                 this.exception = exception;
+                this.filterCustomPublic = filterCustomPublic;
         }
 
         public static final String[] publicRouter = {
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
-                        "/swagger-ui.html",
-                        "/api/v1/auth/**"
+                        "/api/v1/auth/**",
+                        "/api/v1/client/**"
         };
 
         @Bean
@@ -44,6 +48,7 @@ public class SecurityConfig {
                                 .httpBasic(Customizer.withDefaults())
                                 .authorizeHttpRequests(authorize -> authorize.requestMatchers(publicRouter).permitAll().anyRequest().authenticated())
                                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .addFilterBefore(filterCustomPublic, UsernamePasswordAuthenticationFilter.class)
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                                 .authenticationProvider(authenticationProvider)
                                 .exceptionHandling(ex -> ex.authenticationEntryPoint(exception));

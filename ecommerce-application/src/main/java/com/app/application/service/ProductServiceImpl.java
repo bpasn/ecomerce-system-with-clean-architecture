@@ -209,4 +209,9 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductEntity, ProductsD
         stockUseCase.delete(productEntity.getStock().getId());
         productUseCase.delete(id);
     }
+
+    @Override
+    public ApiResponse<List<ProductsDTO>> getProduct() {
+       return new ApiResponse<>(productUseCase.findAll().stream().map(productMapper::toDTO).toList());
+    }
 }
