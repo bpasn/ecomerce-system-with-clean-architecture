@@ -13,23 +13,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.app.application.dto.ProductImageDTO;
 import com.app.application.dto.ProductsDTO;
-import com.app.domain.entity.ProductEntity;
-import com.app.domain.entity.ProductImageEntity;
-import com.app.domain.entity.StoreEntity;
+import com.app.domain.models.Product;
+import com.app.domain.models.ProductImage;
+import com.app.domain.models.Store;
 
 @Mapper(componentModel = "spring") // Using Spring for dependency injection
-public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
+public interface ProductMapper extends BaseMapper<ProductsDTO, Product> {
 
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
     @Override
     @Mapping(source = "productImages", target = "productImages", qualifiedByName = "mapProductImageEntityListToDTO")
     @Mapping(source = "store", target = "storeId", qualifiedByName = "storeToStringId")
-    ProductsDTO toDTO(ProductEntity entity);
+    ProductsDTO toDTO(Product entity);
 
     @Override
     @Mapping(source = "productImages", target = "productImages", qualifiedByName = "mapProductImageDTOListToEntity")
-    ProductEntity toEntity(ProductsDTO dto);
+    Product toEntity(ProductsDTO dto);
 
     // @Named("stringToMultipartFile")
     // default String stringToMultipartFile(String filePath) {
@@ -51,7 +51,7 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
     // }
 
     @Named("mapProductImageEntityListToDTO")
-    default List<ProductImageDTO> mapProductImageEntityListToDTO(List<ProductImageEntity> entities) {
+    default List<ProductImageDTO> mapProductImageEntityListToDTO(List<ProductImage> entities) {
         // Implement your logic here if needed, otherwise let MapStruct handle it if you
         // have mapping between ProductImageDTO and ProductImageEntity
         return entities.stream()
@@ -60,17 +60,17 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, ProductEntity> {
     }
 
     @Named("mapProductImageDTOListToEntity")
-    default List<ProductImageEntity> mapProductImageDTOListToEntity(List<ProductImageDTO> productImageDTOs) {
+    default List<ProductImage> mapProductImageDTOListToEntity(List<ProductImageDTO> productImageDTOs) {
         if (productImageDTOs != null) {
             return productImageDTOs.stream()
-                    .map(file -> new ProductImageEntity(file.getId(), file.getUri())).toList();
+                    .map(file -> new ProductImage(file.getId(), file.getUri())).toList();
         }
         return new ArrayList<>();
 
     }
 
     @Named("storeToStringId")
-    default String storeToStringId(StoreEntity store) {
+    default String storeToStringId(Store store) {
         return store.getId();
     }
 }

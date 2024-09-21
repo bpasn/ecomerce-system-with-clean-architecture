@@ -17,12 +17,12 @@ import com.app.domain.usecase.BaseUseCase;
 import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.exception.NotFoundException;
 
-public class BaseServiceImpl<E, D> implements BaseService<E, D> {
-    private final BaseUseCase<E> baseUseCase;
-    private final BaseMapper<D, E> baseMapper;
-    private final Class<E> clazz;
+public class BaseServiceImpl<M, D> implements BaseService<M, D> {
+    private final BaseUseCase<M> baseUseCase;
+    private final BaseMapper<D, M> baseMapper;
+    private final Class<M> clazz;
 
-    public BaseServiceImpl(BaseUseCase<E> baseUseCase, BaseMapper<D, E> baseMapper, Class<E> clazz) {
+    public BaseServiceImpl(BaseUseCase<M> baseUseCase, BaseMapper<D, M> baseMapper, Class<M> clazz) {
         this.baseUseCase = baseUseCase;
         this.baseMapper = baseMapper;
         this.clazz = clazz;
@@ -32,7 +32,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     @Override
     public ApiResponse<Page<D>> getAllWithPage(int page, int size) {
         try {
-            Page<E> cPage = baseUseCase.findAllWithPageable(size, page);
+            Page<M> cPage = baseUseCase.findAllWithPageable(size, page);
             return new ApiResponse<>(cPage.map(baseMapper::toDTO));
         } catch (Exception e) {
             // Logging error or additional handling
@@ -43,7 +43,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     @Override
     public ApiResponse<List<D>> getAll() {
         try {
-            List<E> entities = baseUseCase.findAll();
+            List<M> entities = baseUseCase.findAll();
             return new ApiResponse<>(entities.stream()
                     .map(baseMapper::toDTO)
                     .collect(Collectors.toList()));
@@ -56,7 +56,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     @Override
     public ApiResponse<D> getById(String id) {
         try {
-            E entity = baseUseCase.findById(id).orElse(null);
+            M entity = baseUseCase.findById(id).orElse(null);
             ApiResponse<D> response = new ApiResponse<>(baseMapper.toDTO(entity), HttpStatus.OK);
             return response;
         } catch (Exception e) {
@@ -69,8 +69,8 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     @Override
     public ApiResponse<D> create(D model) {
         try {
-            E entity = baseMapper.toEntity(model);
-            E savedEntity = baseUseCase.save(entity);
+            M entity = baseMapper.toEntity(model);
+            M savedEntity = baseUseCase.save(entity);
             return new ApiResponse<>(baseMapper.toDTO(savedEntity));
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class BaseServiceImpl<E, D> implements BaseService<E, D> {
     @Override
     public ApiResponse<List<D>> createAll(List<D> models) {
         try {
-            List<E> entities = models.stream()
+            List<M> entities = models.stream()
                     .map(baseMapper::toEntity)
                     .collect(Collectors.toList());
             return new ApiResponse<>(baseUseCase.saveAll(entities).stream().map(baseMapper::toDTO).toList());

@@ -2,14 +2,13 @@ package com.app.domain.repositories;
 
 import java.util.Optional;
 
+import com.app.domain.models.Store;
 
 import java.util.List;
 
-import com.app.domain.entity.StoreEntity;
-
 public interface IStoreRepository  {
-    Optional<StoreEntity> findFirstByOrderByIdDesc();
-    Optional<StoreEntity> findFirstByUserEmailOrderByIdDesc(String email);
-    List<StoreEntity> findAllByUserEmail(String email);
-    StoreEntity findByUserEmailAndId(String email,String id);
+    Optional<Store> findFirstByOrderByIdDesc();
+    Optional<Store> findFirstByUserEmailOrderByIdDesc(String email);
+    List<Store> findAllByUserEmail(String email);
+    Store findByUserEmailAndId(String email,String id);
 }

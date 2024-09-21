@@ -1,11 +1,12 @@
 package com.app.domain.usecase;
 
-import com.app.domain.entity.StoreEntity;
 import java.util.List;
 
-public interface StoreUseCase extends BaseUseCase<StoreEntity> {
-    StoreEntity findFirstByOrderByIdDesc();
-    StoreEntity findFirstByUserEmailOrderByIdDesc(String email);
-    List<StoreEntity> findAllByUserEmail(String email);
-    StoreEntity findByUserEmailAndId(String email,String id);
+import com.app.domain.models.Store;
+
+public interface StoreUseCase extends BaseUseCase<Store> {
+    Store findFirstByOrderByIdDesc();
+    Store findFirstByUserEmailOrderByIdDesc(String email);
+    List<Store> findAllByUserEmail(String email);
+    Store findByUserEmailAndId(String email,String id);
 }

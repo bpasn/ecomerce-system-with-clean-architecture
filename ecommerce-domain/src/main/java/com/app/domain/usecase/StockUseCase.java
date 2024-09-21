@@ -1,7 +1,7 @@
 package com.app.domain.usecase;
 
-import com.app.domain.entity.StockEntity;
+import com.app.domain.models.Stock;
 
-public interface StockUseCase extends BaseUseCase<StockEntity> {
+public interface StockUseCase extends BaseUseCase<Stock> {
     
 }

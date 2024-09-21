@@ -12,8 +12,8 @@ import com.app.application.dto.ApiResponse;
 import com.app.application.dto.OptionChoiceDTO;
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.interfaces.ProductOptionService;
-import com.app.domain.entity.EChoiceEffect;
-import com.app.domain.entity.EStatusChoice;
+import com.app.domain.models.EChoiceEffect;
+import com.app.domain.models.EStatusChoice;
 
 
 @SpringBootTest

@@ -24,10 +24,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.log4j.Log4j2;
 
 @Component
-@Log4j2
 public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements JwtAuthenticationFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
@@ -59,7 +57,7 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
         final String authHeader = request.getHeader("Authorization");
         if (isTokenMissingOrInValid(authHeader)) {
             filterChain.doFilter(request, response);
-            log.info(String.format("ERROR IS : %s", authHeader));
+            System.out.println(String.format("ERROR IS : %s", authHeader));
             return;
         }
         try {

@@ -2,7 +2,7 @@ package com.app.domain.repositories;
 
 import java.util.Optional;
 
-import com.app.domain.entity.UserEntity;
+import com.app.domain.models.User;
 public interface IAuthRepository {
-        Optional<UserEntity> findByEmail(String email);
+        Optional<User> findByEmail(String email);
 }

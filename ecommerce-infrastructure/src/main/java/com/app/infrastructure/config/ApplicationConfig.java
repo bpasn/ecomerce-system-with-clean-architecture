@@ -11,12 +11,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.app.domain.entity.UserEntity;
-import com.app.infrastructure.adapter.UserDetailsAdapter;
 import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.repositories.UserJpaRepository;
 
 import lombok.extern.log4j.Log4j2;
+
 @Configuration
 @Log4j2
 public class ApplicationConfig {
@@ -29,15 +28,12 @@ public class ApplicationConfig {
 
     @Bean
     UserDetailsService userDetailsService() {
-        return u -> {
-            UserEntity userEntity = userJpaRepository.findByEmail(u)
+        return u -> (UserDetails) userJpaRepository.findByEmail(u)
                 .orElseThrow(() -> new BaseException("Email not found"));
-            return new UserDetailsAdapter(userEntity);
-        };
     }
 
     @Bean
-    AuthenticationProvider authenticationProvider(){
+    AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -50,7 +46,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

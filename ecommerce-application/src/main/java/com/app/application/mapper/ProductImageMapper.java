@@ -5,20 +5,20 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import com.app.application.dto.ProductImageDTO;
-import com.app.domain.entity.ProductImageEntity;
+import com.app.domain.models.ProductImage;
 
 @Mapper(componentModel = "spring")
-public interface ProductImageMapper extends BaseMapper<ProductImageDTO, ProductImageEntity> {
+public interface ProductImageMapper extends BaseMapper<ProductImageDTO, ProductImage> {
 
     ProductImageMapper INSTANCE = Mappers.getMapper(ProductImageMapper.class);
 
     @Override
     @Mapping(target = "uri", source = "source")
-    ProductImageDTO toDTO(ProductImageEntity entity);
+    ProductImageDTO toDTO(ProductImage entity);
 
     @Override
     @Mapping(target = "source", source = "uri")
-    ProductImageEntity toEntity(ProductImageDTO dto);
+    ProductImage toEntity(ProductImageDTO dto);
 
     // @Named("toStringDTO")
     // default MultipartFile toStringDTO(String source) {

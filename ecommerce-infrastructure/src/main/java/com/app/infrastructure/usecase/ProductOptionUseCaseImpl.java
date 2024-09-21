@@ -1,15 +1,14 @@
 package com.app.infrastructure.usecase;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
-
-import com.app.domain.entity.ProductOptionEntity;
+import java.util.List;
+import com.app.domain.models.ProductOption;
 import com.app.domain.usecase.ProductOptionUseCase;
+import com.app.infrastructure.entity.ProductOptionEntity;
 import com.app.infrastructure.repositories.ProductOptionJpaRepository;
 
 @Service
-public class ProductOptionUseCaseImpl extends BaseUseCaseImpl<ProductOptionEntity> implements ProductOptionUseCase{
+public class ProductOptionUseCaseImpl extends BaseUseCaseImpl<ProductOptionEntity,ProductOption> implements ProductOptionUseCase {
 
     private final ProductOptionJpaRepository productOptionJpaRepository;
     
@@ -20,12 +19,12 @@ public class ProductOptionUseCaseImpl extends BaseUseCaseImpl<ProductOptionEntit
     }
 
     @Override
-    public ProductOptionEntity getByOptionName(String optionName) {
+    public ProductOption getByOptionName(String optionName) {
        return productOptionJpaRepository.findByOptionName(optionName);
     }
 
     @Override
-    public List<ProductOptionEntity> findAllByStoreId(String storeId) {
+    public List<ProductOption> findAllByStoreId(String storeId) {
         return productOptionJpaRepository.findAllByStoreId(storeId);
     }
     

@@ -1,7 +1,7 @@
 package com.app.domain.usecase;
 
-import com.app.domain.entity.UserEntity;
+import com.app.domain.models.User;
 
-public interface AuthUseCase extends  BaseUseCase<UserEntity> {
-    UserEntity findByEmail(String email);
+public interface AuthUseCase extends BaseUseCase<User> {
+    User findByEmail(String email);
 }

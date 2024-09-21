@@ -6,23 +6,23 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import com.app.application.dto.OptionChoiceDTO;
-import com.app.domain.entity.EChoiceEffect;
-import com.app.domain.entity.EStatusChoice;
-import com.app.domain.entity.OptionChoiceEntity;
+import com.app.domain.models.EChoiceEffect;
+import com.app.domain.models.EStatusChoice;
+import com.app.domain.models.OptionChoice;
 
 @Mapper(componentModel = "spring")
-public interface OptionChoiceMapper extends BaseMapper<OptionChoiceDTO,OptionChoiceEntity>{
+public interface OptionChoiceMapper extends BaseMapper<OptionChoiceDTO,OptionChoice>{
     OptionChoiceMapper INSTANCE = Mappers.getMapper(OptionChoiceMapper.class);
 
     @Override
     @Mapping(source = "status",target = "status",qualifiedByName = "stringToEStatus")
     @Mapping(source = "choiceEffect",target = "choiceEffect",qualifiedByName = "stringToEChoice")
-    OptionChoiceEntity toEntity(OptionChoiceDTO dto);
+    OptionChoice toEntity(OptionChoiceDTO dto);
 
     @Override
     @Mapping(source = "status",target = "status",qualifiedByName = "eStatusToString")
     @Mapping(source = "choiceEffect",target = "choiceEffect",qualifiedByName = "eChoiceToString")
-    OptionChoiceDTO toDTO(OptionChoiceEntity entity);
+    OptionChoiceDTO toDTO(OptionChoice entity);
 
     @Named("stringToEStatus")
     default EStatusChoice stringToEStatus(String status){

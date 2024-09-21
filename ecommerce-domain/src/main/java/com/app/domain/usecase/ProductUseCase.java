@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
-import com.app.domain.entity.ProductEntity;
+import com.app.domain.models.Product;
 
-public interface ProductUseCase extends BaseUseCase<ProductEntity>{
-    Optional<ProductEntity> findByNameTH(String name);
-    List<ProductEntity> findAllByStoreId(String storeId);
-    Page<ProductEntity> findAllByStoreIdWithPageable(String storeId,int page,int size);
+public interface ProductUseCase extends BaseUseCase<Product>{
+    Optional<Product> findByNameTH(String name);
+    List<Product> findAllByStoreId(String storeId);
+    Page<Product> findAllByStoreIdWithPageable(String storeId,int page,int size);
     
 }

@@ -3,11 +3,11 @@ package com.app.domain.repositories;
 import java.util.List;
 import java.util.Optional;
 
-import com.app.domain.entity.ProductCategoriesEntity;
-import com.app.domain.entity.StoreEntity;
+import com.app.domain.models.ProductCategories;
+import com.app.domain.models.Store;
 
 public interface IProductCategoriesRepository {
-    Optional<ProductCategoriesEntity> findByName(String name);
-    List<ProductCategoriesEntity> findAllByStore(StoreEntity store);
-    List<ProductCategoriesEntity> findAllByStoreId(String storeId);
+    Optional<ProductCategories> findByName(String name);
+    List<ProductCategories> findAllByStore(Store store);
+    List<ProductCategories> findAllByStoreId(String storeId);
 }

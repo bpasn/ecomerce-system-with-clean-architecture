@@ -1,7 +1,7 @@
 package com.app.domain.usecase;
 
-import com.app.domain.entity.OptionChoiceEntity;
+import com.app.domain.models.OptionChoice;
 
-public interface OptionChoiceUseCase extends BaseUseCase<OptionChoiceEntity>{
+public interface OptionChoiceUseCase extends BaseUseCase<OptionChoice>{
     
 }

@@ -1,4 +1,4 @@
-package com.app.domain.entity;
+package com.app.infrastructure.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,30 +1,18 @@
-package com.app.domain.entity;
+package com.app.domain.models;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+public class OptionChoice extends BaseModel {
 
-@Entity(name = "option_choice")
-public class OptionChoiceEntity extends BaseEntity {
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_option_id",nullable = false)
-    private ProductOptionEntity productOption;
+    private ProductOption productOption;
     
     private String name;
-    @Enumerated(EnumType.STRING)
     private EChoiceEffect choiceEffect;
     private double price;
-    @Enumerated(EnumType.STRING)
     private EStatusChoice status;
     
-    public OptionChoiceEntity() {
+    public OptionChoice() {
         setStatus(EStatusChoice.available);
     }
-    public OptionChoiceEntity(String name, EChoiceEffect choiceEffect, double price, EStatusChoice status) {
+    public OptionChoice(String name, EChoiceEffect choiceEffect, double price, EStatusChoice status) {
         this.name = name;
         this.choiceEffect = choiceEffect;
         this.price = price;
@@ -54,10 +42,10 @@ public class OptionChoiceEntity extends BaseEntity {
     public void setStatus(EStatusChoice status) {
         this.status = status;
     }
-    public ProductOptionEntity getProductOption() {
+    public ProductOption getProductOption() {
         return productOption;
     }
-    public void setProductOption(ProductOptionEntity productOption) {
+    public void setProductOption(ProductOption productOption) {
         this.productOption = productOption;
     }
     

@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.app.domain.entity.StoreEntity;
+import com.app.domain.models.Store;
 import com.app.domain.usecase.StoreUseCase;
+import com.app.infrastructure.entity.StoreEntity;
 import com.app.infrastructure.repositories.StoreJpaRepository;
 
 
 @Service
-public class StoreUseCaseImpl extends BaseUseCaseImpl<StoreEntity> implements StoreUseCase{
+public class StoreUseCaseImpl extends BaseUseCaseImpl<StoreEntity,Store> implements StoreUseCase{
     private final StoreJpaRepository storeJpaRepository;
     public StoreUseCaseImpl(StoreJpaRepository storeJpaRepository) {
         super(storeJpaRepository);
@@ -19,22 +20,22 @@ public class StoreUseCaseImpl extends BaseUseCaseImpl<StoreEntity> implements St
     }
 
     @Override
-    public StoreEntity findFirstByOrderByIdDesc() {
+    public Store findFirstByOrderByIdDesc() {
         return storeJpaRepository.findFirstByOrderByIdDesc().orElse(null);
     }
 
     @Override
-    public StoreEntity findFirstByUserEmailOrderByIdDesc(String email) {
+    public Store findFirstByUserEmailOrderByIdDesc(String email) {
         return storeJpaRepository.findFirstByUserEmailOrderByIdDesc(email).orElse(null);
     }
 
     @Override
-    public List<StoreEntity> findAllByUserEmail(String email) {
+    public List<Store> findAllByUserEmail(String email) {
         return storeJpaRepository.findAllByUserEmail(email);
     }
 
     @Override
-    public StoreEntity findByUserEmailAndId(String email, String id) {
+    public Store findByUserEmailAndId(String email, String id) {
         return storeJpaRepository.findByUserEmailAndId(email, id);
     }
 

@@ -7,19 +7,19 @@ import com.app.application.dto.ProductImageDTO;
 import com.app.application.helper.FileManagement;
 import com.app.application.interfaces.ProductImageService;
 import com.app.application.mapper.ProductImageMapper;
-import com.app.domain.entity.ProductImageEntity;
+import com.app.domain.models.ProductImage;
 import com.app.domain.usecase.ProductImageUseCase;
 import com.app.infrastructure.exception.NotFoundException;
 
 @Service
-public class ProductImageServiceImpl extends BaseServiceImpl<ProductImageEntity, ProductImageDTO>
+public class ProductImageServiceImpl extends BaseServiceImpl<ProductImage, ProductImageDTO>
         implements ProductImageService {
 
             private final ProductImageUseCase productImageUseCase;
             private final FileManagement fileManagement;
 
     ProductImageServiceImpl(ProductImageUseCase productImageUseCase, ProductImageMapper productImageMapper,FileManagement fileManagement) {
-        super(productImageUseCase, productImageMapper,ProductImageEntity.class);
+        super(productImageUseCase, productImageMapper,ProductImage.class);
         this.productImageUseCase = productImageUseCase;
         this.fileManagement = fileManagement;
     }
@@ -27,7 +27,7 @@ public class ProductImageServiceImpl extends BaseServiceImpl<ProductImageEntity,
     @Override
     @Transactional
     public void deleteImage(String id) {
-       ProductImageEntity productImageEntity = productImageUseCase.findById(id).orElseThrow(() -> new NotFoundException("ProductImage", id));
+       ProductImage productImageEntity = productImageUseCase.findById(id).orElseThrow(() -> new NotFoundException("ProductImage", id));
        fileManagement.removeFile(productImageEntity.getSource());
        productImageUseCase.delete(id);
     }

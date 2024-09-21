@@ -7,9 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.app.application.dto.ApiResponse;
 import com.app.application.dto.ProductsDTO;
-import com.app.domain.entity.ProductEntity;
+import com.app.domain.models.Product;
 
-public interface ProductService extends BaseService<ProductEntity, ProductsDTO> {
+public interface ProductService extends BaseService<Product, ProductsDTO> {
     ProductsDTO getByName(String name);
 
     ApiResponse<ProductsDTO> createProduct(List<MultipartFile> multipart, ProductsDTO productsDTO);

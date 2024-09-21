@@ -1,4 +1,4 @@
-package com.app.domain.entity;
+package com.app.infrastructure.entity;
 
 public enum EStatusStock {
     IN_STOCK,

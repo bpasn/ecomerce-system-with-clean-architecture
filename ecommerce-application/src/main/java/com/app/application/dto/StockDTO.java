@@ -1,7 +1,7 @@
 package com.app.application.dto;
 
-import com.app.domain.entity.EStatusStock;
-import com.app.domain.entity.EUnitType;
+import com.app.domain.models.EStatusStock;
+import com.app.domain.models.EUnitType;
 
 public class StockDTO {
     String id;

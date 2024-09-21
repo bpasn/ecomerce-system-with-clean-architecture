@@ -1,7 +1,7 @@
 package com.app.domain.usecase;
 
-import com.app.domain.entity.ProductImageEntity;
+import com.app.domain.models.ProductImage;
 
-public interface ProductImageUseCase extends BaseUseCase<ProductImageEntity>{
+public interface ProductImageUseCase extends BaseUseCase<ProductImage>{
     
 }

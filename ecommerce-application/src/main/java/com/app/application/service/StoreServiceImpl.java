@@ -9,18 +9,18 @@ import com.app.application.dto.ApiResponse;
 import com.app.application.dto.StoreDTO;
 import com.app.application.interfaces.StoreService;
 import com.app.application.mapper.StoreMapper;
-import com.app.domain.entity.StoreEntity;
+import com.app.domain.models.Store;
 import com.app.domain.usecase.AuthUseCase;
 import com.app.domain.usecase.StoreUseCase;
 
 @Service
-public class StoreServiceImpl extends BaseServiceImpl<StoreEntity, StoreDTO> implements StoreService {
+public class StoreServiceImpl extends BaseServiceImpl<Store, StoreDTO> implements StoreService {
 
     private final StoreUseCase storeUseCase;
     private final AuthUseCase authUseCase;
 
     public StoreServiceImpl(StoreUseCase storeUseCase, StoreMapper storeMapper, AuthUseCase authUseCase) {
-        super(storeUseCase, storeMapper, StoreEntity.class);
+        super(storeUseCase, storeMapper, Store.class);
         this.storeUseCase = storeUseCase;
         this.authUseCase = authUseCase;
     }
@@ -28,7 +28,7 @@ public class StoreServiceImpl extends BaseServiceImpl<StoreEntity, StoreDTO> imp
     @Override
     public ApiResponse<StoreDTO> create(StoreDTO storeDTO) {
         UserDetails userDetails = getUserDetails();
-        StoreEntity storeEntity = new StoreEntity();
+        Store storeEntity = new Store();
         storeEntity.setStoreName(storeDTO.getStoreName());
         storeEntity.setUser(authUseCase.findByEmail(userDetails.getUsername()));
         return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(storeUseCase.save(storeEntity)));

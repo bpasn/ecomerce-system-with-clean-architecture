@@ -1,18 +1,18 @@
 package com.app.infrastructure.usecase;
 
-import com.app.domain.entity.StoreEntity;
-import com.app.infrastructure.exception.BaseException;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import com.app.domain.entity.ProductCategoriesEntity;
+import com.app.domain.models.ProductCategories;
+import com.app.domain.models.Store;
 import com.app.domain.usecase.ProductCategoryUseCase;
+import com.app.infrastructure.entity.ProductCategoriesEntity;
 import com.app.infrastructure.repositories.ProductCategoriesJpaRepository;
-
-import java.util.List;
 
 
 @Service
-public class ProductCategoriesUseCaseImpl extends BaseUseCaseImpl<ProductCategoriesEntity> implements ProductCategoryUseCase{
+public class ProductCategoriesUseCaseImpl extends BaseUseCaseImpl<ProductCategoriesEntity,ProductCategories> implements ProductCategoryUseCase {
     private final ProductCategoriesJpaRepository categoriesJpaRepository;
 
     public ProductCategoriesUseCaseImpl(ProductCategoriesJpaRepository categoriesJpaRepository) {
@@ -21,24 +21,27 @@ public class ProductCategoriesUseCaseImpl extends BaseUseCaseImpl<ProductCategor
     }
 
     @Override
-    public ProductCategoriesEntity findByName(String name) {
-        return categoriesJpaRepository.findByName(name).orElse(null);
+    public ProductCategories findByName(String name) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByName'");
     }
 
     @Override
     public boolean isExistsName(String name) {
-       return categoriesJpaRepository.existsByName(name);
-    }
-
-
-    @Override
-    public List<ProductCategoriesEntity> findAllByStore(StoreEntity storeId){
-        return categoriesJpaRepository.findAllByStore(storeId);
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isExistsName'");
     }
 
     @Override
-    public List<ProductCategoriesEntity> findAllByStoreId(String storeId) {
-        return categoriesJpaRepository.findAllByStoreId(storeId);
+    public List<ProductCategories> findAllByStore(Store store) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAllByStore'");
     }
-    
+
+    @Override
+    public List<ProductCategories> findAllByStoreId(String storeId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAllByStoreId'");
+    }
+
 }

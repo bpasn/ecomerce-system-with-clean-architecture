@@ -1,26 +1,13 @@
-package com.app.domain.entity;
+package com.app.domain.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+public class Stock extends BaseModel {
 
-@Entity(name = "stocks")
-public class StockEntity extends BaseEntity {
+    private Product product;
 
-    @OneToOne
-    @JoinColumn(name = "product_id")
-    private ProductEntity product;
-
-    @Column(name = "unit_type")
     private EUnitType unitType;
-    @Column(name = "unit_quantity")
     private double unitQuantity;
-    @Column(name = "quantity")
     private int quantity;
-    @Column(name = "status")
     private EStatusStock status;
-    @Column(name = "re_order")
     private boolean reOrder;
 
     public boolean isReOrder() {
@@ -31,17 +18,17 @@ public class StockEntity extends BaseEntity {
         this.reOrder = reOrder;
     }
 
-    public StockEntity() {
+    public Stock() {
         setUnitType(EUnitType.PIECE);
         setStatus(EStatusStock.IN_STOCK);
     }
     
 
-    public ProductEntity getProduct() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(ProductEntity product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 

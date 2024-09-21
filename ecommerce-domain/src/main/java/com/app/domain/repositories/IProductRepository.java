@@ -6,12 +6,12 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.app.domain.entity.ProductEntity;
+import com.app.domain.models.Product;
 
 public interface IProductRepository {
-    Optional<ProductEntity> findByNameTH(String name);
+    Optional<Product> findByNameTH(String name);
 
-    List<ProductEntity> findAllByStoreId(String storeId);
+    List<Product> findAllByStoreId(String storeId);
 
-    Page<ProductEntity> findAllByStoreId(String storeId, Pageable pageable);
+    Page<Product> findAllByStoreId(String storeId, Pageable pageable);
 }

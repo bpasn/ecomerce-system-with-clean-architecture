@@ -2,9 +2,9 @@ package com.app.domain.repositories;
 
 import java.util.List;
 
-import com.app.domain.entity.ProductOptionEntity;
+import com.app.domain.models.ProductOption;
 
 public interface IProductOptionRepository {
-    ProductOptionEntity findByOptionName(String optionName);
-    List<ProductOptionEntity> findAllByStoreId(String storeId);
+    ProductOption findByOptionName(String optionName);
+    List<ProductOption> findAllByStoreId(String storeId);
 }

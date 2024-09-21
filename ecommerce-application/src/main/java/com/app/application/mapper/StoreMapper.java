@@ -6,19 +6,19 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import com.app.application.dto.StoreDTO;
-import com.app.domain.entity.StoreEntity;
-import com.app.domain.entity.UserEntity;
+import com.app.domain.models.Store;
+import com.app.domain.models.User;
 
 @Mapper(componentModel = "spring")
-public interface StoreMapper extends BaseMapper<StoreDTO, StoreEntity> {
+public interface StoreMapper extends BaseMapper<StoreDTO, Store> {
     StoreMapper INSTANCE = Mappers.getMapper(StoreMapper.class);
 
     @Override
     @Mapping(source = "user",target = "userId",qualifiedByName = "toUserId")
-    StoreDTO toDTO(StoreEntity e);
+    StoreDTO toDTO(Store e);
 
     @Named("toUserId")
-    default String toUserId(UserEntity user){
+    default String toUserId(User user){
         return user.getId();
     }
 }

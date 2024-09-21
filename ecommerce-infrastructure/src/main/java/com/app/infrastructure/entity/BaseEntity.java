@@ -1,4 +1,4 @@
-package com.app.domain.entity;
+package com.app.infrastructure.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
