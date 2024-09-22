@@ -37,21 +37,22 @@ public class StoreServiceImpl extends BaseServiceImpl<Store, StoreDTO> implement
     @Override
     public ApiResponse<StoreDTO> findFirstByUserEmailOrderByIdDesc() {
         UserDetails u = getUserDetails();
-        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(storeUseCase.findFirstByUserEmailOrderByIdDesc(u.getUsername())));
+        Store store = storeUseCase.findFirstByUserEmailOrderByIdDesc(u.getUsername()).orElse(null);
+        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(store));
     }
 
     @Override
     public ApiResponse<List<StoreDTO>> findAllByUserEmail() {
         UserDetails u = getUserDetails();
-        return new ApiResponse<>(storeUseCase.findAllByUserEmail(u.getUsername()).stream().map(StoreMapper.INSTANCE::toDTO).toList());
+        return new ApiResponse<>(
+                storeUseCase.findAllByUserEmail(u.getUsername()).stream().map(StoreMapper.INSTANCE::toDTO).toList());
     }
 
     @Override
     public ApiResponse<StoreDTO> getByUserEmailAndId(String id) {
         UserDetails u = getUserDetails();
-        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(storeUseCase.findByUserEmailAndId(u.getUsername(), id)));
+        Store store = storeUseCase.findByUserEmailAndId(u.getUsername(), id).orElse(null);
+        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(store));
     }
-
-    
 
 }

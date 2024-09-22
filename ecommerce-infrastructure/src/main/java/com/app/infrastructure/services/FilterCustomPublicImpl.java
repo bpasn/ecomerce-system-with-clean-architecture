@@ -45,7 +45,6 @@ public class FilterCustomPublicImpl extends OncePerRequestFilter implements Filt
         if(uri.startsWith("/swagger-ui") || uri.startsWith("/v3/api-docs")){
             return false;
         }
-        // (!uri.startsWith("/swagger-ui") || !uri.startsWith("/v3/api-docs"))
         for (String publicUri : SecurityConfig.publicRouter) {
             if (uri.startsWith(publicUri.replace("/**", ""))) {
                 {

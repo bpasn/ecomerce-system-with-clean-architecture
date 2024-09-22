@@ -1,8 +1,8 @@
 package com.app.application.mapper;
 
 
-public interface BaseMapper<D,E> {
-    D toDTO(E e);
-    E toEntity(D d);
+public interface BaseMapper<D,M> {
+    D toDTO(M e);
+    M toModel(D d);
 
 }

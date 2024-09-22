@@ -54,6 +54,12 @@ public class Store extends BaseModel {
         this.productOption = productOption;
     }
 
+    @Override
+    public String toString() {
+        return "Store [storeName=" + storeName + ", user=" + user.toString() + ", products=" + products + ", productCategories="
+                + productCategories + ", productOption=" + productOption + "]";
+    }
+
     
     
 }

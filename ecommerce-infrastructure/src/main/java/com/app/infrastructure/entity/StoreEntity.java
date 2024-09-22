@@ -1,14 +1,9 @@
 package com.app.infrastructure.entity;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -31,36 +26,12 @@ public class StoreEntity extends BaseEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductOptionEntity> productOption = new ArrayList<>();
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", updatable = false)
-    private LocalDateTime updatedAt;
-
     public String getStoreName() {
         return storeName;
     }
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public UserEntity getUser() {
@@ -95,6 +66,13 @@ public class StoreEntity extends BaseEntity {
         this.productOption = productOption;
     }
 
+    @Override
+    public String toString() {
+        return "StoreEntity [storeName=" + storeName + ", user=" + user + ", products=" + products
+                + ", productCategories=" + productCategories + ", productOption=" + productOption + "]";
+    }
+
+    
     
     
 }

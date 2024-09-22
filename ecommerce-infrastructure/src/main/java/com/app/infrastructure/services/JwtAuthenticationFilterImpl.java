@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +35,9 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver resolver;
 
+    @Value("${api.security.x-api-key}")
+    private String xApiSecurity;
+
     public JwtAuthenticationFilterImpl(
             JwtService jwtService,
             UserDetailsService userDetailsService) {
@@ -50,6 +54,15 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
         AntPathMatcher pathMatcher = new AntPathMatcher();
         for (String publicPath : SecurityConfig.publicRouter) {
             if (pathMatcher.match(publicPath, uri)) {
+                if(uri.startsWith("/swagger-ui") || uri.startsWith("/v3/api-docs")){
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+                String xApi = request.getHeader("x-api-key");
+                if(xApi == null || !xApiSecurity.equals(xApi)){
+                    response.sendError(HttpStatus.FORBIDDEN.value(),"Access Denied: Invalid or Missing Header");
+                    return;
+                }
                 filterChain.doFilter(request, response);
                 return;
             }

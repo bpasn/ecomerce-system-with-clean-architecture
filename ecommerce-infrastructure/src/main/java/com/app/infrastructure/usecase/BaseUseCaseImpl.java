@@ -2,65 +2,65 @@ package com.app.infrastructure.usecase;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.app.domain.pageable.PageResult;
 import com.app.domain.usecase.BaseUseCase;
+import com.app.infrastructure.mapper.GenericMapper;
 
 public class BaseUseCaseImpl<E, M> implements BaseUseCase<M> {
     private final JpaRepository<E, String> repository;
+    private final GenericMapper<E, M> mapper;
 
-    public BaseUseCaseImpl(JpaRepository<E,String> repository) {
+    public BaseUseCaseImpl(JpaRepository<E, String> repository, GenericMapper<E, M> mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
-    public M save(M entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    public M save(M model) {
+        return mapper.toModel(repository.save(mapper.toEntity(model)));
     }
 
     @Override
-    public List<M> saveAll(List<M> entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveAll'");
+    public List<M> saveAll(List<M> model) {
+        return repository.saveAll(model.stream().map(mapper::toEntity).toList()).stream().map(mapper::toModel).toList();
+
     }
 
     @Override
     public Optional<M> findById(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        return repository.findById(id).map(mapper::toModel);
     }
 
     @Override
-    public Page<M> findAllWithPageable(int size, int page) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllWithPageable'");
+    public PageResult<M> findAllWithPageable(int size, int page) {
+        Page<E> pageResult = repository.findAll(Pageable.ofSize(page).withPage(page));
+        List<M> content = pageResult.getContent().stream().map(mapper::toModel).collect(Collectors.toList());
+        return new PageResult<>(
+                content,
+                pageResult.getNumber(),
+                pageResult.getSize(),
+                pageResult.getTotalElements(),
+                pageResult.getTotalPages());
     }
 
     @Override
     public List<M> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        return repository.findAll().stream().map(mapper::toModel).toList();
     }
 
     @Override
     public List<M> findAllById(List<String> ids) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllById'");
+        return repository.findAllById(ids).stream().map(mapper::toModel).toList();
     }
 
     @Override
     public void delete(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        repository.deleteById(id);
     }
-
-    @Override
-    public Class<M> getClazz() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getClazz'");
-    }
-
 }

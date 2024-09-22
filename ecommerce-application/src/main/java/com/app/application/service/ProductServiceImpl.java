@@ -23,6 +23,7 @@ import com.app.domain.models.ProductImage;
 import com.app.domain.models.ProductOption;
 import com.app.domain.models.Stock;
 import com.app.domain.models.Store;
+import com.app.domain.pageable.PageResult;
 import com.app.domain.usecase.ProductCategoryUseCase;
 import com.app.domain.usecase.ProductImageUseCase;
 import com.app.domain.usecase.ProductOptionUseCase;
@@ -79,7 +80,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
     public ApiResponse<ProductsDTO> createProduct(List<MultipartFile> multipart, ProductsDTO productsDTO) {
         try {
             // แปลง DTO เป็น Entity
-            Product productEntity = ProductMapper.INSTANCE.toEntity(productsDTO);
+            Product productEntity = ProductMapper.INSTANCE.toModel(productsDTO);
 
             // Find store for create product to store
             Store storeEntity = storeUseCase.findById(productsDTO.getStoreId())
@@ -134,9 +135,15 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
     }
 
     @Override
-    public ApiResponse<Page<ProductsDTO>> findAllByStoreIdWithPageable(String storeId, int page, int size) {
-        Page<Product> cPage = productUseCase.findAllByStoreIdWithPageable(storeId, page, size);
-        return new ApiResponse<>(cPage.map(productMapper::toDTO));
+    public ApiResponse<PageResult<ProductsDTO>> findAllByStoreIdWithPageable(String storeId, int page, int size) {
+        PageResult<Product> cPage = productUseCase.findAllByStoreIdWithPageable(storeId, page, size);
+        PageResult<ProductsDTO> p = new PageResult<>(
+                cPage.getContent().stream().map(productMapper::toDTO).toList(),
+                cPage.getPage(),
+                cPage.getSize(),
+                cPage.getTotalElement(),
+                cPage.getTotalPage());
+        return new ApiResponse<>(p);
     }
 
     @Override
@@ -165,7 +172,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
 
         productUseCase.save(productEntity);
 
-        Stock stock = StockMapper.INSTANCE.toEntity(productsDTO.getStock());
+        Stock stock = StockMapper.INSTANCE.toModel(productsDTO.getStock());
         stock.setId(productEntity.getStock().getId());
         stock.setProduct(productEntity);
 
@@ -212,6 +219,6 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
 
     @Override
     public ApiResponse<List<ProductsDTO>> getProduct() {
-       return new ApiResponse<>(productUseCase.findAll().stream().map(productMapper::toDTO).toList());
+        return new ApiResponse<>(productUseCase.findAll().stream().map(productMapper::toDTO).toList());
     }
 }

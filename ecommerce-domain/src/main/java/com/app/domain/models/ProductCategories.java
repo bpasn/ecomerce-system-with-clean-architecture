@@ -14,6 +14,7 @@ public class ProductCategories extends BaseModel {
     private List<Product> products = new ArrayList<>();
     
     public ProductCategories(){}
+    
     public ProductCategories(String name) {
         this.name = name;
     }

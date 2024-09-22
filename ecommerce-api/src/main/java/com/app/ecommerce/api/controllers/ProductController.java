@@ -20,6 +20,7 @@ import com.app.application.dto.StockDTO;
 import com.app.application.interfaces.ProductImageService;
 import com.app.application.interfaces.ProductService;
 import com.app.application.interfaces.StockService;
+import com.app.domain.pageable.PageResult;
 import com.app.ecommerce.api.helper.ProductHelper;
 import com.app.ecommerce.api.request.ProductRequest;
 
@@ -42,7 +43,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<ProductsDTO>>> get(
+    public ResponseEntity<ApiResponse<PageResult<ProductsDTO>>> get(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam("storeId") String storeId) {

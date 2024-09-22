@@ -30,15 +30,6 @@ public class ProductCategoriesEntity extends BaseEntity {
     @ManyToMany(mappedBy = "categories")
     private List<ProductEntity> products = new ArrayList<>();
 
-    @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at",updatable = false)
-    private LocalDateTime updatedAt;
-
-    
     public ProductCategoriesEntity(){}
     public ProductCategoriesEntity(String name) {
         this.name = name;
@@ -60,23 +51,6 @@ public class ProductCategoriesEntity extends BaseEntity {
         this.products = products;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-    
-    
     public void validateCategoryNameExists(ProductCategoryUseCase c){
         if(c.isExistsName(this.name)){
             throw new DomainException("Category Name with '"+name+"' already exists");

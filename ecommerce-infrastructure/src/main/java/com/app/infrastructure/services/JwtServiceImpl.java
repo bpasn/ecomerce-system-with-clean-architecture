@@ -50,22 +50,22 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(String username) {
         HashMap<String,String> map = new HashMap<>();
-        map.put("userId", authUseCase.findByEmail(userDetails.getUsername()).getId());
-        return generateToken(map, userDetails, expired);
+        map.put("userId", authUseCase.findByEmail(username).getId());
+        return generateToken(map, username, expired);
     }
 
     @Override
-    public String generateRefreshToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(),userDetails,refreshTokenExpire);
+    public String generateRefreshToken(String username){
+        return generateToken(new HashMap<>(),username,refreshTokenExpire);
     }
     @Override
-    public String generateToken(Map<String, ?> extractClaims, UserDetails userDetails,long expirationTime) {
+    public String generateToken(Map<String, ?> extractClaims, String username,long expirationTime) {
        try {
            return Jwts.builder()
                    .claims(extractClaims)
-                   .subject(userDetails.getUsername())
+                   .subject(username)
                    .issuedAt(new Date(System.currentTimeMillis()))
                    .expiration(new Date(System.currentTimeMillis() + expirationTime))
                    .signWith(getSignInKey())

@@ -47,7 +47,7 @@ public class CategoriesServiceImpl extends BaseServiceImpl<ProductCategories, Ca
 
     @Override
     public ApiResponse<CategoriesDTO> create(CategoriesDTO dto){
-        ProductCategories p = categoryMapper.toEntity(dto);
+        ProductCategories p = categoryMapper.toModel(dto);
         Store storeEntity = storeUseCase.findById(dto.getStoreId()).orElseThrow(() -> new NotFoundException("Store", dto.getStoreId()));
         p.setStore(storeEntity);
         return new ApiResponse<>(categoryMapper.toDTO(productCategoryUseCase.save(p)));

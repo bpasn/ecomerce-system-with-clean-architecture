@@ -2,13 +2,13 @@ package com.app.application.interfaces;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.app.application.dto.ApiResponse;
+import com.app.domain.pageable.PageResult;
 
 public interface BaseService<E, D> {
-    ApiResponse<Page<D>> getAllWithPage(int page, int size);
+    ApiResponse<PageResult<D>> getAllWithPage(int page, int size);
 
     ApiResponse<List<D>> getAll();
 

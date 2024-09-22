@@ -17,7 +17,7 @@ public interface OptionChoiceMapper extends BaseMapper<OptionChoiceDTO,OptionCho
     @Override
     @Mapping(source = "status",target = "status",qualifiedByName = "stringToEStatus")
     @Mapping(source = "choiceEffect",target = "choiceEffect",qualifiedByName = "stringToEChoice")
-    OptionChoice toEntity(OptionChoiceDTO dto);
+    OptionChoice toModel(OptionChoiceDTO dto);
 
     @Override
     @Mapping(source = "status",target = "status",qualifiedByName = "eStatusToString")

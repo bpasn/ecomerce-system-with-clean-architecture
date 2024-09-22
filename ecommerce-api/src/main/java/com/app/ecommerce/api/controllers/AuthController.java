@@ -1,6 +1,5 @@
 package com.app.ecommerce.api.controllers;
 
-import com.app.application.dto.ApiResponse;
 import com.app.application.dto.BaseResponse;
 import com.app.application.dto.auth.AuthRegisReq;
 import com.app.application.dto.auth.AuthReq;

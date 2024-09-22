@@ -20,18 +20,15 @@ public class SecurityConfig {
 
         private final AuthenticationProvider authenticationProvider;
         private final JwtAuthenticationFilter jwtAuthFilter;
-        private final FilterCustomPublic filterCustomPublic;
         private final AuthException exception;
 
         public SecurityConfig(
                         AuthenticationProvider authorize,
                         JwtAuthenticationFilter jwtAuthFilter,
-                        AuthException exception,
-                        FilterCustomPublic filterCustomPublic) {
+                        AuthException exception) {
                 this.authenticationProvider = authorize;
                 this.jwtAuthFilter = jwtAuthFilter;
                 this.exception = exception;
-                this.filterCustomPublic = filterCustomPublic;
         }
 
         public static final String[] publicRouter = {
@@ -48,7 +45,6 @@ public class SecurityConfig {
                                 .httpBasic(Customizer.withDefaults())
                                 .authorizeHttpRequests(authorize -> authorize.requestMatchers(publicRouter).permitAll().anyRequest().authenticated())
                                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                .addFilterBefore(filterCustomPublic, UsernamePasswordAuthenticationFilter.class)
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                                 .authenticationProvider(authenticationProvider)
                                 .exceptionHandling(ex -> ex.authenticationEntryPoint(exception));

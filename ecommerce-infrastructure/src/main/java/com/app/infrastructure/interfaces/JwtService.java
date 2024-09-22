@@ -13,12 +13,12 @@ import io.jsonwebtoken.Claims;
 public interface JwtService {
     String extractUsername(String token);
     <T> T extractClaim(String token, Function<Claims, T> claimsResolver);
-    String generateToken(UserDetails userDetails);
-    String generateToken(Map<String,?> extractClaims,UserDetails userDetails,long expirationTime);
+    String generateToken(String username);
+    String generateToken(Map<String,?> extractClaims,String username,long expirationTime);
     boolean isTokenValid(String token , UserDetails userDetails);
     boolean isTokenExpired(String token);
     Date extraExpired(String token);
     Claims extractAllClaims(String token);
     SecretKey getSignInKey();
-    String generateRefreshToken(UserDetails userDetails);
+    String generateRefreshToken(String username);
 }

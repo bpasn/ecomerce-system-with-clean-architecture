@@ -49,4 +49,11 @@ public class User extends BaseModel {
     public void setStores(List<Store> stores) {
         this.stores = stores;
     }
+
+    @Override
+    public String toString() {
+        return "User [email=" + email + ", name=" + name + ", password=" + password + ", stores=" + stores + "]";
+    }
+
+    
 }

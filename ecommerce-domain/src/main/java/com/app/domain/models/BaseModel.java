@@ -1,9 +1,7 @@
 package com.app.domain.models;
 
-import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
 public class BaseModel {
     private String id;
     private LocalDateTime createdAt;

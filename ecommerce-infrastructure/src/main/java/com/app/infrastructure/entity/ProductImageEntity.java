@@ -19,14 +19,6 @@ public class ProductImageEntity extends BaseEntity {
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", updatable = false)
-    private LocalDateTime updatedAt;
-
     public ProductImageEntity() {
 
     }
@@ -53,22 +45,6 @@ public class ProductImageEntity extends BaseEntity {
 
     public void setProduct(ProductEntity product) {
         this.product = product;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
 }

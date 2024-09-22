@@ -18,7 +18,7 @@ public interface ProductImageMapper extends BaseMapper<ProductImageDTO, ProductI
 
     @Override
     @Mapping(target = "source", source = "uri")
-    ProductImage toEntity(ProductImageDTO dto);
+    ProductImage toModel(ProductImageDTO dto);
 
     // @Named("toStringDTO")
     // default MultipartFile toStringDTO(String source) {

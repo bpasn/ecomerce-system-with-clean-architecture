@@ -1,5 +1,8 @@
 package com.app.infrastructure.entity;
 
+import com.app.domain.models.EStatusStock;
+import com.app.domain.models.EUnitType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

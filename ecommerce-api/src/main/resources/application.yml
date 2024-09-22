@@ -43,4 +43,9 @@ jwt:
 
 logging:
   level:
+   root: INFO
    sql: debug
+   com:
+      app: debug
+   org:
+      springframework: INFO

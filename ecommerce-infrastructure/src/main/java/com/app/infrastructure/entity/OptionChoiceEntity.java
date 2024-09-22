@@ -1,5 +1,8 @@
 package com.app.infrastructure.entity;
 
+import com.app.domain.models.EChoiceEffect;
+import com.app.domain.models.EStatusChoice;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

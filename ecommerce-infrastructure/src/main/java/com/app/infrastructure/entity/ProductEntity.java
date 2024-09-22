@@ -54,11 +54,6 @@ public class ProductEntity extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private List<ProductImageEntity> productImages = new ArrayList<>();
 
-    // @ManyToMany
-    // @JoinTable(name = "group_product",joinColumns = @JoinColumn(name =
-    // "product_id"),inverseJoinColumns = @JoinColumn(name = "product_group_id"))
-    // private List<ProductGroupEntity> productGroups = new ArrayList<>();
-
     @ManyToMany
     @JoinTable(name = "option_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "product_option_id"))
     private List<ProductOptionEntity> productOptions = new ArrayList<>();
@@ -86,14 +81,6 @@ public class ProductEntity extends BaseEntity {
     public void setProductImages(List<ProductImageEntity> productImages) {
         this.productImages = productImages;
     }
-
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", updatable = false)
-    private LocalDateTime updatedAt;
 
     public String getNameTH() {
         return nameTH;
@@ -159,28 +146,12 @@ public class ProductEntity extends BaseEntity {
         this.productOptions = productOptions;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public String toString() {
         return "ProductEntity [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
                 + ", descriptionEN=" + descriptionEN + ", price=" + price + ", stock=" + stock + ", categories="
                 + categories + ", productImages=" + productImages + ", productOptions=" + productOptions
-                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+                + "]";
     }
 
 }

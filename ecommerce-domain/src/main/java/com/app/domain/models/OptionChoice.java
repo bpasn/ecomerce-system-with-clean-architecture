@@ -1,9 +1,7 @@
 package com.app.domain.models;
 
 public class OptionChoice extends BaseModel {
-
     private ProductOption productOption;
-    
     private String name;
     private EChoiceEffect choiceEffect;
     private double price;
@@ -12,6 +10,7 @@ public class OptionChoice extends BaseModel {
     public OptionChoice() {
         setStatus(EStatusChoice.available);
     }
+    
     public OptionChoice(String name, EChoiceEffect choiceEffect, double price, EStatusChoice status) {
         this.name = name;
         this.choiceEffect = choiceEffect;

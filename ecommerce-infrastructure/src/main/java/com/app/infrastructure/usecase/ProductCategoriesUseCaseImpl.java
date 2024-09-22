@@ -8,15 +8,17 @@ import com.app.domain.models.ProductCategories;
 import com.app.domain.models.Store;
 import com.app.domain.usecase.ProductCategoryUseCase;
 import com.app.infrastructure.entity.ProductCategoriesEntity;
+import com.app.infrastructure.mapper.ProductCategoryMapperInfra;
 import com.app.infrastructure.repositories.ProductCategoriesJpaRepository;
 
-
 @Service
-public class ProductCategoriesUseCaseImpl extends BaseUseCaseImpl<ProductCategoriesEntity,ProductCategories> implements ProductCategoryUseCase {
+public class ProductCategoriesUseCaseImpl extends BaseUseCaseImpl<ProductCategoriesEntity, ProductCategories>
+        implements ProductCategoryUseCase {
     private final ProductCategoriesJpaRepository categoriesJpaRepository;
 
-    public ProductCategoriesUseCaseImpl(ProductCategoriesJpaRepository categoriesJpaRepository) {
-        super(categoriesJpaRepository);
+    public ProductCategoriesUseCaseImpl(ProductCategoriesJpaRepository categoriesJpaRepository,
+            ProductCategoryMapperInfra mapper) {
+        super(categoriesJpaRepository, mapper);
         this.categoriesJpaRepository = categoriesJpaRepository;
     }
 

@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.app.application.dto.ApiResponse;
 import com.app.application.interfaces.BaseService;
 import com.app.application.mapper.BaseMapper;
+import com.app.domain.pageable.PageResult;
 import com.app.domain.usecase.BaseUseCase;
 import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.exception.NotFoundException;
@@ -30,10 +31,16 @@ public class BaseServiceImpl<M, D> implements BaseService<M, D> {
     }
 
     @Override
-    public ApiResponse<Page<D>> getAllWithPage(int page, int size) {
+    public ApiResponse<PageResult<D>> getAllWithPage(int page, int size) {
         try {
-            Page<M> cPage = baseUseCase.findAllWithPageable(size, page);
-            return new ApiResponse<>(cPage.map(baseMapper::toDTO));
+            PageResult<M> cPage = baseUseCase.findAllWithPageable(size, page);
+            List<D> content = cPage.getContent().stream().map(baseMapper::toDTO).toList();
+            return new ApiResponse<>(new PageResult<>(
+                    content,
+                    cPage.getPage(),
+                    cPage.getSize(),
+                    cPage.getTotalElement(),
+                    cPage.getTotalPage()));
         } catch (Exception e) {
             // Logging error or additional handling
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to retrieve paginated data", e);
@@ -69,7 +76,7 @@ public class BaseServiceImpl<M, D> implements BaseService<M, D> {
     @Override
     public ApiResponse<D> create(D model) {
         try {
-            M entity = baseMapper.toEntity(model);
+            M entity = baseMapper.toModel(model);
             M savedEntity = baseUseCase.save(entity);
             return new ApiResponse<>(baseMapper.toDTO(savedEntity));
         } catch (Exception e) {
@@ -82,7 +89,7 @@ public class BaseServiceImpl<M, D> implements BaseService<M, D> {
     public ApiResponse<List<D>> createAll(List<D> models) {
         try {
             List<M> entities = models.stream()
-                    .map(baseMapper::toEntity)
+                    .map(baseMapper::toModel)
                     .collect(Collectors.toList());
             return new ApiResponse<>(baseUseCase.saveAll(entities).stream().map(baseMapper::toDTO).toList());
         } catch (Exception e) {

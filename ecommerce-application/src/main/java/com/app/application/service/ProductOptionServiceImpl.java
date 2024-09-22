@@ -40,7 +40,7 @@ public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOption, Pro
     @Override
     @Transactional
     public ApiResponse<ProductOptionDTO> create(ProductOptionDTO model) {
-        ProductOption pOptionEntity = ProductOptionMapper.INSTANCE.toEntity(model);
+        ProductOption pOptionEntity = ProductOptionMapper.INSTANCE.toModel(model);
 
         Store store = storeUseCase.findById(model.getStoreId())
                 .orElseThrow(() -> new NotFoundException("Store", model.getStoreId()));

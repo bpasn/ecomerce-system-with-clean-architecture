@@ -29,7 +29,7 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, Product> {
 
     @Override
     @Mapping(source = "productImages", target = "productImages", qualifiedByName = "mapProductImageDTOListToEntity")
-    Product toEntity(ProductsDTO dto);
+    Product toModel(ProductsDTO dto);
 
     // @Named("stringToMultipartFile")
     // default String stringToMultipartFile(String filePath) {
