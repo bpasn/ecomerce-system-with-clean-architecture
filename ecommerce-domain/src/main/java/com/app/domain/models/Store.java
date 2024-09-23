@@ -15,9 +15,31 @@ public class Store extends BaseModel {
 
     private List<ProductOption> productOption = new ArrayList<>();
 
-        private LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public Store() {
+    }
+
+    public Store(
+            String id,
+            String storeName,
+            User user,
+            List<Product> products,
+            List<ProductCategories> productCategories,
+            List<ProductOption> productOption,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt) {
+        setId(id);
+        this.storeName = storeName;
+        this.user = user;
+        this.products = products;
+        this.productCategories = productCategories;
+        this.productOption = productOption;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public String getStoreName() {
         return storeName;
@@ -59,10 +81,10 @@ public class Store extends BaseModel {
         this.productOption = productOption;
     }
 
-    
     @Override
     public String toString() {
-        return "Store [storeName=" + storeName + ", user=" + user.toString() + ", products=" + products + ", productCategories="
+        return "Store [storeName=" + storeName + ", user=" + user.toString() + ", products=" + products
+                + ", productCategories="
                 + productCategories + ", productOption=" + productOption + "]";
     }
 
@@ -82,6 +104,4 @@ public class Store extends BaseModel {
         this.updatedAt = updatedAt;
     }
 
-    
-    
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductOption extends BaseModel {
-    
+
     private String optionName;
 
     private boolean oneMustBeChosen;
@@ -19,12 +19,31 @@ public class ProductOption extends BaseModel {
     private List<Product> products = new ArrayList<>();
 
     private Store store;
-    
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
     public ProductOption() {
+    }
+
+    public ProductOption(
+            String id,
+            String optionName,
+            boolean oneMustBeChosen,
+            boolean manyCanBeChosen,
+            int lengthSelect,
+            List<OptionChoice> choices,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt) {
+        setId(id);
+        this.optionName = optionName;
+        this.oneMustBeChosen = oneMustBeChosen;
+        this.manyCanBeChosen = manyCanBeChosen;
+        this.lengthSelect = lengthSelect;
+        this.choices = choices;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getOptionName() {
@@ -99,6 +118,12 @@ public class ProductOption extends BaseModel {
         this.updatedAt = updatedAt;
     }
 
-   
+    @Override
+    public String toString() {
+        return "ProductOption [optionName=" + optionName + ", oneMustBeChosen=" + oneMustBeChosen + ", manyCanBeChosen="
+                + manyCanBeChosen + ", lengthSelect=" + lengthSelect + ", choices=" + choices.toString() + ", products="
+                + products
+                + ", store=" + store.toString() + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+    }
 
 }

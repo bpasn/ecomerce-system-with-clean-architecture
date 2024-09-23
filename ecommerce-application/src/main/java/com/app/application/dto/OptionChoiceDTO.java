@@ -7,8 +7,6 @@ public class OptionChoiceDTO {
     private double price;
     private String status;
 
-    
-    
     public OptionChoiceDTO() {
     }
     public OptionChoiceDTO(String name, String choiceEffect, double price, String status) {
@@ -41,6 +39,12 @@ public class OptionChoiceDTO {
     public void setStatus(String status) {
         this.status = status;
     }
+    @Override
+    public String toString() {
+        return "OptionChoiceDTO [name=" + name + ", choiceEffect=" + choiceEffect + ", price=" + price + ", status="
+                + status + "]";
+    }
 
+    
     
 }

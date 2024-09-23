@@ -23,7 +23,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     public UserEntity(){}
 
-    public UserEntity(String email,String name, String password){
+    public UserEntity(String email, String name, String password){
         setEmail(email);
         setName(name);
         setPassword(password);

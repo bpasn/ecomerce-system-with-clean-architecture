@@ -15,12 +15,9 @@ import com.app.domain.usecase.StoreUseCase;
 
 import jakarta.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 @Service
 public class StoreServiceImpl extends BaseServiceImpl<Store, StoreDTO> implements StoreService {
 
-    private static final Logger log = LoggerFactory.getLogger(StoreServiceImpl.class);
     private final StoreUseCase storeUseCase;
     private final AuthUseCase authUseCase;
     private final StoreMapper storeMapper;

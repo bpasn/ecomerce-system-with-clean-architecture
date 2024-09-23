@@ -1,5 +1,6 @@
 package com.app.application.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import com.app.domain.usecase.ProductOptionUseCase;
 import com.app.domain.usecase.StoreUseCase;
 import com.app.infrastructure.exception.NotFoundException;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 
@@ -23,48 +25,54 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOption, ProductOptionDTO>
         implements ProductOptionService {
-    private ProductOptionUseCase useCase;
-    private OptionChoiceUseCase optionChoiceUseCase;
-    private StoreUseCase storeUseCase;
-    private ProductOptionMapper productOptionMapper;
+    private final ProductOptionUseCase productOptionUseCase;
+    private final OptionChoiceUseCase optionChoiceUseCase;
+    private final StoreUseCase storeUseCase;
+    private final ProductOptionMapper productOptionMapper;
 
-    ProductOptionServiceImpl(ProductOptionUseCase useCase, OptionChoiceUseCase optionChoiceUseCase,
-            ProductOptionMapper productOptionMapper, StoreUseCase storeUseCase) {
-        super(useCase, productOptionMapper, ProductOption.class);
-        this.useCase = useCase;
+    private final EntityManager entityManager; 
+    ProductOptionServiceImpl(ProductOptionUseCase productOptionUseCase, OptionChoiceUseCase optionChoiceUseCase,
+            ProductOptionMapper productOptionMapper, StoreUseCase storeUseCase,EntityManager entityManager) {
+        super(productOptionUseCase, productOptionMapper, ProductOption.class);
+        this.productOptionUseCase = productOptionUseCase;
         this.optionChoiceUseCase = optionChoiceUseCase;
         this.storeUseCase = storeUseCase;
         this.productOptionMapper = productOptionMapper;
+        this.entityManager = entityManager;
     }
 
     @Override
     @Transactional
     public ApiResponse<ProductOptionDTO> create(ProductOptionDTO model) {
-        ProductOption pOptionEntity = ProductOptionMapper.INSTANCE.toModel(model);
-
-        Store store = storeUseCase.findById(model.getStoreId())
-                .orElseThrow(() -> new NotFoundException("Store", model.getStoreId()));
-        pOptionEntity.setStore(store);
-        ProductOption saveOption = useCase.save(pOptionEntity);
-
-        if (!pOptionEntity.getChoices().isEmpty()) {
-            pOptionEntity.getChoices().stream().forEach((OptionChoice e) -> {
-                e.setProductOption(saveOption);
-                optionChoiceUseCase.save(e);
-            });
+        try {
+            ProductOption productOption = productOptionMapper.toModel(model);
+            Store store = storeUseCase.findById(model.getStoreId())
+                    .orElseThrow(() -> new NotFoundException("Store", model.getStoreId()));
+            productOption.setStore(store);
+            ProductOption saveOption = productOptionUseCase.save(productOption);
+            if (productOption.getChoices() != null && !productOption.getChoices().isEmpty()) {
+                productOption.getChoices().stream().forEach((OptionChoice choice) -> {
+                    choice.setProductOption(saveOption);
+                    optionChoiceUseCase.save(choice);
+                });
+            }
+            return new ApiResponse<>(productOptionMapper.toDTO(saveOption));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(null);
         }
-
-        return new ApiResponse<>(productOptionMapper.toDTO(saveOption));
     }
 
     @Override
     public ProductOptionDTO getByOptionName(String optionName) {
-        return productOptionMapper.toDTO(useCase.getByOptionName(optionName));
+        return productOptionMapper.toDTO(productOptionUseCase.getByOptionName(optionName));
     }
 
     @Override
     public ApiResponse<List<ProductOptionDTO>> getAllByStoreId(String storeId) {
-        return new ApiResponse<>(useCase.findAllByStoreId(storeId).stream().map(productOptionMapper::toDTO).toList());
+        List<ProductOption> productOptions = productOptionUseCase.findAllByStoreId(storeId);
+        System.out.println(productOptions);
+        return new ApiResponse<>(new ArrayList<>());
     }
 
 }

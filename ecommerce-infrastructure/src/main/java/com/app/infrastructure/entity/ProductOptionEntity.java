@@ -1,12 +1,9 @@
 package com.app.infrastructure.entity;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -26,10 +23,10 @@ public class ProductOptionEntity extends BaseEntity {
     @Column(name = "many_can_be_chosen",columnDefinition = "boolean default false")
     private boolean manyCanBeChosen;
 
-    @Column(nullable = true)
+    @Column(nullable = false, columnDefinition = "default 0")
     private int lengthSelect;
 
-    @OneToMany(mappedBy = "productOption")
+    @OneToMany(mappedBy = "productOption", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OptionChoiceEntity> choices = new ArrayList<>();
 
     @ManyToMany(mappedBy = "productOptions")
@@ -91,13 +88,6 @@ public class ProductOptionEntity extends BaseEntity {
         this.choices = choices;
     }
 
-    @Override
-    public String toString() {
-        return "ProductOptionEntity [optionName=" + optionName + ", products="
-                + products.toString()
-                + "]";
-    }
-
     public StoreEntity getStore() {
         return store;
     }
@@ -105,5 +95,14 @@ public class ProductOptionEntity extends BaseEntity {
     public void setStore(StoreEntity store) {
         this.store = store;
     }
+
+    @Override
+    public String toString() {
+        return "ProductOptionEntity [optionName=" + optionName + ", oneMustBeChosen=" + oneMustBeChosen
+                + ", manyCanBeChosen=" + manyCanBeChosen + ", lengthSelect=" + lengthSelect + ", choices=" + choices.toString()
+                + ", products=" + products.toString() + ", store=" + store.toString() + "]";
+    }
+
+    
 
 }

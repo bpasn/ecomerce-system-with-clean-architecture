@@ -96,7 +96,7 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>${org.mapstruct.version}</version>
-            <scope>provider</scope> <!-- หรือ  -->
+            <scope>provided</scope> <!-- หรือ  -->
         </dependency>
     </dependencies>
 

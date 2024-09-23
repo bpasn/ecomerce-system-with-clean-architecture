@@ -43,7 +43,7 @@ public class SecurityConfig {
                                 .cors(AbstractHttpConfigurer::disable)
                                 .httpBasic(Customizer.withDefaults())
                                 .authorizeHttpRequests(authorize -> authorize.requestMatchers(publicRouter).permitAll()
-                                                .anyRequest().permitAll())
+                                                .anyRequest().authenticated())
                                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                                 .authenticationProvider(authenticationProvider)

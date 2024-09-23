@@ -23,7 +23,9 @@ public class BaseUseCaseImpl<E, M> implements BaseUseCase<M> {
 
     @Override
     public M save(M model) {
-        return mapper.toModel(repository.save(mapper.toEntity(model)));
+        E toEntity = mapper.toEntity(model);
+        E save = repository.save(toEntity);
+        return mapper.toModel(save);
     }
 
     @Override

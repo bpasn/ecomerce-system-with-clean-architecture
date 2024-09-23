@@ -20,6 +20,12 @@ public class User extends BaseModel {
         setName(name);
         setPassword(password);
     }
+    public User(String id,String email,String name, String password){
+        setId(id);
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
 
     public String getEmail() {
         return email;

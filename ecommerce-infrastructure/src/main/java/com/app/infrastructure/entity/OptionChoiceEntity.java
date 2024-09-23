@@ -3,7 +3,6 @@ package com.app.infrastructure.entity;
 import com.app.domain.models.EChoiceEffect;
 import com.app.domain.models.EStatusChoice;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,7 +12,7 @@ import jakarta.persistence.ManyToOne;
 @Entity(name = "option_choice")
 public class OptionChoiceEntity extends BaseEntity {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "product_option_id",nullable = false)
     private ProductOptionEntity productOption;
     
@@ -25,7 +24,7 @@ public class OptionChoiceEntity extends BaseEntity {
     private EStatusChoice status;
     
     public OptionChoiceEntity() {
-        setStatus(EStatusChoice.available);
+        this.status = EStatusChoice.available;
     }
     public OptionChoiceEntity(String name, EChoiceEffect choiceEffect, double price, EStatusChoice status) {
         this.name = name;
@@ -63,6 +62,13 @@ public class OptionChoiceEntity extends BaseEntity {
     public void setProductOption(ProductOptionEntity productOption) {
         this.productOption = productOption;
     }
+    @Override
+    public String toString() {
+        return "OptionChoiceEntity [productOption=" + productOption + ", name=" + name + ", choiceEffect="
+                + choiceEffect + ", price=" + price + ", status=" + status + "]";
+    }
+    
+
     
     
 

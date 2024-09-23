@@ -92,7 +92,7 @@ public class ProductOptionDTO {
     @Override
     public String toString() {
         return "ProductOptionDTO [id = " + id + ", optionName=" + optionName + ", oneMustBeChosen=" + oneMustBeChosen
-                + ", manyCanBeChosed=" + manyCanBeChosed + ", lengthSelect=" + lengthSelect + ", choices=" + choices
+                + ", manyCanBeChosed=" + manyCanBeChosed + ", lengthSelect=" + lengthSelect + ", choices=" + choices.toString()
                 + "]";
     }
 
