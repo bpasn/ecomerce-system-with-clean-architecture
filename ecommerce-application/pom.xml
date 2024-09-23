@@ -6,7 +6,7 @@
         <!-- <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target> -->
         <java.version>17</java.version>
-        <org.mapstruct.version>1.6.0</org.mapstruct.version>
+        <!-- <org.mapstruct.version>1.6.0</org.mapstruct.version> -->
     </properties>
     <parent>
         <groupId>com.app</groupId>
@@ -29,8 +29,8 @@
             <artifactId>ecommerce-infrastructure</artifactId>
             <version>1.0</version>
         </dependency>
-        
-        <dependency>
+         
+        <!-- <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
@@ -39,11 +39,11 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>${org.mapstruct.version}</version>
-            <scope>provided</scope> <!-- หรือ  -->
-        </dependency>
+            <scope>provided</scope> 
+        </dependency> -->
     </dependencies>
     
-    <build>
+    <!-- <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -58,10 +58,9 @@
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${org.mapstruct.version}</version>
                         </path>
-                        <!-- other annotation processors -->
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build> -->
 </project>

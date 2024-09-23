@@ -1,5 +1,6 @@
 package com.app.domain.models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,16 @@ public class ProductCategories extends BaseModel {
     private String name;
 
     private Store store;
-    
+
     private List<Product> products = new ArrayList<>();
-    
-    public ProductCategories(){}
-    
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    public ProductCategories() {
+    }
+
     public ProductCategories(String name) {
         this.name = name;
     }
@@ -35,16 +41,36 @@ public class ProductCategories extends BaseModel {
         this.products = products;
     }
 
-    public void validateCategoryNameExists(ProductCategoryUseCase c){
-        if(c.isExistsName(this.name)){
-            throw new DomainException("Category Name with '"+name+"' already exists");
+    public void validateCategoryNameExists(ProductCategoryUseCase c) {
+        if (c.isExistsName(this.name)) {
+            throw new DomainException("Category Name with '" + name + "' already exists");
         }
     }
+
     public Store getStore() {
         return store;
     }
+
     public void setStore(Store store) {
         this.store = store;
     }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     
+
 }

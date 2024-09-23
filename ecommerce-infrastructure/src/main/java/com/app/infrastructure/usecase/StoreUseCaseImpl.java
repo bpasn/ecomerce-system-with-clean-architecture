@@ -3,6 +3,8 @@ package com.app.infrastructure.usecase;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.app.domain.models.Store;
@@ -13,6 +15,7 @@ import com.app.infrastructure.repositories.StoreJpaRepository;
 
 @Service
 public class StoreUseCaseImpl extends BaseUseCaseImpl<StoreEntity, Store> implements StoreUseCase {
+    private static final Logger log = LoggerFactory.getLogger(StoreUseCaseImpl.class);
     private final StoreJpaRepository storeJpaRepository;
     private final StoreMapperInfra storeMapper;
 
@@ -28,8 +31,13 @@ public class StoreUseCaseImpl extends BaseUseCaseImpl<StoreEntity, Store> implem
     }
 
     @Override
-    public Optional<Store> findFirstByUserEmailOrderByIdDesc(String email) {
-        return storeJpaRepository.findFirstByUserEmailOrderByIdDesc(email).map(storeMapper::toModel);
+    public Store findFirstByUserEmailOrderByIdDesc(String email) {
+        StoreEntity storeEntity = storeJpaRepository.findFirstByUserEmailOrderByIdDesc(email).orElse(null);
+        if(storeEntity != null){
+            Store store = storeMapper.toModel(storeEntity);
+            return store;
+        }
+        return null;
     }
 
     @Override

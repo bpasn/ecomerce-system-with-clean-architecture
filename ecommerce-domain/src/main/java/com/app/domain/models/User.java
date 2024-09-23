@@ -1,5 +1,6 @@
 package com.app.domain.models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,9 @@ public class User extends BaseModel {
     private String name;
     private String password;
     private List<Store> stores = new ArrayList<>();
+    private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt;
     public User(){}
 
     public User(String email,String name, String password){
@@ -54,6 +57,24 @@ public class User extends BaseModel {
     public String toString() {
         return "User [email=" + email + ", name=" + name + ", password=" + password + ", stores=" + stores + "]";
     }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    
 
     
 }

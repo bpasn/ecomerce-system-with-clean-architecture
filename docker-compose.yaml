@@ -23,7 +23,7 @@ services:
     cpus: 0.2
     image: nginx:latest
     volumes:
-      - /Users/prpasn/Desktop/SpringBoot:/var/www/files
+      - D:/me/SpringBoot:/var/www/files
       - ./file-server.conf:/etc/nginx/conf.d/file-server.conf
     ports:
       - 8080:8080

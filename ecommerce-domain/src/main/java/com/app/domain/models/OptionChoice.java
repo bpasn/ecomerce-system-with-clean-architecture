@@ -1,11 +1,17 @@
 package com.app.domain.models;
 
+import java.time.LocalDateTime;
+
 public class OptionChoice extends BaseModel {
     private ProductOption productOption;
     private String name;
     private EChoiceEffect choiceEffect;
     private double price;
     private EStatusChoice status;
+    
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
     
     public OptionChoice() {
         setStatus(EStatusChoice.available);
@@ -47,6 +53,23 @@ public class OptionChoice extends BaseModel {
     public void setProductOption(ProductOption productOption) {
         this.productOption = productOption;
     }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+    
     
     
 

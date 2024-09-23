@@ -13,32 +13,43 @@ import com.app.domain.models.Store;
 import com.app.domain.usecase.AuthUseCase;
 import com.app.domain.usecase.StoreUseCase;
 
+import jakarta.transaction.Transactional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Service
 public class StoreServiceImpl extends BaseServiceImpl<Store, StoreDTO> implements StoreService {
 
+    private static final Logger log = LoggerFactory.getLogger(StoreServiceImpl.class);
     private final StoreUseCase storeUseCase;
     private final AuthUseCase authUseCase;
+    private final StoreMapper storeMapper;
 
     public StoreServiceImpl(StoreUseCase storeUseCase, StoreMapper storeMapper, AuthUseCase authUseCase) {
         super(storeUseCase, storeMapper, Store.class);
         this.storeUseCase = storeUseCase;
         this.authUseCase = authUseCase;
+        this.storeMapper = storeMapper;
     }
 
     @Override
+    @Transactional
     public ApiResponse<StoreDTO> create(StoreDTO storeDTO) {
         UserDetails userDetails = getUserDetails();
-        Store storeEntity = new Store();
-        storeEntity.setStoreName(storeDTO.getStoreName());
-        storeEntity.setUser(authUseCase.findByEmail(userDetails.getUsername()));
-        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(storeUseCase.save(storeEntity)));
+        Store store = new Store();
+        store.setStoreName(storeDTO.getStoreName());
+        store.setUser(authUseCase.findByEmail(userDetails.getUsername()));
+
+        Store saveStore =  storeUseCase.save(store);
+
+        return new ApiResponse<>(storeMapper.toDTO(saveStore));
     }
 
     @Override
     public ApiResponse<StoreDTO> findFirstByUserEmailOrderByIdDesc() {
-        UserDetails u = getUserDetails();
-        Store store = storeUseCase.findFirstByUserEmailOrderByIdDesc(u.getUsername()).orElse(null);
-        return new ApiResponse<>(StoreMapper.INSTANCE.toDTO(store));
+        Store store = storeUseCase.findFirstByUserEmailOrderByIdDesc("admin@admin.com");
+        StoreDTO storeDto = storeMapper.toDTO(store);
+        return new ApiResponse<>(storeDto);
     }
 
     @Override

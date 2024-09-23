@@ -31,25 +31,6 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, Product> {
     @Mapping(source = "productImages", target = "productImages", qualifiedByName = "mapProductImageDTOListToEntity")
     Product toModel(ProductsDTO dto);
 
-    // @Named("stringToMultipartFile")
-    // default String stringToMultipartFile(String filePath) {
-    // if (filePath == null) {
-    // return null;
-    // }
-    // try {
-    // Path path = Paths.get(filePath);
-    // return path.toString();
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // return null;
-    // }
-    // }
-
-    // @Named("fileToString")
-    // default String fileToString(MultipartFile multipartFile) {
-    // return multipartFile != null ? multipartFile.getOriginalFilename() : null;
-    // }
-
     @Named("mapProductImageEntityListToDTO")
     default List<ProductImageDTO> mapProductImageEntityListToDTO(List<ProductImage> entities) {
         // Implement your logic here if needed, otherwise let MapStruct handle it if you

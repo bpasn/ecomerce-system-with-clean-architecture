@@ -50,7 +50,11 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
             throws ServletException, IOException {
 
         String uri = request.getRequestURI();
-
+        if(true){
+            System.out.println("RETURN");
+            filterChain.doFilter(request, response);
+            return;
+        }
         AntPathMatcher pathMatcher = new AntPathMatcher();
         for (String publicPath : SecurityConfig.publicRouter) {
             if (pathMatcher.match(publicPath, uri)) {

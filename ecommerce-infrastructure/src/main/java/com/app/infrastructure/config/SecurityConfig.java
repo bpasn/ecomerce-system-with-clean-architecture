@@ -11,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.app.infrastructure.interfaces.FilterCustomPublic;
 import com.app.infrastructure.interfaces.JwtAuthenticationFilter;
 
 @EnableWebSecurity
@@ -43,7 +42,8 @@ public class SecurityConfig {
                 http.csrf(AbstractHttpConfigurer::disable)
                                 .cors(AbstractHttpConfigurer::disable)
                                 .httpBasic(Customizer.withDefaults())
-                                .authorizeHttpRequests(authorize -> authorize.requestMatchers(publicRouter).permitAll().anyRequest().authenticated())
+                                .authorizeHttpRequests(authorize -> authorize.requestMatchers(publicRouter).permitAll()
+                                                .anyRequest().permitAll())
                                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                                 .authenticationProvider(authenticationProvider)

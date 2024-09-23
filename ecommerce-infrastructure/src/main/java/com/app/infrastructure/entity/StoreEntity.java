@@ -12,7 +12,6 @@ import jakarta.persistence.OneToMany;
 @Entity(name = "store")
 public class StoreEntity extends BaseEntity {
     private String storeName;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
@@ -71,8 +70,6 @@ public class StoreEntity extends BaseEntity {
         return "StoreEntity [storeName=" + storeName + ", user=" + user + ", products=" + products
                 + ", productCategories=" + productCategories + ", productOption=" + productOption + "]";
     }
-
-    
     
     
 }

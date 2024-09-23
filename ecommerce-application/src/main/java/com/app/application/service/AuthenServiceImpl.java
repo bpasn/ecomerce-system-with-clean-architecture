@@ -27,7 +27,8 @@ public class AuthenServiceImpl implements AuthenService {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
 
-    public AuthenServiceImpl(AuthUseCase authUseCase, JwtService jwtService, PasswordEncoder passwordEncoder,UserDetailsService userDetailsService) {
+    public AuthenServiceImpl(AuthUseCase authUseCase, JwtService jwtService, PasswordEncoder passwordEncoder,
+            UserDetailsService userDetailsService) {
         this.authUseCase = authUseCase;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
@@ -47,15 +48,12 @@ public class AuthenServiceImpl implements AuthenService {
     public AuthResponse signIn(AuthReq body) {
         User user = authUseCase.findByEmail(body.getEmail());
         if (user == null) {
-            throw new NotFoundException("Users", body.getEmail());
+            String  message = String.format("Email not found with email : %s",body.getEmail());
+            throw new BaseException(message, HttpStatus.BAD_REQUEST);
         }
-        System.out.println(user.toString());
-
         if (!passwordEncoder.matches(body.getPassword(), user.getPassword())) {
             throw new BaseException("Email or password incorrect!!");
         }
-
-        System.out.println("GENERATE TOKEN ");
         String token = jwtService.generateToken(user.getEmail());
         return new AuthResponse(token, jwtService.generateRefreshToken(user.getEmail()));
     }

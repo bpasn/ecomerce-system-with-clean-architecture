@@ -1,5 +1,6 @@
 package com.app.domain.models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,10 @@ public class Product extends BaseModel {
     private Stock stock;
 
     private Store store;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     public Store getStore() {
         return store;
@@ -116,6 +121,8 @@ public class Product extends BaseModel {
         this.productOptions = productOptions;
     }
 
+    
+
     @Override
     public String toString() {
         return "Product [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
@@ -124,6 +131,20 @@ public class Product extends BaseModel {
                 + productOptions + "]";
     }
 
-   
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
 }

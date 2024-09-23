@@ -14,11 +14,11 @@ public interface StoreMapper extends BaseMapper<StoreDTO, Store> {
     StoreMapper INSTANCE = Mappers.getMapper(StoreMapper.class);
 
     @Override
-    @Mapping(source = "user",target = "userId",qualifiedByName = "toUserId")
+    // @Mapping(source = "user",target = "userId",qualifiedByName = "toUserId")
     StoreDTO toDTO(Store e);
 
-    @Named("toUserId")
-    default String toUserId(User user){
-        return user.getId();
-    }
+    // @Named("toUserId")
+    // default String toUserId(User user){
+    //     return user.getId();
+    // }
 }

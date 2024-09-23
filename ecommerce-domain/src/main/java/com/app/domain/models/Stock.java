@@ -1,5 +1,7 @@
 package com.app.domain.models;
 
+import java.time.LocalDateTime;
+
 public class Stock extends BaseModel {
 
     private Product product;
@@ -9,7 +11,9 @@ public class Stock extends BaseModel {
     private int quantity;
     private EStatusStock status;
     private boolean reOrder;
+    private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt;
     public boolean isReOrder() {
         return reOrder;
     }
@@ -64,4 +68,21 @@ public class Stock extends BaseModel {
         this.status = status;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    
 }
