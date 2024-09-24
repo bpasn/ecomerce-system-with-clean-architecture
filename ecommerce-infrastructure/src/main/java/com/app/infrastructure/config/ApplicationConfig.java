@@ -29,7 +29,7 @@ public class ApplicationConfig {
     @Bean
     UserDetailsService userDetailsService() {
         return u -> (UserDetails) userJpaRepository.findByEmail(u)
-                .orElseThrow(() -> new BaseException("Email not found"));
+                .orElseThrow(() -> new BaseException("Invalid token"));
     }
 
     @Bean

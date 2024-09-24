@@ -1,6 +1,7 @@
 package com.app.application.dto;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Set;
 
 public class ProductsDTO {
     String id;
@@ -8,12 +9,12 @@ public class ProductsDTO {
     String nameEN;
     String descriptionTH;
     String descriptionEN;
-    double price;
+    BigDecimal price;
     int quantity;
     StockDTO stock;
-    List<ProductImageDTO> productImages;
-    List<CategoriesDTO> categories;
-    List<ProductOptionDTO> productOptions;
+    Set<ProductImageDTO> productImages;
+    Set<CategoriesDTO> categories;
+    Set<ProductOptionDTO> productOptions;
     String storeId;
 
     public String getStoreId() {
@@ -24,11 +25,11 @@ public class ProductsDTO {
         this.storeId = storeId;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -40,11 +41,11 @@ public class ProductsDTO {
         this.quantity = quantity;
     }
 
-    public List<ProductImageDTO> getProductImages() {
+    public Set<ProductImageDTO> getProductImages() {
         return productImages;
     }
 
-    public void setProductImages(List<ProductImageDTO> productImages) {
+    public void setProductImages(Set<ProductImageDTO> productImages) {
         this.productImages = productImages;
     }
 
@@ -64,11 +65,11 @@ public class ProductsDTO {
         this.nameTH = nameTH;
     }
 
-    public List<ProductOptionDTO> getProductOptions() {
+    public Set<ProductOptionDTO> getProductOptions() {
         return productOptions;
     }
 
-    public void setProductOptions(List<ProductOptionDTO> productOptions) {
+    public void setProductOptions(Set<ProductOptionDTO> productOptions) {
         this.productOptions = productOptions;
     }
 
@@ -96,20 +97,18 @@ public class ProductsDTO {
         this.descriptionEN = descriptionEN;
     }
 
-    public List<CategoriesDTO> getCategories() {
+    public Set<CategoriesDTO> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<CategoriesDTO> categories) {
+    public void setCategories(Set<CategoriesDTO> categories) {
         this.categories = categories;
     }
 
     @Override
     public String toString() {
         return "ProductsDTO [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
-                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", quantity=" + quantity + ", stock="
-                + stock + ", productImages=" + productImages + ", categoriesDTOs=" + categories
-                + ", productOptions=" + productOptions.toString() + "]";
+                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", quantity=" + quantity + "]";
     }
 
     public String getId() {

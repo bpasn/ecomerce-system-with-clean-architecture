@@ -9,7 +9,6 @@ public class User extends BaseModel {
     private String email;
     private String name;
     private String password;
-    private List<Store> stores = new ArrayList<>();
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -51,17 +50,9 @@ public class User extends BaseModel {
         this.password = password;
     }
 
-    public List<Store> getStores() {
-        return stores;
-    }
-
-    public void setStores(List<Store> stores) {
-        this.stores = stores;
-    }
-
     @Override
     public String toString() {
-        return "User [email=" + email + ", name=" + name + ", password=" + password + ", stores=" + stores + "]";
+        return "User [email=" + email + ", name=" + name + ", password=" + password + "]";
     }
 
     public LocalDateTime getCreatedAt() {

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.application.dto.CategoriesDTO;
 import com.app.application.interfaces.CategoryService;
-import com.app.application.mapper.CategoryMapper;
+import com.app.application.mapper.ProductCategoryMapper;
 import com.app.domain.models.ProductCategories;
 import com.app.domain.models.Store;
 import com.app.domain.usecase.ProductCategoryUseCase;
@@ -25,8 +25,8 @@ public class CategoriesServiceImpl extends BaseServiceImpl<ProductCategories, Ca
 
     private final ProductCategoryUseCase productCategoryUseCase;
     private final StoreUseCase storeUseCase;
-    private final CategoryMapper categoryMapper;
-    CategoriesServiceImpl(ProductCategoryUseCase productCategoryUseCase, CategoryMapper categoryMapper,StoreUseCase storeUseCase) {
+    private final ProductCategoryMapper categoryMapper;
+    CategoriesServiceImpl(ProductCategoryUseCase productCategoryUseCase, ProductCategoryMapper categoryMapper,StoreUseCase storeUseCase) {
         super(productCategoryUseCase, categoryMapper,ProductCategories.class);
         this.productCategoryUseCase = productCategoryUseCase;
         this.storeUseCase = storeUseCase;
@@ -36,7 +36,7 @@ public class CategoriesServiceImpl extends BaseServiceImpl<ProductCategories, Ca
 
     @Override
     public CategoriesDTO getByName(String name) {
-        throw new UnsupportedOperationException("Unimplemented method 'getByName'");
+       return categoryMapper.toDTO(productCategoryUseCase.findByName(name));
     }
 
     @Override

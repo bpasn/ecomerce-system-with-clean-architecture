@@ -17,6 +17,20 @@ services:
       networks:
         - backend
   
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8111:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@domain.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+        - backend
+
   nginx:
     mem_limit: 128m
     mem_reservation: 128M
@@ -34,6 +48,7 @@ services:
 
 volumes:
   postgres-data:
+  pgadmin-data:
 
 networks:
   backend:

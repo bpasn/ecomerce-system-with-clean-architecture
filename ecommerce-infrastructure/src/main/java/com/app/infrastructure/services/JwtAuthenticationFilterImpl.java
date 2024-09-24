@@ -20,6 +20,7 @@ import com.app.infrastructure.config.SecurityConfig;
 import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.interfaces.JwtAuthenticationFilter;
 import com.app.infrastructure.interfaces.JwtService;
+import com.app.infrastructure.repositories.UserJpaRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -30,6 +31,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements JwtAuthenticationFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final UserJpaRepository userJpaRepository;
 
     @Autowired
     @Qualifier("handlerExceptionResolver")
@@ -40,9 +42,12 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
 
     public JwtAuthenticationFilterImpl(
             JwtService jwtService,
-            UserDetailsService userDetailsService) {
+            UserDetailsService userDetailsService,
+            UserJpaRepository userJpaRepository
+            ) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.userJpaRepository = userJpaRepository;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.app.ecommerce.api.controllers;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import com.app.application.interfaces.ProductImageService;
 import com.app.application.interfaces.ProductService;
 import com.app.application.interfaces.StockService;
 import com.app.domain.pageable.PageResult;
+import com.app.domain.projections.StockProductProjection;
 import com.app.ecommerce.api.helper.ProductHelper;
 import com.app.ecommerce.api.request.ProductRequest;
 
@@ -89,6 +91,11 @@ public class ProductController {
     public ResponseEntity<BaseResponse> updateStock(@RequestBody StockDTO sdto) {
         stockService.updateStock(sdto);
         return ResponseEntity.ok(new BaseResponse());
+    }
+    
+    @GetMapping("/stock/{storeId}")
+    public ResponseEntity<ApiResponse<List<StockProductProjection>>> getProductStock(@PathVariable("storeId") String storeId){
+        return ResponseEntity.ok(productService.getProductStock(storeId));
     }
 
 }

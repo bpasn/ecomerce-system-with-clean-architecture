@@ -2,12 +2,9 @@ package com.app.domain.models;
 
 public class ProductImage extends BaseModel {
     private String source;
-
     private Product product;
 
-    public ProductImage() {
-
-    }
+    public ProductImage() {}
 
     public ProductImage(String source) {
         this.source = source;

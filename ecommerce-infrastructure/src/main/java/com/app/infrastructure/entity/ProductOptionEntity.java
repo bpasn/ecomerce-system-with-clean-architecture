@@ -1,7 +1,11 @@
 package com.app.infrastructure.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,11 +27,12 @@ public class ProductOptionEntity extends BaseEntity {
     @Column(name = "many_can_be_chosen",columnDefinition = "boolean default false")
     private boolean manyCanBeChosen;
 
-    @Column(nullable = false, columnDefinition = "default 0")
+    @Column(nullable = false)
     private int lengthSelect;
 
     @OneToMany(mappedBy = "productOption", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OptionChoiceEntity> choices = new ArrayList<>();
+    @JsonIgnore
+    private Set<OptionChoiceEntity> choices = new HashSet<>();
 
     @ManyToMany(mappedBy = "productOptions")
     private List<ProductEntity> products = new ArrayList<>();
@@ -80,11 +85,11 @@ public class ProductOptionEntity extends BaseEntity {
         this.lengthSelect = lengthSelect;
     }
 
-    public List<OptionChoiceEntity> getChoices() {
+    public Set<OptionChoiceEntity> getChoices() {
         return choices;
     }
 
-    public void setChoices(List<OptionChoiceEntity> choices) {
+    public void setChoices(Set<OptionChoiceEntity> choices) {
         this.choices = choices;
     }
 

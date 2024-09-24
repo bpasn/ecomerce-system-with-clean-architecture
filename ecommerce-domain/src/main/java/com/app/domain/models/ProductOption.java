@@ -1,8 +1,8 @@
 package com.app.domain.models;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProductOption extends BaseModel {
 
@@ -14,11 +14,9 @@ public class ProductOption extends BaseModel {
 
     private int lengthSelect;
 
-    private List<OptionChoice> choices = new ArrayList<>();
-
-    private List<Product> products = new ArrayList<>();
-
     private Store store;
+    
+    private Set<OptionChoice> choices = new HashSet<>();
 
     private LocalDateTime createdAt;
 
@@ -33,7 +31,6 @@ public class ProductOption extends BaseModel {
             boolean oneMustBeChosen,
             boolean manyCanBeChosen,
             int lengthSelect,
-            List<OptionChoice> choices,
             LocalDateTime createdAt,
             LocalDateTime updatedAt) {
         setId(id);
@@ -41,7 +38,24 @@ public class ProductOption extends BaseModel {
         this.oneMustBeChosen = oneMustBeChosen;
         this.manyCanBeChosen = manyCanBeChosen;
         this.lengthSelect = lengthSelect;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+    public ProductOption(
+            String id,
+            String optionName,
+            boolean oneMustBeChosen,
+            boolean manyCanBeChosen,
+            Set<OptionChoice> choices,
+            int lengthSelect,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt) {
+        setId(id);
+        this.optionName = optionName;
+        this.oneMustBeChosen = oneMustBeChosen;
+        this.manyCanBeChosen = manyCanBeChosen;
         this.choices = choices;
+        this.lengthSelect = lengthSelect;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -78,22 +92,6 @@ public class ProductOption extends BaseModel {
         this.lengthSelect = lengthSelect;
     }
 
-    public List<OptionChoice> getChoices() {
-        return choices;
-    }
-
-    public void setChoices(List<OptionChoice> choices) {
-        this.choices = choices;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
     public Store getStore() {
         return store;
     }
@@ -117,13 +115,19 @@ public class ProductOption extends BaseModel {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+    public Set<OptionChoice> getChoices() {
+        return choices;
+    }
 
+    public void setChoices(Set<OptionChoice> choices) {
+        this.choices = choices;
+    }
     @Override
     public String toString() {
         return "ProductOption [optionName=" + optionName + ", oneMustBeChosen=" + oneMustBeChosen + ", manyCanBeChosen="
-                + manyCanBeChosen + ", lengthSelect=" + lengthSelect + ", choices=" + choices.toString() + ", products="
-                + products
-                + ", store=" + store.toString() + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+                + manyCanBeChosen + ", lengthSelect=" + lengthSelect + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
+
+   
 
 }

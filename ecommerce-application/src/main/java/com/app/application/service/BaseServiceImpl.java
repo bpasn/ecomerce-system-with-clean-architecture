@@ -3,7 +3,6 @@ package com.app.application.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -76,6 +75,7 @@ public class BaseServiceImpl<M, D> implements BaseService<M, D> {
     @Override
     public ApiResponse<D> create(D model) {
         try {
+            System.out.println(model.toString());
             M entity = baseMapper.toModel(model);
             M savedEntity = baseUseCase.save(entity);
             return new ApiResponse<>(baseMapper.toDTO(savedEntity));

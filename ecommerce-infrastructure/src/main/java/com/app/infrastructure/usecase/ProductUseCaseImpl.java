@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.domain.models.Product;
 import com.app.domain.pageable.PageResult;
+import com.app.domain.projections.StockProductProjection;
 import com.app.domain.usecase.ProductUseCase;
 import com.app.infrastructure.entity.ProductEntity;
 import com.app.infrastructure.mapper.ProductMapperInfra;
@@ -46,6 +47,11 @@ public class ProductUseCaseImpl extends BaseUseCaseImpl<ProductEntity, Product> 
                 result.getTotalElements(),
                 result.getTotalPages());
         return pageResult;
+    }
+
+    @Override
+    public List<StockProductProjection> findProductStockAllByStoreIdNative(String storeId) {
+       return productJpaRepository.findProductStockAllByStoreIdNative(storeId);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.app.application.dto;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProductOptionDTO {
     private String id;
@@ -17,7 +18,7 @@ public class ProductOptionDTO {
     private boolean oneMustBeChosen;
     private boolean manyCanBeChosed;
     private int lengthSelect;
-    private List<OptionChoiceDTO> choices;
+    private Set<OptionChoiceDTO> choices = new HashSet<>();
     private String storeId;
 
     public String getStoreId() {
@@ -41,7 +42,7 @@ public class ProductOptionDTO {
             boolean oneMustBeChosen,
             boolean manyCanBeChosed,
             int lengthSelect,
-            List<OptionChoiceDTO> choices) {
+            Set<OptionChoiceDTO> choices) {
         this.optionName = optionName;
         this.oneMustBeChosen = oneMustBeChosen;
         this.manyCanBeChosed = manyCanBeChosed;
@@ -81,11 +82,11 @@ public class ProductOptionDTO {
         this.lengthSelect = lengthSelect;
     }
 
-    public List<OptionChoiceDTO> getChoices() {
+    public Set<OptionChoiceDTO> getChoices() {
         return choices;
     }
 
-    public void setChoices(List<OptionChoiceDTO> choices) {
+    public void setChoices(Set<OptionChoiceDTO> choices) {
         this.choices = choices;
     }
 

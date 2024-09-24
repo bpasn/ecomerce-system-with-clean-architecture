@@ -6,7 +6,7 @@ import com.app.domain.models.EUnitType;
 public class StockDTO {
     String id;
     EUnitType unitType;
-    double unitQuantity;
+    int unitQuantity;
     int quantity;
     EStatusStock status;
     boolean reOrder;
@@ -33,11 +33,11 @@ public class StockDTO {
         this.unitType = unitType;
     }
 
-    public double getUnitQuantity() {
+    public int getUnitQuantity() {
         return unitQuantity;
     }
 
-    public void setUnitQuantity(double unitQuantity) {
+    public void setUnitQuantity(int unitQuantity) {
         this.unitQuantity = unitQuantity;
     }
 

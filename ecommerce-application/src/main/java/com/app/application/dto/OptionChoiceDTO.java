@@ -1,15 +1,18 @@
 package com.app.application.dto;
 
+import java.math.BigDecimal;
 
 public class OptionChoiceDTO {
+    private String id;
     private String name;
     private String choiceEffect;
-    private double price;
+    private BigDecimal price;
     private String status;
 
     public OptionChoiceDTO() {
     }
-    public OptionChoiceDTO(String name, String choiceEffect, double price, String status) {
+    public OptionChoiceDTO(String id,String name, String choiceEffect, BigDecimal price, String status) {
+        this.id = id;
         this.name = name;
         this.choiceEffect = choiceEffect;
         this.price = price;
@@ -27,10 +30,10 @@ public class OptionChoiceDTO {
     public void setChoiceEffect(String choiceEffect) {
         this.choiceEffect = choiceEffect;
     }
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
     public String getStatus() {
@@ -39,11 +42,19 @@ public class OptionChoiceDTO {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
     @Override
     public String toString() {
         return "OptionChoiceDTO [name=" + name + ", choiceEffect=" + choiceEffect + ", price=" + price + ", status="
                 + status + "]";
     }
+    
 
     
     

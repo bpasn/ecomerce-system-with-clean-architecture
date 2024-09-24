@@ -1,5 +1,6 @@
 package com.app.domain.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class OptionChoice extends BaseModel {
@@ -10,7 +11,7 @@ public class OptionChoice extends BaseModel {
 
     private EChoiceEffect choiceEffect;
 
-    private double price;
+    private BigDecimal price;
 
     private EStatusChoice status;
     
@@ -24,14 +25,14 @@ public class OptionChoice extends BaseModel {
         setStatus(EStatusChoice.available);
     }
     
-    public OptionChoice(String id,String name, EChoiceEffect choiceEffect, double price, EStatusChoice status) {
+    public OptionChoice(String id,String name, EChoiceEffect choiceEffect, BigDecimal price, EStatusChoice status) {
         setId(id);
         this.name = name;
         this.choiceEffect = choiceEffect;
         this.price = price;
         this.status = status;
     }
-    public OptionChoice(String name, EChoiceEffect choiceEffect, double price, EStatusChoice status) {
+    public OptionChoice(String name, EChoiceEffect choiceEffect, BigDecimal price, EStatusChoice status) {
         this.name = name;
         this.choiceEffect = choiceEffect;
         this.price = price;
@@ -62,11 +63,11 @@ public class OptionChoice extends BaseModel {
         this.choiceEffect = choiceEffect;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

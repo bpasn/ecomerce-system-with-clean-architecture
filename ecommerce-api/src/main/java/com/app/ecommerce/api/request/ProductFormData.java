@@ -1,6 +1,7 @@
 package com.app.ecommerce.api.request;
 
 import java.util.List;
+import java.util.Set;
 
 import com.app.application.dto.StockDTO;
 
@@ -12,8 +13,8 @@ public class ProductFormData {
     double price;
     int quantity;
     StockDTO stock;
-    List<String> categories;
-    List<String> productOptions;
+    Set<String> categories;
+    Set<String> productOptions;
     String storeId;
     
     public String getStoreId() {
@@ -64,24 +65,24 @@ public class ProductFormData {
     public void setStock(StockDTO stock) {
         this.stock = stock;
     }
-    public List<String> getCategories() {
+    public Set<String> getCategories() {
         return categories;
     }
-    public void setCategories(List<String> categories) {
+    public void setCategories(Set<String> categories) {
         this.categories = categories;
     }
-    public List<String> getProductOptions() {
+    public Set<String> getProductOptions() {
         return productOptions;
     }
-    public void setProductOptions(List<String> productOptions) {
+    public void setProductOptions(Set<String> productOptions) {
         this.productOptions = productOptions;
     }
     @Override
     public String toString() {
         return "ProductFormData [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
-                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", quantity=" + quantity + ", stock="
-                + stock + ", categories=" + categories + ", productOptions=" + productOptions + "]";
+                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", quantity=" + quantity + "]";
     }
+   
     
     
 }

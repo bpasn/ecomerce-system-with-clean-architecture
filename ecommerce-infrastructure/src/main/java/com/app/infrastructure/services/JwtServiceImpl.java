@@ -27,9 +27,9 @@ public class JwtServiceImpl implements JwtService {
     private String SECRET_KEY;
 
     @Value("${jwt.expired}")
-    private int expired;
+    private long expired;
     @Value("${jwt.refreshTokenExpire}")
-    private int refreshTokenExpire;
+    private long refreshTokenExpire;
 
     private final AuthUseCase authUseCase;
     

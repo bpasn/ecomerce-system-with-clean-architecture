@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.app.application.dto.ApiResponse;
+import com.app.application.dto.OptionChoiceDTO;
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.interfaces.ProductOptionService;
+import com.app.application.mapper.OptionChoiceMapper;
 import com.app.application.mapper.ProductOptionMapper;
 import com.app.domain.models.OptionChoice;
 import com.app.domain.models.ProductOption;
@@ -30,9 +32,10 @@ public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOption, Pro
     private final StoreUseCase storeUseCase;
     private final ProductOptionMapper productOptionMapper;
 
-    private final EntityManager entityManager; 
+    private final EntityManager entityManager;
+
     ProductOptionServiceImpl(ProductOptionUseCase productOptionUseCase, OptionChoiceUseCase optionChoiceUseCase,
-            ProductOptionMapper productOptionMapper, StoreUseCase storeUseCase,EntityManager entityManager) {
+            ProductOptionMapper productOptionMapper, StoreUseCase storeUseCase, EntityManager entityManager) {
         super(productOptionUseCase, productOptionMapper, ProductOption.class);
         this.productOptionUseCase = productOptionUseCase;
         this.optionChoiceUseCase = optionChoiceUseCase;
@@ -50,10 +53,11 @@ public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOption, Pro
                     .orElseThrow(() -> new NotFoundException("Store", model.getStoreId()));
             productOption.setStore(store);
             ProductOption saveOption = productOptionUseCase.save(productOption);
-            if (productOption.getChoices() != null && !productOption.getChoices().isEmpty()) {
-                productOption.getChoices().stream().forEach((OptionChoice choice) -> {
-                    choice.setProductOption(saveOption);
-                    optionChoiceUseCase.save(choice);
+            if (model.getChoices() != null && !model.getChoices().isEmpty()) {
+                model.getChoices().stream().forEach((OptionChoiceDTO choice) -> {
+                    OptionChoice optionChoice = OptionChoiceMapper.INSTANCE.toModel(choice);
+                    optionChoice.setProductOption(saveOption);
+                    optionChoiceUseCase.save(optionChoice);
                 });
             }
             return new ApiResponse<>(productOptionMapper.toDTO(saveOption));
@@ -71,8 +75,8 @@ public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOption, Pro
     @Override
     public ApiResponse<List<ProductOptionDTO>> getAllByStoreId(String storeId) {
         List<ProductOption> productOptions = productOptionUseCase.findAllByStoreId(storeId);
-        System.out.println(productOptions);
-        return new ApiResponse<>(new ArrayList<>());
+        System.out.println();
+        return new ApiResponse<>(productOptions.stream().map(productOptionMapper::toDTO).toList());
     }
 
 }

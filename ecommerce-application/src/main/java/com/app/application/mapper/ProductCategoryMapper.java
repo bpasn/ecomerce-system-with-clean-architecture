@@ -10,19 +10,14 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface CategoryMapper extends BaseMapper<CategoriesDTO,ProductCategories>{
-    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
+public interface ProductCategoryMapper extends BaseMapper<CategoriesDTO,ProductCategories>{
+    ProductCategoryMapper INSTANCE = Mappers.getMapper(ProductCategoryMapper.class);
 
 
     @Override
-    @Mapping(source = "store",target = "storeId",qualifiedByName = "storeToIdString")
+    @Mapping(source = "store.id",target = "storeId")
     CategoriesDTO toDTO(ProductCategories entity);
 
-
-    @Named("storeToIdString")
-    default String storeToIdString(Store store){
-        return store.getId();
-    }
 
 
 }

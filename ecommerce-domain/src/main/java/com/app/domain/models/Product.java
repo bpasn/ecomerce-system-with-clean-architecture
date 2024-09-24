@@ -1,19 +1,24 @@
 package com.app.domain.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Product extends BaseModel {
     private String nameTH;
     private String nameEN;
     private String descriptionTH;
     private String descriptionEN;
-    private double price;
-
-    private Stock stock;
-
+    private BigDecimal price;
     private Store store;
+    private Stock stock;
+    
+    private Set<ProductCategories> categories = new HashSet<>();
+
+    private Set<ProductImage> productImages = new HashSet<>();
+
+    private Set<ProductOption> productOptions = new HashSet<>();
 
     private LocalDateTime createdAt;
 
@@ -27,18 +32,13 @@ public class Product extends BaseModel {
         this.store = store;
     }
 
-    private List<ProductCategories> categories = new ArrayList<>();
-
-    private List<ProductImage> productImages = new ArrayList<>();
-
-    private List<ProductOption> productOptions = new ArrayList<>();
 
     public Product() {
     }
 
-    public Product(String nameTH, String nameEN, String descriptionTH, String descriptionEN, double price,
-            List<ProductCategories> categories,
-            List<ProductImage> productImages) {
+    public Product(String nameTH, String nameEN, String descriptionTH, String descriptionEN, BigDecimal price,
+            Set<ProductCategories> categories,
+            Set<ProductImage> productImages) {
         this.nameTH = nameTH;
         this.nameEN = nameEN;
         this.descriptionTH = descriptionTH;
@@ -47,14 +47,6 @@ public class Product extends BaseModel {
         this.categories = categories;
         this.productImages = productImages;
         // this.productGroups = productGroups;
-    }
-
-    public List<ProductImage> getProductImages() {
-        return productImages;
-    }
-
-    public void setProductImages(List<ProductImage> productImages) {
-        this.productImages = productImages;
     }
 
     public String getNameTH() {
@@ -89,46 +81,36 @@ public class Product extends BaseModel {
         this.descriptionEN = descriptionEN;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public Stock getStock() {
-        return stock;
-    }
-
-    public void setStock(Stock stock) {
-        this.stock = stock;
-    }
-
-    public List<ProductCategories> getCategories() {
+    public Set<ProductCategories> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<ProductCategories> categories) {
+    public void setCategories(Set<ProductCategories> categories) {
         this.categories = categories;
     }
 
-    public List<ProductOption> getProductOptions() {
+    public Set<ProductImage> getProductImages() {
+        return productImages;
+    }
+
+    public void setProductImages(Set<ProductImage> productImages) {
+        this.productImages = productImages;
+    }
+
+    public Set<ProductOption> getProductOptions() {
         return productOptions;
     }
 
-    public void setProductOptions(List<ProductOption> productOptions) {
+    public void setProductOptions(Set<ProductOption> productOptions) {
         this.productOptions = productOptions;
-    }
-
-    
-
-    @Override
-    public String toString() {
-        return "Product [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
-                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", stock=" + stock + ", store=" + store
-                + ", categories=" + categories + ", productImages=" + productImages + ", productOptions="
-                + productOptions + "]";
     }
 
     public LocalDateTime getCreatedAt() {
@@ -145,6 +127,23 @@ public class Product extends BaseModel {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    
+
+    @Override
+    public String toString() {
+        return "Product [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
+                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", createdAt=" + createdAt + ", updatedAt="
+                + updatedAt + "]";
+    }
+
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
     }
 
 }

@@ -1,7 +1,10 @@
 package com.app.application.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -24,6 +27,7 @@ import com.app.domain.models.ProductOption;
 import com.app.domain.models.Stock;
 import com.app.domain.models.Store;
 import com.app.domain.pageable.PageResult;
+import com.app.domain.projections.StockProductProjection;
 import com.app.domain.usecase.ProductCategoryUseCase;
 import com.app.domain.usecase.ProductImageUseCase;
 import com.app.domain.usecase.ProductOptionUseCase;
@@ -86,32 +90,33 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
             Store storeEntity = storeUseCase.findById(productsDTO.getStoreId())
                     .orElseThrow(() -> new NotFoundException("Store", productsDTO.getStoreId()));
 
+
+            
             // set store_id in product
             productEntity.setStore(storeEntity);
 
             if (productsDTO.getCategories() != null && !productsDTO.getCategories().isEmpty()) {
-                List<ProductCategories> pCategoriesEntities = categoryUseCase
-                        .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
-                productEntity.setCategories(pCategoriesEntities);
+                Set<ProductCategories> productCategories = new HashSet<>();
+                categoryUseCase.findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList()).forEach(pc -> productCategories.add(pc));
+                productEntity.setCategories(productCategories);
             }
             if (productsDTO.getProductOptions() != null && !productsDTO.getProductOptions().isEmpty()) {
-                List<ProductOption> productOptionEntities = productOptionUseCase
-                        .findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
-                productEntity.setProductOptions(productOptionEntities);
+                List<ProductOption> p = productOptionUseCase.findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
+                productEntity.setProductOptions(new HashSet<>(p));
             }
 
             // save product first
             Product savedProduct = productUseCase.save(productEntity);
 
             // get store from product
-            Stock stock = productEntity.getStock();
+            Stock stock = StockMapper.INSTANCE.toModel(productsDTO.getStock());
             stock.setProduct(savedProduct);
 
             System.out.println(String.format("Stock : %s", stock.toString()));
 
-            if (stock != null) {
-                Stock savedStock = stockUseCase.save(productEntity.getStock());
-                productEntity.setStock(savedStock);
+            if (stock != null && stock.getProduct() != null) {
+                // ถ้า productId มีแล้ว จะทำการ save
+                stockUseCase.save(stock);
             }
 
             // บันทึก ProductEntity
@@ -150,31 +155,32 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
     public ApiResponse<ProductsDTO> updateProduct(String productId, List<MultipartFile> files,
             ProductsDTO productsDTO) {
         // แปลง DTO เป็น Entity
-        Product productEntity = productUseCase.findById(productId)
+        Product product = productUseCase.findById(productId)
                 .orElseThrow(() -> new NotFoundException("Product", productId));
 
-        productEntity.setNameEN(productsDTO.getNameEN());
-        productEntity.setNameTH(productsDTO.getNameTH());
-        productEntity.setDescriptionTH(productsDTO.getDescriptionTH());
-        productEntity.setDescriptionEN(productsDTO.getDescriptionEN());
-        productEntity.setPrice(productsDTO.getPrice());
+        product.setNameEN(productsDTO.getNameEN());
+        product.setNameTH(productsDTO.getNameTH());
+        product.setDescriptionTH(productsDTO.getDescriptionTH());
+        product.setDescriptionEN(productsDTO.getDescriptionEN());
+        product.setPrice(productsDTO.getPrice());
 
         if (!productsDTO.getCategories().isEmpty()) {
             List<ProductCategories> pCategoriesEntities = categoryUseCase
                     .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
-            productEntity.setCategories(pCategoriesEntities);
+            product.setCategories(new HashSet<>(pCategoriesEntities));
         }
         if (!productsDTO.getProductOptions().isEmpty()) {
             List<ProductOption> productOptionEntities = productOptionUseCase
                     .findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
-            productEntity.setProductOptions(productOptionEntities);
+            product.setProductOptions(new HashSet<>(productOptionEntities));
         }
 
-        productUseCase.save(productEntity);
+        
+        productUseCase.save(product);
 
         Stock stock = StockMapper.INSTANCE.toModel(productsDTO.getStock());
-        stock.setId(productEntity.getStock().getId());
-        stock.setProduct(productEntity);
+        stock.setId(productsDTO.getStock().getId());
+        stock.setProduct(product);
 
         stockUseCase.save(stock);
 
@@ -182,11 +188,11 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
         // จัดการกับ ProductImageEntity
         if (files != null && !files.isEmpty()) {
             files.forEach(file -> {
-                productEntity.getProductImages().add(createProductImage(file, productEntity));
+                product.getProductImages().add(createProductImage(file, product));
             });
         }
 
-        return new ApiResponse<>(productMapper.toDTO(productEntity));
+        return new ApiResponse<>(productMapper.toDTO(product));
     }
 
     public ProductImage createProductImage(MultipartFile file, Product product) {
@@ -206,19 +212,31 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
 
     @Override
     public void delete(String id) {
-        Product productEntity = productUseCase.findById(id)
+        Product product = productUseCase.findById(id)
                 .orElseThrow(() -> new NotFoundException("Product", id));
 
-        for (ProductImage productImageEntity : productEntity.getProductImages()) {
+        for (ProductImage productImageEntity : product.getProductImages()) {
             fileManagement.removeFile(productImageEntity.getSource());
             productImageUseCase.delete(productImageEntity.getId());
         }
-        stockUseCase.delete(productEntity.getStock().getId());
+        
+        stockUseCase.delete(product.getStock().getId());
         productUseCase.delete(id);
     }
 
     @Override
     public ApiResponse<List<ProductsDTO>> getProduct() {
         return new ApiResponse<>(productUseCase.findAll().stream().map(productMapper::toDTO).toList());
+    }
+
+    @Override
+    public ApiResponse<List<StockProductProjection>> getProductStock(String storeId) {
+       List<StockProductProjection> stockProductProjections =productUseCase.findProductStockAllByStoreIdNative(storeId);
+
+        stockProductProjections.stream().map((stock) -> {
+            
+            return stock;
+        });
+       return new ApiResponse<>(stockProductProjections);
     }
 }

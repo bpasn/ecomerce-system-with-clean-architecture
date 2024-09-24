@@ -2,9 +2,12 @@ package com.app.infrastructure.entity;
 
 import com.app.domain.models.EStatusStock;
 import com.app.domain.models.EUnitType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
@@ -13,15 +16,18 @@ public class StockEntity extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private ProductEntity product;
 
     @Column(name = "unit_type")
+    @Enumerated(EnumType.STRING)
     private EUnitType unitType;
     @Column(name = "unit_quantity")
-    private double unitQuantity;
+    private int unitQuantity;
     @Column(name = "quantity")
     private int quantity;
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private EStatusStock status;
     @Column(name = "re_order")
     private boolean reOrder;
@@ -38,7 +44,6 @@ public class StockEntity extends BaseEntity {
         setUnitType(EUnitType.PIECE);
         setStatus(EStatusStock.IN_STOCK);
     }
-    
 
     public ProductEntity getProduct() {
         return product;
@@ -56,11 +61,11 @@ public class StockEntity extends BaseEntity {
         this.unitType = unitType;
     }
 
-    public double getUnitQuantity() {
+    public int getUnitQuantity() {
         return unitQuantity;
     }
 
-    public void setUnitQuantity(double unitQuantity) {
+    public void setUnitQuantity(int unitQuantity) {
         this.unitQuantity = unitQuantity;
     }
 
@@ -78,6 +83,12 @@ public class StockEntity extends BaseEntity {
 
     public void setStatus(EStatusStock status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "StockEntity [unitType=" + unitType + ", unitQuantity=" + unitQuantity + ", quantity=" + quantity
+                + ", status=" + status + ", reOrder=" + reOrder + "]";
     }
 
 }

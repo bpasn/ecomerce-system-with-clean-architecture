@@ -1,8 +1,6 @@
 package com.app.domain.models;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.app.domain.exceptions.DomainException;
 import com.app.domain.usecase.ProductCategoryUseCase;
@@ -12,13 +10,19 @@ public class ProductCategories extends BaseModel {
 
     private Store store;
 
-    private List<Product> products = new ArrayList<>();
+    // private Set<Product> products = new HashSet<>();
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
     public ProductCategories() {
+    }
+
+    public ProductCategories(String id,String name,Store store){
+        setId(id);
+        this.name = name;
+        this.store = store;
     }
 
     public ProductCategories(String name) {
@@ -33,13 +37,13 @@ public class ProductCategories extends BaseModel {
         this.name = name;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
+    // public Set<Product> getProducts() {
+    //     return products;
+    // }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
+    // public void setProducts(Set<Product> products) {
+    //     this.products = products;
+    // }
 
     public void validateCategoryNameExists(ProductCategoryUseCase c) {
         if (c.isExistsName(this.name)) {
@@ -69,6 +73,11 @@ public class ProductCategories extends BaseModel {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductCategories [name=" + name +  "]";
     }
 
     

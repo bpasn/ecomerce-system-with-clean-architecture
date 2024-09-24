@@ -1,11 +1,10 @@
 package com.app.infrastructure.entity;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,7 +29,7 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "description_en")
     private String descriptionEN;
     @Column(name = "price")
-    private double price;
+    private BigDecimal price;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private StockEntity stock;
@@ -39,31 +38,24 @@ public class ProductEntity extends BaseEntity {
     @JoinColumn(name = "store_id", nullable = false)
     private StoreEntity store;
 
-    public StoreEntity getStore() {
-        return store;
-    }
-
-    public void setStore(StoreEntity store) {
-        this.store = store;
-    }
-
+   
     @ManyToMany
     @JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<ProductCategoriesEntity> categories = new ArrayList<>();
+    private Set<ProductCategoriesEntity> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "product")
-    private List<ProductImageEntity> productImages = new ArrayList<>();
+    private Set<ProductImageEntity> productImages = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "option_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "product_option_id"))
-    private List<ProductOptionEntity> productOptions = new ArrayList<>();
+    private Set<ProductOptionEntity> productOptions = new HashSet<>();
 
     public ProductEntity() {
     }
 
-    public ProductEntity(String nameTH, String nameEN, String descriptionTH, String descriptionEN, double price,
-            List<ProductCategoriesEntity> categories,
-            List<ProductImageEntity> productImages) {
+    public ProductEntity(String nameTH, String nameEN, String descriptionTH, String descriptionEN, BigDecimal price,
+            Set<ProductCategoriesEntity> categories,
+            Set<ProductImageEntity> productImages) {
         this.nameTH = nameTH;
         this.nameEN = nameEN;
         this.descriptionTH = descriptionTH;
@@ -74,11 +66,11 @@ public class ProductEntity extends BaseEntity {
         // this.productGroups = productGroups;
     }
 
-    public List<ProductImageEntity> getProductImages() {
+    public Set<ProductImageEntity> getProductImages() {
         return productImages;
     }
 
-    public void setProductImages(List<ProductImageEntity> productImages) {
+    public void setProductImages(Set<ProductImageEntity> productImages) {
         this.productImages = productImages;
     }
 
@@ -114,11 +106,11 @@ public class ProductEntity extends BaseEntity {
         this.descriptionEN = descriptionEN;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -130,28 +122,84 @@ public class ProductEntity extends BaseEntity {
         this.stock = stock;
     }
 
-    public List<ProductCategoriesEntity> getCategories() {
+    public Set<ProductCategoriesEntity> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<ProductCategoriesEntity> categories) {
+    public void setCategories(Set<ProductCategoriesEntity> categories) {
         this.categories = categories;
     }
 
-    public List<ProductOptionEntity> getProductOptions() {
+    public Set<ProductOptionEntity> getProductOptions() {
         return productOptions;
     }
 
-    public void setProductOptions(List<ProductOptionEntity> productOptions) {
+    public void setProductOptions(Set<ProductOptionEntity> productOptions) {
         this.productOptions = productOptions;
+    }
+    public StoreEntity getStore() {
+        return store;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
     }
 
     @Override
     public String toString() {
         return "ProductEntity [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
-                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", stock=" + stock + ", categories="
-                + categories + ", productImages=" + productImages + ", productOptions=" + productOptions
-                + "]";
+                + ", descriptionEN=" + descriptionEN + ", price=" + price + "]";
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((nameTH == null) ? 0 : nameTH.hashCode());
+        result = prime * result + ((nameEN == null) ? 0 : nameEN.hashCode());
+        result = prime * result + ((descriptionTH == null) ? 0 : descriptionTH.hashCode());
+        result = prime * result + ((descriptionEN == null) ? 0 : descriptionEN.hashCode());
+        result = prime * result + ((price == null) ? 0 : price.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ProductEntity other = (ProductEntity) obj;
+        if (nameTH == null) {
+            if (other.nameTH != null)
+                return false;
+        } else if (!nameTH.equals(other.nameTH))
+            return false;
+        if (nameEN == null) {
+            if (other.nameEN != null)
+                return false;
+        } else if (!nameEN.equals(other.nameEN))
+            return false;
+        if (descriptionTH == null) {
+            if (other.descriptionTH != null)
+                return false;
+        } else if (!descriptionTH.equals(other.descriptionTH))
+            return false;
+        if (descriptionEN == null) {
+            if (other.descriptionEN != null)
+                return false;
+        } else if (!descriptionEN.equals(other.descriptionEN))
+            return false;
+        if (price == null) {
+            if (other.price != null)
+                return false;
+        } else if (!price.equals(other.price))
+            return false;
+        return true;
+    }
+
+    
 
 }

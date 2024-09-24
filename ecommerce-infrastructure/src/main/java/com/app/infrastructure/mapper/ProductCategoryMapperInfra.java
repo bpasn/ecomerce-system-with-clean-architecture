@@ -9,4 +9,5 @@ import com.app.infrastructure.entity.ProductCategoriesEntity;
 @Mapper(componentModel = "spring")
 public interface ProductCategoryMapperInfra extends GenericMapper<ProductCategoriesEntity, ProductCategories> {
     ProductCategoryMapperInfra INSTANCE = Mappers.getMapper(ProductCategoryMapperInfra.class);
+
 }

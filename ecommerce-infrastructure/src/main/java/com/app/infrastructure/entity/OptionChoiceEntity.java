@@ -1,7 +1,10 @@
 package com.app.infrastructure.entity;
 
+import java.math.BigDecimal;
+
 import com.app.domain.models.EChoiceEffect;
 import com.app.domain.models.EStatusChoice;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,19 +17,20 @@ public class OptionChoiceEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_option_id",nullable = false)
+    @JsonIgnore
     private ProductOptionEntity productOption;
     
     private String name;
     @Enumerated(EnumType.STRING)
     private EChoiceEffect choiceEffect;
-    private double price;
+    private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private EStatusChoice status;
     
     public OptionChoiceEntity() {
         this.status = EStatusChoice.available;
     }
-    public OptionChoiceEntity(String name, EChoiceEffect choiceEffect, double price, EStatusChoice status) {
+    public OptionChoiceEntity(String name, EChoiceEffect choiceEffect, BigDecimal price, EStatusChoice status) {
         this.name = name;
         this.choiceEffect = choiceEffect;
         this.price = price;
@@ -44,10 +48,10 @@ public class OptionChoiceEntity extends BaseEntity {
     public void setChoiceEffect(EChoiceEffect choiceEffect) {
         this.choiceEffect = choiceEffect;
     }
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
     public EStatusChoice getStatus() {

@@ -13,6 +13,12 @@ public class CategoriesDTO {
         this.storeId = storeId;
     }
     public CategoriesDTO(){}
+    
+    public CategoriesDTO(String id, String name, String storeId) {
+        this.id = id;
+        this.name = name;
+        this.storeId = storeId;
+    }
     public CategoriesDTO(String id){
         setId(id);
     }

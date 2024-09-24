@@ -1,5 +1,7 @@
 package com.app.ecommerce.api.helper;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ public class ProductHelper {
         productsDTO.setNameEN(productFormData.getNameEN());
         productsDTO.setDescriptionTH(productFormData.getDescriptionTH());
         productsDTO.setDescriptionEN(productFormData.getDescriptionEN());
-        productsDTO.setPrice(productFormData.getPrice());
+        productsDTO.setPrice(new BigDecimal(productFormData.getPrice()));
         productsDTO.setStock(productFormData.getStock());
         productsDTO.setStoreId(productFormData.getStoreId());
         
@@ -30,13 +32,13 @@ public class ProductHelper {
             List<CategoriesDTO> categoriesDTOs = productFormData.getCategories().stream()
                     .map(category -> new CategoriesDTO(category))
                     .collect(Collectors.toList());
-            productsDTO.setCategories(categoriesDTOs);
+            productsDTO.setCategories(new HashSet<>(categoriesDTOs));
         }
         if (productFormData.getProductOptions() != null && !productFormData.getProductOptions().isEmpty()) {
             List<ProductOptionDTO> productOptionDTOs = productFormData.getProductOptions().stream()
                     .map(option -> new ProductOptionDTO(option))
                     .collect(Collectors.toList());
-            productsDTO.setProductOptions(productOptionDTOs);
+            productsDTO.setProductOptions(new HashSet<>(productOptionDTOs));
         }
 
         return productsDTO;
