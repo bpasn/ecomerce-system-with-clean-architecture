@@ -1,10 +1,10 @@
 package com.app.infrastructure.entity;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,7 +31,7 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "price")
     private BigDecimal price;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private StockEntity stock;
 
     @ManyToOne
@@ -46,6 +46,7 @@ public class ProductEntity extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private Set<ProductImageEntity> productImages = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "option_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "product_option_id"))
     private Set<ProductOptionEntity> productOptions = new HashSet<>();

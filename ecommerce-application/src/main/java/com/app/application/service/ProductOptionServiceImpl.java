@@ -53,6 +53,8 @@ public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOption, Pro
                     .orElseThrow(() -> new NotFoundException("Store", model.getStoreId()));
             productOption.setStore(store);
             ProductOption saveOption = productOptionUseCase.save(productOption);
+            System.out.println(saveOption.getChoices());
+
             if (model.getChoices() != null && !model.getChoices().isEmpty()) {
                 model.getChoices().stream().forEach((OptionChoiceDTO choice) -> {
                     OptionChoice optionChoice = OptionChoiceMapper.INSTANCE.toModel(choice);

@@ -22,6 +22,10 @@ public interface ProductOptionMapperInfra extends GenericMapper<ProductOptionEnt
   @Mapping(target = "choices",source = "choices",qualifiedByName = "mappingChoiceListToModel")
   ProductOption toModel(ProductOptionEntity entity);
 
+  @Override
+  @Mapping(target = "choices",ignore = true)
+  ProductOptionEntity toEntity(ProductOption model);
+
 
   @Named("mappingChoiceListToModel")
   default Set<OptionChoice> mappingChoiceListToModel(Set<OptionChoiceEntity> entity){

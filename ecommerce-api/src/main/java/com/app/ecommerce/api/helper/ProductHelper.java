@@ -27,20 +27,20 @@ public class ProductHelper {
         productsDTO.setPrice(new BigDecimal(productFormData.getPrice()));
         productsDTO.setStock(productFormData.getStock());
         productsDTO.setStoreId(productFormData.getStoreId());
-        
-        if (productFormData.getCategories() != null && !productFormData.getCategories().isEmpty()) {
+        if (productFormData.getCategories() != null) {
             List<CategoriesDTO> categoriesDTOs = productFormData.getCategories().stream()
                     .map(category -> new CategoriesDTO(category))
                     .collect(Collectors.toList());
             productsDTO.setCategories(new HashSet<>(categoriesDTOs));
         }
-        if (productFormData.getProductOptions() != null && !productFormData.getProductOptions().isEmpty()) {
+        if (productFormData.getProductOptions() != null) {
             List<ProductOptionDTO> productOptionDTOs = productFormData.getProductOptions().stream()
                     .map(option -> new ProductOptionDTO(option))
                     .collect(Collectors.toList());
             productsDTO.setProductOptions(new HashSet<>(productOptionDTOs));
         }
 
+        System.out.println("productsDTO");
         return productsDTO;
     }
 }

@@ -34,6 +34,9 @@ public interface ProductMapperInfra extends GenericMapper<ProductEntity, Product
     @Mapping(source = "productOptions", target = "productOptions", qualifiedByName = "toProductOptions")
     Product toModel(ProductEntity entity);
 
+    @Override
+    @Mapping(target = "stock",ignore = true)
+    ProductEntity toEntity(Product product);
     @Named("toCategoriesSet")
     default Set<ProductCategories> toCategoriesSet(Set<ProductCategoriesEntity> entities) {
         return new HashSet<>(entities.stream().map(e -> addToCategories(e)).toList());
@@ -52,7 +55,9 @@ public interface ProductMapperInfra extends GenericMapper<ProductEntity, Product
 
     @Named("toStock")
     default Stock toStock(StockEntity stock) {
-        System.out.println(stock.getId());
+        if(stock == null){
+            return null;
+        }
         return new Stock(
                 stock.getId(),
                 stock.getUnitType(),

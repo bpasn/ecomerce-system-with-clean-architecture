@@ -1,13 +1,11 @@
 package com.app.application.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,8 +18,8 @@ import com.app.application.helper.FileManagement;
 import com.app.application.interfaces.ProductService;
 import com.app.application.mapper.ProductMapper;
 import com.app.application.mapper.StockMapper;
-import com.app.domain.models.ProductCategories;
 import com.app.domain.models.Product;
+import com.app.domain.models.ProductCategories;
 import com.app.domain.models.ProductImage;
 import com.app.domain.models.ProductOption;
 import com.app.domain.models.Stock;
@@ -152,6 +150,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
     }
 
     @Override
+    @Transactional(rollbackOn = RuntimeException.class)
     public ApiResponse<ProductsDTO> updateProduct(String productId, List<MultipartFile> files,
             ProductsDTO productsDTO) {
         // แปลง DTO เป็น Entity
@@ -164,18 +163,23 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
         product.setDescriptionEN(productsDTO.getDescriptionEN());
         product.setPrice(productsDTO.getPrice());
 
-        if (!productsDTO.getCategories().isEmpty()) {
+        System.out.println(productsDTO.getProductOptions());
+        if (productsDTO.getCategories() != null) {
             List<ProductCategories> pCategoriesEntities = categoryUseCase
                     .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
             product.setCategories(new HashSet<>(pCategoriesEntities));
+        }else{
+            product.setCategories(new HashSet<>());
         }
-        if (!productsDTO.getProductOptions().isEmpty()) {
+        if (productsDTO.getProductOptions() != null) {
             List<ProductOption> productOptionEntities = productOptionUseCase
                     .findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
             product.setProductOptions(new HashSet<>(productOptionEntities));
+        }else{
+            product.setProductOptions(new HashSet<>());
         }
 
-        
+        System.out.println(product);
         productUseCase.save(product);
 
         Stock stock = StockMapper.INSTANCE.toModel(productsDTO.getStock());

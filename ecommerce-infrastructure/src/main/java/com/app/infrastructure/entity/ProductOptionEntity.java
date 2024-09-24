@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,7 +29,6 @@ public class ProductOptionEntity extends BaseEntity {
     private int lengthSelect;
 
     @OneToMany(mappedBy = "productOption", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
     private Set<OptionChoiceEntity> choices = new HashSet<>();
 
     @ManyToMany(mappedBy = "productOptions")
