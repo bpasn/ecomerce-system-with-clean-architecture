@@ -1,23 +1,18 @@
 package com.app.application.service;
 
-import com.app.application.dto.ApiResponse;
-import com.app.application.dto.StoreDTO;
-import com.app.application.mapper.StoreMapper;
-import com.app.domain.usecase.StoreUseCase;
-import com.app.infrastructure.exception.BaseException;
-import com.app.infrastructure.exception.NotFoundException;
+import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.app.application.dto.ApiResponse;
 import com.app.application.dto.CategoriesDTO;
 import com.app.application.interfaces.CategoryService;
 import com.app.application.mapper.ProductCategoryMapper;
 import com.app.domain.models.ProductCategories;
 import com.app.domain.models.Store;
 import com.app.domain.usecase.ProductCategoryUseCase;
-
-import java.util.List;
+import com.app.domain.usecase.StoreUseCase;
+import com.app.infrastructure.exception.NotFoundException;
 
 
 @Service

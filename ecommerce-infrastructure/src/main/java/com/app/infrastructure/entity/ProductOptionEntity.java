@@ -16,7 +16,7 @@ import jakarta.persistence.OneToMany;
 @Entity(name = "product_options")
 public class ProductOptionEntity extends BaseEntity {
     
-    @Column(name = "option_name")
+    @Column(name = "option_name",nullable = false,unique = true)
     private String optionName;
 
     @Column(name = "one_must_be_chosen", columnDefinition = "boolean default false")
@@ -28,7 +28,7 @@ public class ProductOptionEntity extends BaseEntity {
     @Column(nullable = false)
     private int lengthSelect;
 
-    @OneToMany(mappedBy = "productOption", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "productOption", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<OptionChoiceEntity> choices = new HashSet<>();
 
     @ManyToMany(mappedBy = "productOptions")
@@ -101,8 +101,7 @@ public class ProductOptionEntity extends BaseEntity {
     @Override
     public String toString() {
         return "ProductOptionEntity [optionName=" + optionName + ", oneMustBeChosen=" + oneMustBeChosen
-                + ", manyCanBeChosen=" + manyCanBeChosen + ", lengthSelect=" + lengthSelect + ", choices=" + choices.toString()
-                + ", products=" + products.toString() + ", store=" + store.toString() + "]";
+                + ", manyCanBeChosen=" + manyCanBeChosen + ", lengthSelect=" + lengthSelect + "";
     }
 
     

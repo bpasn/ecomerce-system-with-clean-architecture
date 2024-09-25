@@ -32,12 +32,16 @@ public class ProductHelper {
                     .map(category -> new CategoriesDTO(category))
                     .collect(Collectors.toList());
             productsDTO.setCategories(new HashSet<>(categoriesDTOs));
+        }else {
+            productsDTO.setCategories(new HashSet<>());
         }
         if (productFormData.getProductOptions() != null) {
             List<ProductOptionDTO> productOptionDTOs = productFormData.getProductOptions().stream()
                     .map(option -> new ProductOptionDTO(option))
                     .collect(Collectors.toList());
             productsDTO.setProductOptions(new HashSet<>(productOptionDTOs));
+        }else{
+            productsDTO.setProductOptions(new HashSet<>());
         }
 
         System.out.println("productsDTO");

@@ -13,11 +13,9 @@ import com.app.infrastructure.exception.NotFoundException;
 public class StockServiceImpl extends BaseServiceImpl<Stock, StockDTO> implements StockService {
 
     private final StockUseCase stockUseCase;
-    private final StockMapper stockMapper;
 
     public StockServiceImpl(StockUseCase stockUseCase, StockMapper stockMapper) {
         super(stockUseCase, stockMapper, Stock.class);
-        this.stockMapper = stockMapper;
         this.stockUseCase = stockUseCase;
     }
 
@@ -25,6 +23,7 @@ public class StockServiceImpl extends BaseServiceImpl<Stock, StockDTO> implement
     public void updateStock(StockDTO stock) {
         Stock stockEntity = stockUseCase.findById(stock.getId())
                 .orElseThrow(() -> new NotFoundException("Stock", stock.getId()));
+        System.out.println("STOCK");
         stockEntity.setQuantity(stock.getQuantity());
         stockEntity.setStatus(stock.getStatus());
         stockEntity.setUnitQuantity(stock.getUnitQuantity());

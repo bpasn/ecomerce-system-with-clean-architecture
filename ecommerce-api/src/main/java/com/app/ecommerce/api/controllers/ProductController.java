@@ -25,6 +25,7 @@ import com.app.domain.pageable.PageResult;
 import com.app.domain.projections.StockProductProjection;
 import com.app.ecommerce.api.helper.ProductHelper;
 import com.app.ecommerce.api.request.ProductRequest;
+import com.app.infrastructure.exception.BaseException;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -94,7 +95,7 @@ public class ProductController {
     }
     
     @GetMapping("/stock/{storeId}")
-    public ResponseEntity<ApiResponse<List<StockProductProjection>>> getProductStock(@PathVariable("storeId") String storeId){
+    public ResponseEntity<ApiResponse<List<StockProductProjection>>> getProductStock(@PathVariable("storeId") String storeId) throws BaseException{
         return ResponseEntity.ok(productService.getProductStock(storeId));
     }
 

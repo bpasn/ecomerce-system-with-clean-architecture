@@ -61,6 +61,7 @@ public class AdviceHandleException {
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<IAdviceHandler> baseException(BaseException ex) {
         IAdviceHandler adviceHandler = new IAdviceHandler();
+        System.out.println("IN BASE EXCEPTION");
         adviceHandler.setMessage(ex.getMessage());
         adviceHandler.setStatus(ex.status.value());
         return new ResponseEntity<>(adviceHandler, ex.status);

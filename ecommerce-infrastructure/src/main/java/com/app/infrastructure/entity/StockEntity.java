@@ -16,7 +16,6 @@ public class StockEntity extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "product_id")
-    @JsonIgnore
     private ProductEntity product;
 
     @Column(name = "unit_type")

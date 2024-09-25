@@ -1,11 +1,7 @@
 package com.app.infrastructure.entity;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.app.domain.exceptions.DomainException;
 import com.app.domain.usecase.ProductCategoryUseCase;
@@ -20,7 +16,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "product_categories")
 public class ProductCategoriesEntity extends BaseEntity {
-    @Column(name = "name",unique = true)
+    @Column(name = "name",unique = true,nullable = false)
     private String name;
 
     @ManyToOne

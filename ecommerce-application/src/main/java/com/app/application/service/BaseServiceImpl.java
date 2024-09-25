@@ -75,7 +75,6 @@ public class BaseServiceImpl<M, D> implements BaseService<M, D> {
     @Override
     public ApiResponse<D> create(D model) {
         try {
-            System.out.println(model.toString());
             M entity = baseMapper.toModel(model);
             M savedEntity = baseUseCase.save(entity);
             return new ApiResponse<>(baseMapper.toDTO(savedEntity));

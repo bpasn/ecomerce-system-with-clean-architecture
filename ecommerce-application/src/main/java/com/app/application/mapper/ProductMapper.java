@@ -1,17 +1,12 @@
 package com.app.application.mapper;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.app.application.dto.CategoriesDTO;
 import com.app.application.dto.ProductImageDTO;

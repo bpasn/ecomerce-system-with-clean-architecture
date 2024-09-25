@@ -41,8 +41,9 @@ public class ProductOptionController {
     public ResponseEntity<String> put() {
         return ResponseEntity.ok("ProductOption API already");
     }
-    @DeleteMapping
-    public ResponseEntity<String> delete() {
-        return ResponseEntity.ok("ProductOption API already");
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> delete(@PathVariable("id") String id) {
+        productOptionService.delete(id);
+        return ResponseEntity.ok("ProductOption has been delete");
     }
 }

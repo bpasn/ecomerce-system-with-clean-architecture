@@ -40,7 +40,7 @@ public class ProductEntity extends BaseEntity {
 
    
     @ManyToMany
-    @JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JoinTable(name = "product_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<ProductCategoriesEntity> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "product")
@@ -48,7 +48,7 @@ public class ProductEntity extends BaseEntity {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "option_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "product_option_id"))
+    @JoinTable(name = "product_product_option", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "product_option_id"))
     private Set<ProductOptionEntity> productOptions = new HashSet<>();
 
     public ProductEntity() {

@@ -16,7 +16,7 @@ public class ProductOptionDTO {
 
     private String optionName;
     private boolean oneMustBeChosen;
-    private boolean manyCanBeChosed;
+    private boolean manyCanBeChosen;
     private int lengthSelect;
     private Set<OptionChoiceDTO> choices = new HashSet<>();
     private String storeId;
@@ -31,7 +31,7 @@ public class ProductOptionDTO {
 
     public ProductOptionDTO() {
         setOneMustBeChosen(false);
-        setManyCanBeChosed(false);
+        setManyCanBeChosen(false);
     }
 
     public ProductOptionDTO(String id){
@@ -40,12 +40,12 @@ public class ProductOptionDTO {
     public ProductOptionDTO(
             String optionName,
             boolean oneMustBeChosen,
-            boolean manyCanBeChosed,
+            boolean manyCanBeChosen,
             int lengthSelect,
             Set<OptionChoiceDTO> choices) {
         this.optionName = optionName;
         this.oneMustBeChosen = oneMustBeChosen;
-        this.manyCanBeChosed = manyCanBeChosed;
+        this.manyCanBeChosen = manyCanBeChosen;
         this.lengthSelect = lengthSelect;
         this.choices = choices;
     }
@@ -66,12 +66,12 @@ public class ProductOptionDTO {
         this.oneMustBeChosen = oneMustBeChosen;
     }
 
-    public boolean isManyCanBeChosed() {
-        return manyCanBeChosed;
+    public boolean isManyCanBeChosen() {
+        return manyCanBeChosen;
     }
 
-    public void setManyCanBeChosed(boolean manyCanBeChosed) {
-        this.manyCanBeChosed = manyCanBeChosed;
+    public void setManyCanBeChosen(boolean manyCanBeChosen) {
+        this.manyCanBeChosen = manyCanBeChosen;
     }
 
     public int getLengthSelect() {
@@ -93,7 +93,7 @@ public class ProductOptionDTO {
     @Override
     public String toString() {
         return "ProductOptionDTO [id = " + id + ", optionName=" + optionName + ", oneMustBeChosen=" + oneMustBeChosen
-                + ", manyCanBeChosed=" + manyCanBeChosed + ", lengthSelect=" + lengthSelect + ", choices=" + choices.toString()
+                + ", manyCanBeChosen=" + manyCanBeChosen + ", lengthSelect=" + lengthSelect + ", choices=" + choices.toString()
                 + "]";
     }
 

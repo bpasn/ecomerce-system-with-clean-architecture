@@ -3,7 +3,6 @@ package com.app.application.dto.auth;
 public class AuthResponse {
     private String accessToken;
     private String refreshToken;
-    private long accessTokenExpires;
 
     public AuthResponse(){}
 

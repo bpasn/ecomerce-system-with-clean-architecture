@@ -93,12 +93,12 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
             // set store_id in product
             productEntity.setStore(storeEntity);
 
-            if (productsDTO.getCategories() != null && !productsDTO.getCategories().isEmpty()) {
+            if (productsDTO.getCategories() != null) {
                 Set<ProductCategories> productCategories = new HashSet<>();
                 categoryUseCase.findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList()).forEach(pc -> productCategories.add(pc));
                 productEntity.setCategories(productCategories);
             }
-            if (productsDTO.getProductOptions() != null && !productsDTO.getProductOptions().isEmpty()) {
+            if (productsDTO.getProductOptions() != null) {
                 List<ProductOption> p = productOptionUseCase.findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
                 productEntity.setProductOptions(new HashSet<>(p));
             }
@@ -109,8 +109,6 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
             // get store from product
             Stock stock = StockMapper.INSTANCE.toModel(productsDTO.getStock());
             stock.setProduct(savedProduct);
-
-            System.out.println(String.format("Stock : %s", stock.toString()));
 
             if (stock != null && stock.getProduct() != null) {
                 // ถ้า productId มีแล้ว จะทำการ save

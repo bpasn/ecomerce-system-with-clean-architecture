@@ -10,7 +10,14 @@ import com.app.infrastructure.repositories.OptionChoiceJpaRepository;
 
 @Service
 public class OptionChoiceUseCaseImpl extends BaseUseCaseImpl<OptionChoiceEntity,OptionChoice> implements OptionChoiceUseCase {
+    private final OptionChoiceJpaRepository optionChoiceJpaRepository;
     public OptionChoiceUseCaseImpl(OptionChoiceJpaRepository optionChoiceJpaRepository,OptionChoiceMapperInfra mapper) {
         super(optionChoiceJpaRepository,mapper);
+        this.optionChoiceJpaRepository = optionChoiceJpaRepository;
+    }
+
+    @Override
+    public void deleteAllByProductOptionId(String id) {
+        optionChoiceJpaRepository.deleteAllByProductOptionId(id);
     }
 }

@@ -1,11 +1,5 @@
 package com.app.application.mapper;
 
-import com.app.application.dto.OptionChoiceDTO;
-import com.app.application.dto.ProductOptionDTO;
-import com.app.domain.models.OptionChoice;
-import com.app.domain.models.ProductOption;
-import com.app.domain.models.Store;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +7,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+
+import com.app.application.dto.OptionChoiceDTO;
+import com.app.application.dto.ProductOptionDTO;
+import com.app.domain.models.OptionChoice;
+import com.app.domain.models.ProductOption;
 @Mapper(componentModel = "spring")
 public interface ProductOptionMapper extends BaseMapper<ProductOptionDTO, ProductOption>{
     ProductOptionMapper INSTANCE = Mappers.getMapper(ProductOptionMapper.class);

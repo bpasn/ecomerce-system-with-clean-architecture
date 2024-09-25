@@ -14,7 +14,6 @@ import com.app.application.interfaces.AuthenService;
 import com.app.domain.models.User;
 import com.app.domain.usecase.AuthUseCase;
 import com.app.infrastructure.exception.BaseException;
-import com.app.infrastructure.exception.NotFoundException;
 import com.app.infrastructure.interfaces.JwtService;
 
 import jakarta.transaction.Transactional;

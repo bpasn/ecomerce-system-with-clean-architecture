@@ -1,6 +1,5 @@
 package com.app.application.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,9 +16,9 @@ import com.app.domain.models.Store;
 import com.app.domain.usecase.OptionChoiceUseCase;
 import com.app.domain.usecase.ProductOptionUseCase;
 import com.app.domain.usecase.StoreUseCase;
+import com.app.infrastructure.exception.BaseException;
 import com.app.infrastructure.exception.NotFoundException;
 
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 
@@ -32,16 +31,14 @@ public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOption, Pro
     private final StoreUseCase storeUseCase;
     private final ProductOptionMapper productOptionMapper;
 
-    private final EntityManager entityManager;
 
     ProductOptionServiceImpl(ProductOptionUseCase productOptionUseCase, OptionChoiceUseCase optionChoiceUseCase,
-            ProductOptionMapper productOptionMapper, StoreUseCase storeUseCase, EntityManager entityManager) {
+            ProductOptionMapper productOptionMapper, StoreUseCase storeUseCase) {
         super(productOptionUseCase, productOptionMapper, ProductOption.class);
         this.productOptionUseCase = productOptionUseCase;
         this.optionChoiceUseCase = optionChoiceUseCase;
         this.storeUseCase = storeUseCase;
         this.productOptionMapper = productOptionMapper;
-        this.entityManager = entityManager;
     }
 
     @Override
@@ -81,4 +78,8 @@ public class ProductOptionServiceImpl extends BaseServiceImpl<ProductOption, Pro
         return new ApiResponse<>(productOptions.stream().map(productOptionMapper::toDTO).toList());
     }
 
+    @Override
+    public void delete(String id){
+        productOptionUseCase.delete(id);
+    }
 }

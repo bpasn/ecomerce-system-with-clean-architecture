@@ -23,6 +23,7 @@ public class CustomMultipartFile implements MultipartFile {
     }
 
     
+    @SuppressWarnings("null")
     @Override
     public String getName() {
         return name;
@@ -48,18 +49,20 @@ public class CustomMultipartFile implements MultipartFile {
         return content.length;
     }
 
+    @SuppressWarnings("null")
     @Override
     public byte[] getBytes() throws IOException {
         return content;
     }
 
+    @SuppressWarnings("null")
     @Override
     public InputStream getInputStream() throws IOException {
         return new ByteArrayInputStream(content);
     }
 
     @Override
-    public void transferTo(File dest) throws IOException, IllegalStateException {
+    public void transferTo(@SuppressWarnings("null") File dest) throws IOException, IllegalStateException {
         try (FileOutputStream fos = new FileOutputStream(dest)) {
             fos.write(content);
         }

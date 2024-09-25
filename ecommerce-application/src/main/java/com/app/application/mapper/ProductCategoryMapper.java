@@ -1,13 +1,11 @@
 package com.app.application.mapper;
 
-import com.app.application.dto.CategoriesDTO;
-import com.app.domain.models.ProductCategories;
-import com.app.domain.models.Store;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+
+import com.app.application.dto.CategoriesDTO;
+import com.app.domain.models.ProductCategories;
 
 @Mapper(componentModel = "spring")
 public interface ProductCategoryMapper extends BaseMapper<CategoriesDTO,ProductCategories>{

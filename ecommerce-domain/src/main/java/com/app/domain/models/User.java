@@ -1,8 +1,6 @@
 package com.app.domain.models;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class User extends BaseModel {
 
