@@ -1,8 +1,4 @@
-package com.app.ecommerce.api.request;
-
-import java.util.Set;
-
-import com.app.application.dto.StockDTO;
+package com.app.ecommerce.api.request.product;
 
 public class ProductFormData {
     String nameTH;
@@ -10,18 +6,9 @@ public class ProductFormData {
     String descriptionTH;
     String descriptionEN;
     double price;
-    int quantity;
-    StockDTO stock;
-    Set<String> categories;
-    Set<String> productOptions;
     String storeId;
+   
     
-    public String getStoreId() {
-        return storeId;
-    }
-    public void setStoreId(String storeId) {
-        this.storeId = storeId;
-    }
     public String getNameTH() {
         return nameTH;
     }
@@ -52,34 +39,16 @@ public class ProductFormData {
     public void setPrice(double price) {
         this.price = price;
     }
-    public int getQuantity() {
-        return quantity;
+    public String getStoreId() {
+        return storeId;
     }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-    public StockDTO getStock() {
-        return stock;
-    }
-    public void setStock(StockDTO stock) {
-        this.stock = stock;
-    }
-    public Set<String> getCategories() {
-        return categories;
-    }
-    public void setCategories(Set<String> categories) {
-        this.categories = categories;
-    }
-    public Set<String> getProductOptions() {
-        return productOptions;
-    }
-    public void setProductOptions(Set<String> productOptions) {
-        this.productOptions = productOptions;
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
     }
     @Override
     public String toString() {
         return "ProductFormData [nameTH=" + nameTH + ", nameEN=" + nameEN + ", descriptionTH=" + descriptionTH
-                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", quantity=" + quantity + "]";
+                + ", descriptionEN=" + descriptionEN + ", price=" + price + ", storeId=" + storeId + "]";
     }
    
     

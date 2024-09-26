@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import com.app.application.dto.CategoriesDTO;
 import com.app.application.dto.ProductOptionDTO;
 import com.app.application.dto.ProductsDTO;
-import com.app.ecommerce.api.request.ProductFormData;
-import com.app.ecommerce.api.request.ProductRequest;
+import com.app.ecommerce.api.request.product.ProductFormData;
+import com.app.ecommerce.api.request.product.ProductRequest;
 
 public class ProductHelper {
 
@@ -17,7 +17,7 @@ public class ProductHelper {
     }
 
     public static ProductsDTO convertoTProductsDTO(ProductRequest productRequest) {
-        ProductFormData productFormData = productRequest.getProducts();
+        ProductFormData productFormData = productRequest.getProduct();
 
         ProductsDTO productsDTO = new ProductsDTO();
         productsDTO.setNameTH(productFormData.getNameTH());
@@ -25,18 +25,18 @@ public class ProductHelper {
         productsDTO.setDescriptionTH(productFormData.getDescriptionTH());
         productsDTO.setDescriptionEN(productFormData.getDescriptionEN());
         productsDTO.setPrice(new BigDecimal(productFormData.getPrice()));
-        productsDTO.setStock(productFormData.getStock());
+        productsDTO.setStock(productRequest.getStock());
         productsDTO.setStoreId(productFormData.getStoreId());
-        if (productFormData.getCategories() != null) {
-            List<CategoriesDTO> categoriesDTOs = productFormData.getCategories().stream()
+        if (productRequest.getCategories() != null) {
+            List<CategoriesDTO> categoriesDTOs = productRequest.getCategories().stream()
                     .map(category -> new CategoriesDTO(category))
                     .collect(Collectors.toList());
             productsDTO.setCategories(new HashSet<>(categoriesDTOs));
         }else {
             productsDTO.setCategories(new HashSet<>());
         }
-        if (productFormData.getProductOptions() != null) {
-            List<ProductOptionDTO> productOptionDTOs = productFormData.getProductOptions().stream()
+        if (productRequest.getProductOptions() != null) {
+            List<ProductOptionDTO> productOptionDTOs = productRequest.getProductOptions().stream()
                     .map(option -> new ProductOptionDTO(option))
                     .collect(Collectors.toList());
             productsDTO.setProductOptions(new HashSet<>(productOptionDTOs));
