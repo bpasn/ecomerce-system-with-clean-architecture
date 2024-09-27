@@ -44,7 +44,6 @@ public class ProductHelper {
             productsDTO.setProductOptions(new HashSet<>());
         }
 
-        System.out.println("productsDTO");
         return productsDTO;
     }
 }

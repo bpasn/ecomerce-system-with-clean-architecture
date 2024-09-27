@@ -1,0 +1,58 @@
+environment:
+  name: PRODUCTION
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  application:
+    name: ecommerce-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/e-commerce
+    username: admin
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+server:
+  port: 8888
+
+
+api:
+  prefix:
+    route: /api/v1
+    client: /api/v1/client
+  security:
+    x-api-key: SPM5o11aV5YgOFv8iWk5AgCKy1FMcNTVshHvzMFf02o=
+
+mount-path: /Users/prpasn/Desktop/SpringBoot/
+
+origin:
+  merchant-portal:
+    url: http://localhost:3000
+
+jwt:
+  private-key: d45c48a62cfcf0c885b1865088f14e6dc1d075383bfaf879079fee4c1aef0ef6
+  expired: 604800000 # 15 min
+  refreshTokenExpire: 604800000 # 7 DAY
+
+logging:
+  level:
+    root: INFO
+    sql: INFO
+  #  com:
+  #     app:
+  #       ecommerce-api: DEBUG
+  #       ecommerce-application: DEBUG
+  #       ecommerce-infrastructure: DEBUG
+  #  org:
+  #     springframework:
+  #       web: DEBUG

@@ -152,49 +152,50 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
     public ApiResponse<ProductsDTO> updateProduct(String productId, List<MultipartFile> files,
             ProductsDTO productsDTO) {
         // แปลง DTO เป็น Entity
-        Product product = productUseCase.findById(productId)
-                .orElseThrow(() -> new NotFoundException("Product", productId));
+       try{
+           Product product = productUseCase.findById(productId)
+                   .orElseThrow(() -> new NotFoundException("Product", productId));
 
-        product.setNameEN(productsDTO.getNameEN());
-        product.setNameTH(productsDTO.getNameTH());
-        product.setDescriptionTH(productsDTO.getDescriptionTH());
-        product.setDescriptionEN(productsDTO.getDescriptionEN());
-        product.setPrice(productsDTO.getPrice());
+           product.setNameEN(productsDTO.getNameEN());
+           product.setNameTH(productsDTO.getNameTH());
+           product.setDescriptionTH(productsDTO.getDescriptionTH());
+           product.setDescriptionEN(productsDTO.getDescriptionEN());
+           product.setPrice(productsDTO.getPrice());
 
-        System.out.println(productsDTO.getProductOptions());
-        if (productsDTO.getCategories() != null) {
-            List<ProductCategories> pCategoriesEntities = categoryUseCase
-                    .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
-            product.setCategories(new HashSet<>(pCategoriesEntities));
-        }else{
-            product.setCategories(new HashSet<>());
-        }
-        if (productsDTO.getProductOptions() != null) {
-            List<ProductOption> productOptionEntities = productOptionUseCase
-                    .findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
-            product.setProductOptions(new HashSet<>(productOptionEntities));
-        }else{
-            product.setProductOptions(new HashSet<>());
-        }
+           System.out.println(productsDTO.getProductOptions());
+           if (productsDTO.getCategories() != null) {
+               List<ProductCategories> pCategoriesEntities = categoryUseCase
+                       .findAllById(productsDTO.getCategories().stream().map(CategoriesDTO::getId).toList());
+               product.setCategories(new HashSet<>(pCategoriesEntities));
+           }else{
+               product.setCategories(new HashSet<>());
+           }
+           if (productsDTO.getProductOptions() != null) {
+               List<ProductOption> productOptionEntities = productOptionUseCase
+                       .findAllById(productsDTO.getProductOptions().stream().map(ProductOptionDTO::getId).toList());
+               product.setProductOptions(new HashSet<>(productOptionEntities));
+           }else{
+               product.setProductOptions(new HashSet<>());
+           }
 
-        System.out.println(product);
-        productUseCase.save(product);
+           Product productSave = productUseCase.save(product);
 
-        Stock stock = StockMapper.INSTANCE.toModel(productsDTO.getStock());
-        stock.setId(productsDTO.getStock().getId());
-        stock.setProduct(product);
+           Stock stock = StockMapper.INSTANCE.toModel(productsDTO.getStock());
+           stock.setProduct(productSave);
+           stockUseCase.save(stock);
 
-        stockUseCase.save(stock);
+           // บันทึก ProductEntity
+           // จัดการกับ ProductImageEntity
+           if (files != null && !files.isEmpty()) {
+               files.forEach(file -> {
+                   product.getProductImages().add(createProductImage(file, product));
+               });
+           }
 
-        // บันทึก ProductEntity
-        // จัดการกับ ProductImageEntity
-        if (files != null && !files.isEmpty()) {
-            files.forEach(file -> {
-                product.getProductImages().add(createProductImage(file, product));
-            });
-        }
-
-        return new ApiResponse<>(productMapper.toDTO(product));
+           return new ApiResponse<>(productMapper.toDTO(product));
+       } catch (Exception e){
+           throw new BaseException(e.getMessage(),HttpStatus.BAD_REQUEST);
+       }
     }
 
     public ProductImage createProductImage(MultipartFile file, Product product) {

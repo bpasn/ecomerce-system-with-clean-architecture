@@ -14,7 +14,7 @@ import com.app.infrastructure.entity.ProductEntity;
 
 
 public interface ProductJpaRepository extends JpaRepository<ProductEntity,String>{
-     Optional<ProductEntity> findByNameTH(String name);
+    Optional<ProductEntity> findByNameTH(String name);
 
     List<ProductEntity> findAllByStoreId(String storeId);
 
@@ -22,4 +22,6 @@ public interface ProductJpaRepository extends JpaRepository<ProductEntity,String
 
     @Query(value = "SELECT * FROM public.product_stock_function(:storeId)",nativeQuery = true)
     List<StockProductProjection> findProductStockAllByStoreIdNative(@Param("storeId") String storeId);
+
+    Optional<ProductEntity> findByStockId(String stockId);
 }

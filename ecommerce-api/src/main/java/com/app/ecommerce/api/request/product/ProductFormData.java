@@ -1,11 +1,26 @@
 package com.app.ecommerce.api.request.product;
 
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
 public class ProductFormData {
+    @Pattern(regexp = "^[\\u0E00-\\u0E7F]+$",message = "Only Thai characters are allowed")
+    @NotNull(message = "NameTh must not be null")
+    @NotEmpty
     String nameTH;
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "Only English characters are allowed")
     String nameEN;
+    @Pattern(regexp = "^[\\u0E00-\\u0E7F]+$",message = "Only Thai characters are allowed")
     String descriptionTH;
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "Only English characters are allowed")
     String descriptionEN;
+    @Pattern(regexp = "^\\d+(\\.\\d{1,2})?$",message = "Invalid format price")
+    @NotEmpty
     double price;
+    @NotNull(message = "Store id must not be null")
+    @NotEmpty
     String storeId;
    
     

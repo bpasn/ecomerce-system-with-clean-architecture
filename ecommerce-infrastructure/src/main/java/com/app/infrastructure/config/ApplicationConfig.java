@@ -1,5 +1,6 @@
 package com.app.infrastructure.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Configuration
 @Log4j2
+@ConfigurationProperties("environment")
 public class ApplicationConfig {
 
     private final UserJpaRepository userJpaRepository;
@@ -49,4 +51,6 @@ public class ApplicationConfig {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 }

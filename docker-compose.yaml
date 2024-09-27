@@ -1,9 +1,11 @@
 version: "3.9"
 services:
   database:
-      mem_limit: 256m
-      mem_reservation: 128M
-      cpus: 0.2
+      deploy:
+        resources:
+          limits:
+            cpus: '0.1'
+            memory: 256MB
       image: postgres:15
       container_name: postgres
       environment:
@@ -17,34 +19,35 @@ services:
       networks:
         - backend
   
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4_container
-    restart: always
-    ports:
-      - "8111:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@domain.com
-      PGADMIN_DEFAULT_PASSWORD: 123456
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    networks:
-        - backend
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    container_name: pgadmin4_container
+#    restart: always
+#    ports:
+#      - "8111:80"
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@domain.com
+#      PGADMIN_DEFAULT_PASSWORD: 123456
+#    volumes:
+#      - pgadmin-data:/var/lib/pgadmin
+#    networks:
+#        - backend
 
   nginx:
-    mem_limit: 128m
-    mem_reservation: 128M
-    cpus: 0.2
+    env_file: .env.docker
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 256MB
     image: nginx:latest
     volumes:
-      - /Users/prpasn/Desktop/SpringBoot:/var/www/files
+      - ${ENVIRONMENT}:/var/www/files
       - ./file-server.conf:/etc/nginx/conf.d/file-server.conf
     ports:
       - 8080:8080
     networks:
       - backend
-    environment:
-      - NGINX_PORT=8080
 
 volumes:
   postgres-data:

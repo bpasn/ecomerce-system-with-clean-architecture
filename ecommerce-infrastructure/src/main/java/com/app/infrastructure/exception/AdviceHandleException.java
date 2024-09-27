@@ -3,6 +3,7 @@ package com.app.infrastructure.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -73,6 +74,15 @@ public class AdviceHandleException {
         adviceHandler.setMessage("An unexpected error occurred: " + ex.getMessage());
         adviceHandler.setStatus(500);
         return new ResponseEntity<>(adviceHandler, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        StringBuilder errors = new StringBuilder();
+        ex.getBindingResult().getFieldErrors().forEach(error -> {
+            errors.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("\n");
+        });
+        return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
     }
 
     public class IAdviceHandler {

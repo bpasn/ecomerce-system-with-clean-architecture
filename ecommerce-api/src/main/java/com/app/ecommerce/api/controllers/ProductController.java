@@ -2,6 +2,8 @@ package com.app.ecommerce.api.controllers;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +34,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("${api.prefix.route}/products")
 @Tag(name = "Products", description = "Product management API")
+@Log4j2
 public class ProductController {
 
     private final ProductService productService;
@@ -60,7 +63,12 @@ public class ProductController {
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<String> post(
-            @ModelAttribute ProductRequest productRequest) {
+            @Valid @ModelAttribute  ProductRequest productRequest) {
+       log.info("PRODUCT IMAGE : "+productRequest.getProductImages().get(0).isEmpty());
+        if(productRequest.getProductImages() == null){
+            throw new BaseException("Product image must not be null");
+        }
+        if(productRequest.getProductImages().get(0).isEmpty())  throw new BaseException("Product image must not be null");
         ProductsDTO productsDTO = ProductHelper.convertoTProductsDTO(productRequest);
         productService.createProduct(productRequest.getProductImages(), productsDTO);
         return ResponseEntity.ok("Product has been create");
@@ -77,7 +85,6 @@ public class ProductController {
             @PathVariable String id,
             @ModelAttribute ProductRequest productRequest) {
         ProductsDTO productsDTO = ProductHelper.convertoTProductsDTO(productRequest);
-        System.out.println("PRODUCTIMAGE : "+productRequest.getProductImages());
         productService.updateProduct(id, productRequest.getProductImages(), productsDTO);
         return ResponseEntity.ok("Product has been updated");
     }

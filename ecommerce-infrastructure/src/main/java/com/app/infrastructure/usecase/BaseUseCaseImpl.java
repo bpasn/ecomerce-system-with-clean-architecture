@@ -25,7 +25,6 @@ public class BaseUseCaseImpl<E, M> implements BaseUseCase<M> {
     @Override
     public M save(M model) {
         E toEntity = mapper.toEntity(model);
-        System.out.println(toEntity);
         E save = repository.save(toEntity);
         return mapper.toModel(save);
     }
@@ -38,10 +37,6 @@ public class BaseUseCaseImpl<E, M> implements BaseUseCase<M> {
 
     @Override
     public Optional<M> findById(String id) {
-        E entity = repository.findById(id).orElse(null);
-        if(entity instanceof ProductEntity){
-            System.out.println(((ProductEntity) entity).getStock());
-        }
         return repository.findById(id).map(mapper::toModel);
     }
 

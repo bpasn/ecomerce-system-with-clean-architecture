@@ -34,9 +34,9 @@ public interface ProductMapperInfra extends GenericMapper<ProductEntity, Product
     @Mapping(source = "productOptions", target = "productOptions", qualifiedByName = "toProductOptions")
     Product toModel(ProductEntity entity);
 
-    // @Override
-    // @Mapping(target = "stock",ignore = true)
-    // ProductEntity toEntity(Product product);
+     @Override
+     @Mapping(target = "stock",ignore = true)
+     ProductEntity toEntity(Product product);
 
     @Named("toCategoriesSet")
     default Set<ProductCategories> toCategoriesSet(Set<ProductCategoriesEntity> entities) {

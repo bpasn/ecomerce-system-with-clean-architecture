@@ -54,4 +54,9 @@ public class ProductUseCaseImpl extends BaseUseCaseImpl<ProductEntity, Product> 
        return productJpaRepository.findProductStockAllByStoreIdNative(storeId);
     }
 
+    @Override
+    public Optional<Product> findByStockId(String stockId) {
+        return productJpaRepository.findByStockId(stockId).map(ProductMapperInfra.INSTANCE::toModel);
+    }
+
 }

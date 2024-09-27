@@ -12,5 +12,6 @@ public interface ProductUseCase extends BaseUseCase<Product>{
     List<Product> findAllByStoreId(String storeId);
     PageResult<Product> findAllByStoreIdWithPageable(String storeId,int page,int size);
     List<StockProductProjection> findProductStockAllByStoreIdNative(String storeId);
+    Optional<Product> findByStockId(String stockId);
     
 }

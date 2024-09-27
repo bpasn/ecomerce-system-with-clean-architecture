@@ -2,12 +2,22 @@ package com.app.application.dto;
 
 import com.app.domain.models.EStatusStock;
 import com.app.domain.models.EUnitType;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 public class StockDTO {
     String id;
+    @Pattern(regexp = "^(PIECE)|(GRAM)|(KILOGRAM)",message = "Unit type allows only PIECE, GRAM, or KILOGRAM")
+    @NotEmpty
     EUnitType unitType;
+    @Pattern(regexp = "^\\d",message = "UnitQuantity must be a number")
+    @NotEmpty
     int unitQuantity;
+    @Pattern(regexp = "^\\d",message = "UnitQuantity must be a number")
+    @NotEmpty
     int quantity;
+    @Pattern(regexp = "^(IN_STOCK)|(OUT_OF_STOCK)|(LOW_STOCK)",message = "status allows only IN_STOCK, LOW_STOCK, or OUT_OF_STOCK")
+    @NotEmpty
     EStatusStock status;
     boolean reOrder;
 

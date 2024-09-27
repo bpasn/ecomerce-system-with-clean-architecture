@@ -14,4 +14,9 @@ public interface StockMapperInfra extends GenericMapper<StockEntity,Stock> {
    @Override
    @Mapping(target = "product",ignore = true)
    Stock toModel(StockEntity stockEntity);
+
+   @Override
+    @Mapping(target = "product.stock",ignore = true)
+    @Mapping(target = "product.productImages",ignore = true)
+    StockEntity toEntity(Stock model);
 }
