@@ -34,7 +34,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("${api.prefix.route}/products")
 @Tag(name = "Products", description = "Product management API")
-@Log4j2
 public class ProductController {
 
     private final ProductService productService;
@@ -64,7 +63,6 @@ public class ProductController {
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<String> post(
             @Valid @ModelAttribute  ProductRequest productRequest) {
-       log.info("PRODUCT IMAGE : "+productRequest.getProductImages().get(0).isEmpty());
         if(productRequest.getProductImages() == null){
             throw new BaseException("Product image must not be null");
         }
