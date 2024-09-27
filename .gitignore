@@ -34,4 +34,5 @@ build/
 application-dev.yml
 application-wrok.yml
 application-prod.yml
+application-home.yml
 .env.docker
