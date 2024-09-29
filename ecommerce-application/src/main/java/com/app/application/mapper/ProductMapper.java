@@ -53,7 +53,7 @@ public interface ProductMapper extends BaseMapper<ProductsDTO, Product> {
     default Set<ProductImage> mapProductImageDTOListToEntity(Set<ProductImageDTO> productImageDTOs) {
         if (productImageDTOs != null) {
             return new HashSet<>(productImageDTOs.stream()
-                    .map(file -> new ProductImage(file.getId(), file.getUri())).toList());
+                    .map(file -> new ProductImage(file.getId(), file.getSource())).toList());
         }
         return new HashSet<>();
 

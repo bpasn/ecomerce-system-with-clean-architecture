@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.application.dto.ApiResponse;
+import com.app.application.dto.CategoriesDTO;
+import com.app.application.dto.CategoryWithProductDTO;
 import com.app.application.dto.ProductsDTO;
+import com.app.application.interfaces.CategoryService;
 import com.app.application.interfaces.ProductService;
 
 
@@ -17,14 +20,21 @@ import com.app.application.interfaces.ProductService;
 public class ProductClientController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
-    ProductClientController(ProductService service) {
+    ProductClientController(ProductService service,CategoryService categoryService) {
         this.productService = service;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<ProductsDTO>>> getProduct() {
         return ResponseEntity.ok(productService.getProduct());
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<ApiResponse<List<CategoryWithProductDTO>>> getCategories(){
+        return ResponseEntity.ok(categoryService.getAllCategoryWIthProduct());
     }
 
 }

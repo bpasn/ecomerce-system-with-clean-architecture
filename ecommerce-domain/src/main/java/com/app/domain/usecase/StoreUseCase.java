@@ -10,4 +10,5 @@ public interface StoreUseCase extends BaseUseCase<Store> {
     Store findFirstByUserEmailOrderByIdDesc(String email);
     List<Store> findAllByUserEmail(String email);
     Optional<Store> findByUserEmailAndId(String email,String id);
+
 }

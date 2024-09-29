@@ -45,7 +45,7 @@ services:
       - ${ENVIRONMENT}:/var/www/files
       - ./file-server.conf:/etc/nginx/conf.d/file-server.conf
     ports:
-      - 8080:8080
+      - ${NGINX_PORT}:${NGINX_PORT}
     networks:
       - backend
 

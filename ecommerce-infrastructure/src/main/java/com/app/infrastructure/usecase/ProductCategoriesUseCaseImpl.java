@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.domain.models.ProductCategories;
 import com.app.domain.models.Store;
+import com.app.domain.projections.CategoryWithProductProjection;
 import com.app.domain.usecase.ProductCategoryUseCase;
 import com.app.infrastructure.entity.ProductCategoriesEntity;
 import com.app.infrastructure.mapper.ProductCategoryMapperInfra;
@@ -44,5 +45,13 @@ public class ProductCategoriesUseCaseImpl extends BaseUseCaseImpl<ProductCategor
     public List<ProductCategories> findAllByStoreId(String storeId) {
         return categoriesJpaRepository.findAllByStoreId(storeId).stream().map(productCategoryMapperInfra::toModel).collect(Collectors.toList());
     }
+
+    @Override
+    public List<CategoryWithProductProjection> findAllCategoryWithProductProjections() {
+       List<ProductCategoriesEntity> categoriesEntities = categoriesJpaRepository.findAll();
+       return categoriesEntities.stream().map(productCategoryMapperInfra::toCategoryWithProduct).toList();
+    }
+
+   
 
 }

@@ -1,7 +1,6 @@
 package com.app.application.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import com.app.application.dto.ProductImageDTO;
@@ -11,14 +10,6 @@ import com.app.domain.models.ProductImage;
 public interface ProductImageMapper extends BaseMapper<ProductImageDTO, ProductImage> {
 
     ProductImageMapper INSTANCE = Mappers.getMapper(ProductImageMapper.class);
-
-    @Override
-    @Mapping(target = "uri", source = "source")
-    ProductImageDTO toDTO(ProductImage entity);
-
-    @Override
-    @Mapping(target = "source", source = "uri")
-    ProductImage toModel(ProductImageDTO dto);
 
     // @Named("toStringDTO")
     // default MultipartFile toStringDTO(String source) {

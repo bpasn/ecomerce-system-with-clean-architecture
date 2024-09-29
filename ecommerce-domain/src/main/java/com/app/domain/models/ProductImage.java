@@ -29,4 +29,11 @@ public class ProductImage extends BaseModel {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+    @Override
+    public String toString() {
+        return "ProductImage [source=" + source + "]";
+    }
+
+    
 }
