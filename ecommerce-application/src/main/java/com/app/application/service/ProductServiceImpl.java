@@ -242,4 +242,10 @@ public class ProductServiceImpl extends BaseServiceImpl<Product, ProductsDTO> im
         });
        return new ApiResponse<>(stockProductProjections);
     }
+
+    @Override
+    public List<ProductsDTO> getAllById(List<String> ids) {
+        return productUseCase.findAllById(ids).stream().map(productMapper::toDTO).toList();
+    }
+    
 }

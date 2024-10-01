@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.app.domain.pageable.PageResult;
 import com.app.domain.usecase.BaseUseCase;
-import com.app.infrastructure.entity.ProductEntity;
 import com.app.infrastructure.mapper.GenericMapper;
 
 public class BaseUseCaseImpl<E, M> implements BaseUseCase<M> {

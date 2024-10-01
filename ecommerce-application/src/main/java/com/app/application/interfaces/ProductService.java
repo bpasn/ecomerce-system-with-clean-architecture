@@ -23,4 +23,6 @@ public interface ProductService extends BaseService<Product, ProductsDTO> {
 
     ApiResponse<List<StockProductProjection>> getProductStock(String storeId);
 
+    List<ProductsDTO> getAllById(List<String> ids);
+
 }
