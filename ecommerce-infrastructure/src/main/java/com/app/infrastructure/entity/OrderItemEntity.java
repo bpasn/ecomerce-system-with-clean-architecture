@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity(name = "order_item")
 public class OrderItemEntity extends BaseEntity {
     @ManyToOne

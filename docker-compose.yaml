@@ -42,7 +42,7 @@ services:
           memory: 256MB
     image: nginx:latest
     volumes:
-      - ${ENVIRONMENT}:/var/www/files
+      - ${MOUNT_PATH}:/var/www/files
       - ./file-server.conf:/etc/nginx/conf.d/file-server.conf
     ports:
       - ${NGINX_PORT}:${NGINX_PORT}

@@ -4,18 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.app.application.dto.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.app.application.dto.OrderDTO;
-import com.app.application.dto.OrderItemDTO;
-import com.app.application.dto.OrderItemObject;
-import com.app.application.dto.OrderRequest;
-import com.app.application.dto.ProductsDTO;
 import com.app.application.interfaces.OrderService;
 import com.app.application.interfaces.ProductService;
 
@@ -35,6 +28,11 @@ public class OrderClientController {
     public ResponseEntity<String> createOrder(@RequestBody OrderRequest orderRequest) {
         orderService.createOrder(orderRequest);
         return ResponseEntity.ok("Order has been created!");
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<OrderDTO>>> getOrders(){
+        return ResponseEntity.ok(orderService.getAll());
     }
 
 }
