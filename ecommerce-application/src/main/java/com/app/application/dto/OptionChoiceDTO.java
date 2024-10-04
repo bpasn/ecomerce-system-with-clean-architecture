@@ -11,6 +11,9 @@ public class OptionChoiceDTO {
 
     public OptionChoiceDTO() {
     }
+    public OptionChoiceDTO(String id) {
+        this.id = id;
+    }
     public OptionChoiceDTO(String id,String name, String choiceEffect, BigDecimal price, String status) {
         this.id = id;
         this.name = name;

@@ -12,6 +12,10 @@ public interface OptionChoiceMapperInfra extends GenericMapper<OptionChoiceEntit
     OptionChoiceMapperInfra INSTANCE = Mappers.getMapper(OptionChoiceMapperInfra.class);
    
     @Override
-    @Mapping(source = "productOption",target = "productOption")
+    @Mapping(target = "productOption.choices",ignore = true)
     OptionChoiceEntity toEntity(OptionChoice optionChoice);
+
+    @Override
+    @Mapping(target = "productOption.choices",ignore = true)
+    OptionChoice toModel(OptionChoiceEntity optionChoiceEntity);
 }

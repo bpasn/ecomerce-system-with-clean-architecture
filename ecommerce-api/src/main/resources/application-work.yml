@@ -44,7 +44,7 @@ jwt:
 
 logging:
   level:
-    root: DEBUG
+    root: INFO
     sql: INFO
   #  com:
   #     app:

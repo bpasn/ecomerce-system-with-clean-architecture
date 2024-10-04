@@ -17,6 +17,11 @@ public class ProductsDTO {
     Set<ProductOptionDTO> productOptions;
     String storeId;
 
+    public ProductsDTO(){}
+    public ProductsDTO(String id) {
+        this.id = id;
+    }
+
     public String getStoreId() {
         return storeId;
     }

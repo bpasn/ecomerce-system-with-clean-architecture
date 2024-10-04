@@ -1,25 +1,33 @@
 package com.app.domain.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Order extends BaseModel {
     private EOrderStatus orderStatus;
-    private Set<OrderItem> orderItems = new HashSet<>();
+    private List<OrderItem> orderItems = new ArrayList<>();
     private Double totalAmount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public Order(Double totalAmount, EOrderStatus orderStatus) {
+        this.totalAmount = totalAmount;
+        this.orderStatus = orderStatus;
+    }
+
     public EOrderStatus getOrderStatus() {
         return orderStatus;
     }
     public void setOrderStatus(EOrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
-    public Set<OrderItem> getOrderItems() {
+    public List<OrderItem> getOrderItems() {
         return orderItems;
     }
-    public void setOrderItems(Set<OrderItem> orderItems) {
+    public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
     public Double getTotalAmount() {

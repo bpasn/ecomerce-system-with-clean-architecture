@@ -1,20 +1,21 @@
 package com.app.infrastructure.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.app.domain.models.EOrderStatus;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity(name = "orders")
 public class OrderEntity extends BaseEntity {
+    @Enumerated(EnumType.STRING)
     private EOrderStatus orderStatus;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<OrderItemEntity> orderItems = new HashSet<>();
+    private List<OrderItemEntity> orderItems = new ArrayList<>();
 
     private Double totalAmount;
 
@@ -26,11 +27,11 @@ public class OrderEntity extends BaseEntity {
         this.orderStatus = orderStatus;
     }
 
-    public Set<OrderItemEntity> getOrderItems() {
+    public List<OrderItemEntity> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(Set<OrderItemEntity> orderItems) {
+    public void setOrderItems(List<OrderItemEntity> orderItems) {
         this.orderItems = orderItems;
     }
 

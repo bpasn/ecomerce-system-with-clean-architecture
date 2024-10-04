@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface OrderMapperInfra extends GenericMapper<OrderEntity, Order> {
-    OrderMapperInfra INSTANT = Mappers.getMapper(OrderMapperInfra.class);
+    OrderMapperInfra INSTANCE = Mappers.getMapper(OrderMapperInfra.class);
 
     @Override
     @Mapping(source = "orderItems",target = "orderItems",qualifiedByName = "toOrderItemList")
@@ -26,8 +26,8 @@ public interface OrderMapperInfra extends GenericMapper<OrderEntity, Order> {
 
 
     @Named("toOrderItemList")
-    default Set<OrderItem> toOrderItemList(Set<OrderItemEntity> orderItemList){
-        return new HashSet<>(orderItemList.stream().map(this::toOrderItem).toList());
+    default List<OrderItem> toOrderItemList(List<OrderItemEntity> orderItemList){
+        return orderItemList.stream().map(this::toOrderItem).toList();
     }
 
     default OrderItem toOrderItem(OrderItemEntity en){
@@ -35,9 +35,16 @@ public interface OrderMapperInfra extends GenericMapper<OrderEntity, Order> {
         orderItem.setQuantity(en.getQuantity());
         orderItem.setId(en.getId());
         orderItem.setProduct(addProductToOrderItem(en.getProduct()));
+        orderItem.setOrderItemOptions(toOrderItemOptions(en.getOrderItemOptions()));
         return orderItem;
     }
 
+    default List<OrderItemOption> toOrderItemOptions(List<OrderItemOptionEntity> orderOptions){
+        return orderOptions.stream().map(e -> addItemOption(e)).toList();
+    }
+    default OrderItemOption addItemOption(OrderItemOptionEntity orderItemOption){
+        return new OrderItemOption();
+    }
     default Product addProductToOrderItem(ProductEntity entity) {
         Product product = new Product();
         product.setId(entity.getId());
@@ -46,15 +53,9 @@ public interface OrderMapperInfra extends GenericMapper<OrderEntity, Order> {
         product.setDescriptionEN(entity.getDescriptionEN());
         product.setDescriptionTH(entity.getDescriptionTH());
         product.setPrice(entity.getPrice());
-        product.setStock(addStockToProduct(entity.getStock()));
         product.setProductImages(addImageListToProduct(entity.getProductImages()));
         product.setProductOptions(addOptionListToProduct(entity.getProductOptions()));
         return product;
-    }
-
-    default Stock addStockToProduct(StockEntity stock) {
-        return new Stock(stock.getId(), stock.getUnitType(), stock.getUnitQuantity(), stock.getQuantity(),
-                stock.getStatus(), stock.isReOrder());
     }
 
     default Set<ProductImage> addImageListToProduct(Set<ProductImageEntity> et) {

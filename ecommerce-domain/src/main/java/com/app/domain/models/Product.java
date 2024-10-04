@@ -48,6 +48,14 @@ public class Product extends BaseModel {
         this.productImages = productImages;
         // this.productGroups = productGroups;
     }
+    public Product(String nameTH, String nameEN, String descriptionTH, String descriptionEN, BigDecimal price,Set<ProductImage> productImage) {
+        this.nameTH = nameTH;
+        this.nameEN = nameEN;
+        this.descriptionTH = descriptionTH;
+        this.descriptionEN = descriptionEN;
+        this.price = price;
+        this.productImages = productImage;
+    }
     public Product(String id,String nameTH, String nameEN, String descriptionTH, String descriptionEN, BigDecimal price,
             Set<ProductCategories> categories,
             Set<ProductImage> productImages) {

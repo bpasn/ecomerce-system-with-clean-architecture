@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.application.dto.ApiResponse;
-import com.app.application.dto.CategoriesDTO;
 import com.app.application.dto.CategoryWithProductDTO;
 import com.app.application.dto.ProductsDTO;
 import com.app.application.interfaces.CategoryService;

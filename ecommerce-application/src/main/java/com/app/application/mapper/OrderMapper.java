@@ -7,5 +7,5 @@ import com.app.domain.models.Order;
 
 @Mapper(componentModel = "spring")
 public interface OrderMapper extends BaseMapper<OrderDTO,Order> {
-    
+
 }

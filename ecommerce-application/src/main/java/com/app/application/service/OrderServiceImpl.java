@@ -1,24 +1,18 @@
 package com.app.application.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.app.domain.models.*;
-import com.app.infrastructure.exception.BaseException;
+import com.app.domain.usecase.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.app.application.dto.OrderDTO;
-import com.app.application.dto.OrderItemObject;
-import com.app.application.dto.OrderRequest;
+import com.app.application.dto.OrderItemDTO;
 import com.app.application.interfaces.OrderService;
-import com.app.application.interfaces.StockService;
-import com.app.application.mapper.OrderMapper;
-import com.app.domain.usecase.OrderUseCase;
-import com.app.domain.usecase.ProductUseCase;
-import com.app.domain.usecase.StockUseCase;
+import com.app.application.mapper.OrderMapperAbstract;
+import com.app.infrastructure.exception.BaseException;
 
 import jakarta.transaction.Transactional;
 
@@ -27,79 +21,117 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDTO> implement
     private final OrderUseCase orderUseCase;
     private final ProductUseCase productUseCase;
     private final StockUseCase stockUseCase;
+    private final ProductOptionUseCase productOptionUseCase;
+    private final OptionChoiceUseCase optionChoiceUseCase;
+    private final OrderMapperAbstract orderMapperAbstract;
 
-    public OrderServiceImpl(OrderUseCase orderUseCase, OrderMapper baseMapper, ProductUseCase productUseCase,StockUseCase stockUseCase) {
-        super(orderUseCase, baseMapper, Order.class);
+    public OrderServiceImpl(
+            OrderUseCase orderUseCase,
+            OrderMapperAbstract orderMapperAbstract,
+            ProductUseCase productUseCase,
+            StockUseCase stockUseCase,
+            ProductOptionUseCase productOptionUseCase,
+            OptionChoiceUseCase optionChoiceUseCase
+    ) {
+        super(orderUseCase, orderMapperAbstract, Order.class);
         this.orderUseCase = orderUseCase;
         this.productUseCase = productUseCase;
         this.stockUseCase = stockUseCase;
+        this.orderMapperAbstract = orderMapperAbstract;
+        this.productOptionUseCase = productOptionUseCase;
+        this.optionChoiceUseCase = optionChoiceUseCase;
     }
 
     @Override
     @Transactional
-    public void createOrder(OrderRequest orderRequest) {
+    public void createOrder(OrderDTO orderRequest) {
         Order order = prepareOrder(orderRequest);
-
-        Map<String, Integer> productIdToQuantityMap = getProductQuantityMap(orderRequest);
-
-        List<Product> products = productUseCase.findAllById(new ArrayList<>(productIdToQuantityMap.keySet()));
-
+        List<String> productIds = getProductIdsFromOrderItems(orderRequest);
+        List<Product> products = productUseCase.findAllById(productIds);
         Order savedOrder = orderUseCase.save(order);
-
-        products.forEach(product -> processOrderItemAndStock(savedOrder, product, productIdToQuantityMap));
+        processOrderItemsAndStocks(savedOrder, products, orderRequest.getOrderItems());
     }
 
-    private Order prepareOrder(OrderRequest orderRequest) {
-        Order order = new Order();
-        order.setTotalAmount(orderRequest.getTotalAmount());
-        order.setOrderStatus(EOrderStatus.PENDING);
-        return order;
+    private Order prepareOrder(OrderDTO orderRequest) {
+        return new Order(orderRequest.getTotalAmount(), EOrderStatus.PENDING);
     }
 
-    private Map<String, Integer> getProductQuantityMap(OrderRequest orderRequest) {
+    private List<String> getProductIdsFromOrderItems(OrderDTO orderRequest) {
         return orderRequest.getOrderItems().stream()
-                .collect(Collectors.toMap(OrderItemObject::getProductId, OrderItemObject::getQuantity));
+                .map(e -> e.getProduct().getId())
+                .collect(Collectors.toList());
     }
 
-    private void processOrderItemAndStock(Order order, Product product, Map<String, Integer> productIdToQuantityMap) {
-        String productId = product.getId();
-        Integer qty = productIdToQuantityMap.get(productId);
+    private void processOrderItemsAndStocks(Order order, List<Product> products, List<OrderItemDTO> orderItems) {
+        products.forEach(product -> {
+            OrderItemDTO orderItem = getOrderItemForProduct(orderItems, product.getId());
+            processOrderItemAndStock(order, product, orderItem);
+        });
+    }
 
+    private OrderItemDTO getOrderItemForProduct(List<OrderItemDTO> orderItems, String productId) {
+        return orderItems.stream()
+                .filter(e -> e.getProduct().getId().equals(productId))
+                .findFirst()
+                .orElseThrow(() -> new BaseException("Order item not found", HttpStatus.BAD_REQUEST));
+    }
+
+    private void processOrderItemAndStock(Order order, Product product, OrderItemDTO orderItemDto) {
+        Integer qty = orderItemDto.getQuantity();
         if (qty != null) {
-            createOrderItem(order, product, qty);
+            OrderItem savedOrderItem = createOrderItem(new OrderItem(order, product, qty));
+
+            orderItemDto.getOrderItemOptions().forEach(orderItemOptionDto -> {
+                OrderItemOption orderItemOption = new OrderItemOption();
+                orderItemOption.setOrderItem(savedOrderItem);
+
+                // Get ProductOption
+                ProductOption productOption = productOptionUseCase.findById(orderItemOptionDto.getProductOption().getId())
+                        .orElseThrow(() -> new BaseException("ProductOption is null"));
+                orderItemOption.setProductOption(productOption);
+
+                OrderItemOption savedOrderItemOption = orderUseCase.createOrderItemOption(orderItemOption);
+
+                // Prepare ids choices
+                List<String> choicesIds = orderItemOptionDto.getOrderItemOptionChoice().stream()
+                        .map(e -> e.getId())
+                        .collect(Collectors.toList());
+
+                // Get all choices
+                optionChoiceUseCase.findAllById(choicesIds).forEach(choice -> {
+                    OrderItemOptionChoice orderItemOptionChoice = new OrderItemOptionChoice(savedOrderItemOption, choice);
+                    orderUseCase.createOrderItemOptionChoice(orderItemOptionChoice);
+                });
+            });
+
             updateStock(product, qty);
         }
     }
 
-    private void createOrderItem(Order order, Product product, Integer qty) {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setQuantity(qty);
-        orderItem.setProduct(product);
-        orderItem.setOrder(order);
-        orderUseCase.createOrderItem(orderItem);
+    private OrderItem createOrderItem(OrderItem orderItem) {
+        return orderUseCase.createOrderItem(orderItem);
     }
 
     private void updateStock(Product product, Integer qty) {
         Stock stock = product.getStock();
         int stockQty = stock.getQuantity();
 
-        if (stockQty - qty < 0) {
-            throw new BaseException("Not enough of stock", HttpStatus.BAD_REQUEST);
+        if (stockQty < qty) {
+            throw new BaseException("Not enough stock", HttpStatus.BAD_REQUEST);
         }
+
         stock.setQuantity(stockQty - qty);
-        stock.setStatus(determineStockStatus(stockQty, qty));
-        product.setStock(null);
+        stock.setStatus(determineStockStatus(stockQty - qty));
         stock.setProduct(product);
         stockUseCase.save(stock);
     }
 
-    private EStatusStock determineStockStatus(int stockQty, int qty) {
-        if (stockQty - qty == 0) {
+    private EStatusStock determineStockStatus(int remainingStock) {
+        if (remainingStock == 0) {
             return EStatusStock.OUT_OF_STOCK;
-        } else if (stockQty - qty <= 5) {
+        } else if (remainingStock <= 5) {
             return EStatusStock.LOW_STOCK;
         }
         return EStatusStock.IN_STOCK;
     }
-
 }
