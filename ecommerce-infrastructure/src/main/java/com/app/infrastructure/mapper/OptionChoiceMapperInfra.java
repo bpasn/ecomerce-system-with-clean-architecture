@@ -9,8 +9,7 @@ import com.app.infrastructure.entity.OptionChoiceEntity;
 
 @Mapper(componentModel = "spring")
 public interface OptionChoiceMapperInfra extends GenericMapper<OptionChoiceEntity, OptionChoice> {
-    OptionChoiceMapperInfra INSTANCE = Mappers.getMapper(OptionChoiceMapperInfra.class);
-   
+
     @Override
     @Mapping(target = "productOption.choices",ignore = true)
     OptionChoiceEntity toEntity(OptionChoice optionChoice);

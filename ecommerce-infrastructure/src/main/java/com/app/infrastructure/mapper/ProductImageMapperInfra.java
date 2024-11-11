@@ -10,7 +10,6 @@ import com.app.infrastructure.entity.ProductImageEntity;
 @Mapper(componentModel = "spring")
 public interface ProductImageMapperInfra extends GenericMapper<ProductImageEntity, ProductImage> {
 
-    ProductImageMapperInfra INSTANCE = Mappers.getMapper(ProductImageMapperInfra.class);
 
     @Override
     @Mapping(target = "product.productImages",ignore = true)

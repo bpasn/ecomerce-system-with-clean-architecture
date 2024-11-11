@@ -12,7 +12,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface OrderItemOptionMapperInfra extends GenericMapper<OrderItemOptionEntity, OrderItemOption>{
-    OrderItemOptionMapperInfra INSTANCE = Mappers.getMapper(OrderItemOptionMapperInfra.class);
 
     @Override
     @Mapping(target = "orderItem.product",ignore = true)

@@ -1,4 +1,4 @@
-package com.app.ecommerce.api.controllers;
+package com.app.ecommerce.api.controllers.admin;
 
 import java.util.List;
 
@@ -12,12 +12,12 @@ import com.app.application.interfaces.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("${api.prefix.route}/categories")
+@RequestMapping("${api.prefix.route}/admin/categories")
 @Tag(name = "Categories", description = "Categories management API")
-public class ProductCategoriesController {
+public class AdminCategoriesController {
     private final CategoryService categoriesService;
 
-    ProductCategoriesController(CategoryService categoriesService) {
+    AdminCategoriesController(CategoryService categoriesService) {
         this.categoriesService = categoriesService;
     }
 

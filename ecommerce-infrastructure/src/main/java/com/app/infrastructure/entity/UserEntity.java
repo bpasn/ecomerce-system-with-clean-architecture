@@ -1,9 +1,8 @@
 package com.app.infrastructure.entity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
+import com.app.domain.enums.ERole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +17,8 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private String email;
     private String name;
     private String password;
+    private String provider;
+    private String providerId;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StoreEntity> stores = new ArrayList<>();
 
@@ -89,5 +90,21 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
        return true;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
     }
 }

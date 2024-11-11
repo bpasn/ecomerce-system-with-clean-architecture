@@ -1,12 +1,18 @@
 package com.app.domain.models;
 
+import com.app.domain.enums.ERole;
+
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 public class User extends BaseModel {
 
     private String email;
     private String name;
     private String password;
+    private String provider;
+    private String providerId;
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -69,7 +75,20 @@ public class User extends BaseModel {
         this.updatedAt = updatedAt;
     }
 
-    
 
-    
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
 }

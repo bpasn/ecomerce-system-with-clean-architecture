@@ -7,9 +7,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = {
+        OrderMapperInfra.class,
+        ProductImageMapperInfra.class,
+        OrderItemOptionMapperInfra.class
+})
 public interface OrderItemMapperInfra extends GenericMapper<OrderItemEntity, OrderItem>{
-    OrderItemMapperInfra INSTANCE = Mappers.getMapper(OrderItemMapperInfra.class);
     @Override
     @Mapping(target="order.orderItems",ignore = true)
     @Mapping(target="product.productOptions" , ignore = true)
@@ -23,5 +26,6 @@ public interface OrderItemMapperInfra extends GenericMapper<OrderItemEntity, Ord
     @Mapping(target="product.productOptions" , ignore = true)
     @Mapping(target="product.categories" , ignore = true)
     @Mapping(target="product.stock" , ignore = true)
+    @Mapping(target="orderItemOptions",source = "orderItemOptions")
     OrderItem toModel(OrderItemEntity order);
 }

@@ -19,20 +19,21 @@ import com.app.infrastructure.repositories.ProductJpaRepository;
 @Service
 public class ProductUseCaseImpl extends BaseUseCaseImpl<ProductEntity, Product> implements ProductUseCase {
     private final ProductJpaRepository productJpaRepository;
-
+    private final ProductMapperInfra productMaperInfra;
     public ProductUseCaseImpl(ProductJpaRepository productJpaRepository, ProductMapperInfra mapper) {
         super(productJpaRepository, mapper);
         this.productJpaRepository = productJpaRepository;
+        this.productMaperInfra = mapper;
     }
 
     @Override
     public Optional<Product> findByNameTH(String name) {
-        return productJpaRepository.findByNameTH(name).map(ProductMapperInfra.INSTANCE::toModel);
+        return productJpaRepository.findByNameTH(name).map(productMaperInfra::toModel);
     }
 
     @Override
     public List<Product> findAllByStoreId(String storeId) {
-        return productJpaRepository.findAllByStoreId(storeId).stream().map(ProductMapperInfra.INSTANCE::toModel)
+        return productJpaRepository.findAllByStoreId(storeId).stream().map(productMaperInfra::toModel)
                 .toList();
     }
 
@@ -41,7 +42,7 @@ public class ProductUseCaseImpl extends BaseUseCaseImpl<ProductEntity, Product> 
         Page<ProductEntity> result = productJpaRepository.findAllByStoreId(storeId,
                 Pageable.ofSize(size).withPage(page));
         PageResult<Product> pageResult = new PageResult<>(
-                result.getContent().stream().map(ProductMapperInfra.INSTANCE::toModel).collect(Collectors.toList()),
+                result.getContent().stream().map(productMaperInfra::toModel).collect(Collectors.toList()),
                 result.getNumber(),
                 result.getSize(),
                 result.getTotalElements(),
@@ -56,7 +57,7 @@ public class ProductUseCaseImpl extends BaseUseCaseImpl<ProductEntity, Product> 
 
     @Override
     public Optional<Product> findByStockId(String stockId) {
-        return productJpaRepository.findByStockId(stockId).map(ProductMapperInfra.INSTANCE::toModel);
+        return productJpaRepository.findByStockId(stockId).map(productMaperInfra::toModel);
     }
 
 }

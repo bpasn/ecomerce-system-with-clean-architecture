@@ -1,5 +1,6 @@
 package com.app.infrastructure.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -13,6 +14,7 @@ import com.app.domain.exceptions.DomainException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
+@Slf4j
 public class AdviceHandleException {
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<IAdviceHandler> handlerRuntimeException(DomainException e) {
@@ -63,7 +65,8 @@ public class AdviceHandleException {
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<IAdviceHandler> baseException(BaseException ex) {
         IAdviceHandler adviceHandler = new IAdviceHandler();
-        System.out.println("IN BASE EXCEPTION");
+        System.out.println("IN BASE EXCEPTION :" + ex.getMessage());
+        ex.printStackTrace();
         adviceHandler.setMessage(ex.getMessage());
         adviceHandler.setStatus(ex.status.value());
         return new ResponseEntity<>(adviceHandler, ex.status);
@@ -72,7 +75,7 @@ public class AdviceHandleException {
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<IAdviceHandler> handleAllThrowable(Throwable ex) {
         IAdviceHandler adviceHandler = new IAdviceHandler();
-        System.out.println(ex instanceof StackOverflowError);
+        System.out.println(ex.getMessage());
         if (ex instanceof StackOverflowError) {
             adviceHandler.setMessage("StackOverflowError occurred: " + ex.getMessage());
             adviceHandler.setStatus(500);

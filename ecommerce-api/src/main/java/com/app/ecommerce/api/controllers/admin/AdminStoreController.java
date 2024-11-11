@@ -1,4 +1,4 @@
-package com.app.ecommerce.api.controllers;
+package com.app.ecommerce.api.controllers.admin;
 
 import java.util.List;
 
@@ -18,12 +18,12 @@ import com.app.ecommerce.api.request.StoreRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping(value = "${api.prefix.route}/store")
+@RequestMapping(value = "${api.prefix.route}/admin/store")
 @Tag(name = "Stores", description = "Store management API")
-public class StoreController {
+public class AdminStoreController {
     private final StoreService storeService;
 
-    public StoreController(StoreService storeService){
+    public AdminStoreController(StoreService storeService){
         this.storeService = storeService;
     }
     @GetMapping

@@ -2,8 +2,8 @@ package com.app.infrastructure.entity;
 
 import java.math.BigDecimal;
 
-import com.app.domain.models.EChoiceEffect;
-import com.app.domain.models.EStatusChoice;
+import com.app.domain.enums.EChoiceEffect;
+import com.app.domain.enums.EStatusChoice;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;

@@ -1,10 +1,10 @@
 package com.app.domain.models;
 
+import com.app.domain.enums.EOrderStatus;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Order extends BaseModel {
     private EOrderStatus orderStatus;
@@ -50,7 +50,7 @@ public class Order extends BaseModel {
     }
     @Override
     public String toString() {
-        return "Order [orderStatus=" + orderStatus + ", totalAmount=" + totalAmount + ", createdAt=" + createdAt
+        return "Order [id=" +getId()+ ",  orderStatus=" + orderStatus + ", totalAmount=" + totalAmount + ", createdAt=" + createdAt
                 + ", updatedAt=" + updatedAt + "]";
     }
     

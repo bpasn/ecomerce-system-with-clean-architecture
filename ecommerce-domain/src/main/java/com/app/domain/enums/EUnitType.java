@@ -1,4 +1,4 @@
-package com.app.domain.models;
+package com.app.domain.enums;
 
 public enum EUnitType {
     PIECE,

@@ -60,7 +60,6 @@ public class CategoriesServiceImpl extends BaseServiceImpl<ProductCategories, Ca
         List<CategoryWithProductProjection> c = productCategoryUseCase.findAllCategoryWithProductProjections();
         List<CategoryWithProductDTO> cDtos = c.stream().map(e -> {
             CategoryWithProductDTO cDto = categoryMapper.toCategoryWithProductDTO(e);
-            System.out.println(cDto.getProducts().get(0).getProductImages());
             return cDto;
         }).toList();
         return new ApiResponse<List<CategoryWithProductDTO>>(cDtos);

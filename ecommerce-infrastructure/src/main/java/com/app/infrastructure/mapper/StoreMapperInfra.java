@@ -12,7 +12,6 @@ import com.app.infrastructure.entity.UserEntity;
 
 @Mapper(componentModel = "spring")
 public interface StoreMapperInfra extends GenericMapper<StoreEntity, Store> {
-    public StoreMapperInfra INSTANCE = Mappers.getMapper(StoreMapperInfra.class);
 
     @Override
     @Mapping(target = "user", source = "user")

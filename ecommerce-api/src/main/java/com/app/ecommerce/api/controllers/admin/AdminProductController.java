@@ -1,9 +1,9 @@
-package com.app.ecommerce.api.controllers;
+package com.app.ecommerce.api.controllers.admin;
 
 import java.util.List;
 
+import com.app.application.dto.*;
 import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.application.dto.ApiResponse;
-import com.app.application.dto.BaseResponse;
-import com.app.application.dto.ProductsDTO;
-import com.app.application.dto.StockDTO;
 import com.app.application.interfaces.ProductImageService;
 import com.app.application.interfaces.ProductService;
 import com.app.application.interfaces.StockService;
@@ -32,22 +28,27 @@ import com.app.infrastructure.exception.BaseException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("${api.prefix.route}/products")
+@RequestMapping("${api.prefix.route}/admin/products")
 @Tag(name = "Products", description = "Product management API")
-public class ProductController {
+public class AdminProductController {
 
     private final ProductService productService;
     private final ProductImageService productImageService;
     private final StockService stockService;
 
-    public ProductController(ProductService productService, ProductImageService productImageService,
+    public AdminProductController(ProductService productService, ProductImageService productImageService,
             StockService stockService) {
         this.productService = productService;
         this.productImageService = productImageService;
         this.stockService = stockService;
     }
 
-    @GetMapping
+
+//    @GetMapping("/")
+//    public ResponseEntity<ApiResponse<List<ProductsDTO>>> getProduct() {
+//        return ResponseEntity.ok(productService.getProduct());
+//    }
+    @GetMapping("")
     public ResponseEntity<ApiResponse<PageResult<ProductsDTO>>> get(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -60,7 +61,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.getById(id));
     }
 
-    @PostMapping(consumes = "multipart/form-data")
+    @PostMapping(value = "", consumes = "multipart/form-data")
     public ResponseEntity<String> post(
             @Valid @ModelAttribute  ProductRequest productRequest) {
         if(productRequest.getProductImages() == null){
@@ -72,7 +73,7 @@ public class ProductController {
         return ResponseEntity.ok("Product has been create");
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable String id) {
         productService.delete(id);
         return ResponseEntity.ok("Product has been delete");
@@ -87,7 +88,7 @@ public class ProductController {
         return ResponseEntity.ok("Product has been updated");
     }
 
-    @DeleteMapping("product-image/{id}")
+    @DeleteMapping("/product-image/{id}")
     public ResponseEntity<String> deleteProductImageById(@PathVariable(value = "id") String id) {
         productImageService.delete(id);
         return ResponseEntity.ok("Product image has been delete");
@@ -103,5 +104,4 @@ public class ProductController {
     public ResponseEntity<ApiResponse<List<StockProductProjection>>> getProductStock(@PathVariable("storeId") String storeId) throws BaseException{
         return ResponseEntity.ok(productService.getProductStock(storeId));
     }
-
 }

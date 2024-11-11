@@ -1,13 +1,11 @@
-package com.app.ecommerce.api.controllers.client;
+package com.app.ecommerce.api.controllers.users;
 
 import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.app.application.dto.ApiResponse;
 import com.app.application.dto.OrderDTO;
@@ -20,12 +18,12 @@ import com.app.application.interfaces.OrderService;
 import com.app.ecommerce.api.request.order.OrderRequest;
 
 @RestController
-@RequestMapping("${api.prefix.client}/order")
-public class OrderClientController {
+@RequestMapping("${api.prefix.route}/order")
+public class OrderController {
 
     private final OrderService orderService;
 
-    public OrderClientController(OrderService orderService) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
@@ -54,7 +52,13 @@ public class OrderClientController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<OrderDTO>>> getOrders() {
-        return ResponseEntity.ok(orderService.getAll());
+        ApiResponse<List<OrderDTO>> response = orderService.getAll();
+        return ResponseEntity.ok(response);
     }
 
+
+    @GetMapping("{id}")
+    public ResponseEntity<ApiResponse<OrderDTO>> getOrderById(@PathVariable String id){
+        return ResponseEntity.ok(orderService.getById(id));
+    }
 }

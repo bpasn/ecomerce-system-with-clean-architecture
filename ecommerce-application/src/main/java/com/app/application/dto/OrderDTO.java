@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.domain.models.EOrderStatus;
+import com.app.domain.enums.EOrderStatus;
+import com.fasterxml.jackson.annotation.JsonView;
 
 public class OrderDTO {
 
     private String id;
+    private String orderId;
     private EOrderStatus orderStatus;
     private List<OrderItemDTO> orderItems = new ArrayList<>();
     private Double totalAmount;
@@ -61,6 +63,14 @@ public class OrderDTO {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     @Override

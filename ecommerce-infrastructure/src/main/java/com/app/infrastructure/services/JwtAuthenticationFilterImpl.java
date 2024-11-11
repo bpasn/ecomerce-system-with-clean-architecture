@@ -2,6 +2,7 @@ package com.app.infrastructure.services;
 
 import java.io.IOException;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,27 +55,48 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+
         String uri = request.getRequestURI();
+
+//        if(uri.startsWith("/swagger-ui") || uri.startsWith("/v3/api-docs")){
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+        String xApi = request.getHeader("x-api-key");
+        if(!xApiSecurity.equals(xApi)){
+            response.sendError(HttpStatus.FORBIDDEN.value(),"Access Denied: Invalid or Missing Header");
+            return;
+        }
         AntPathMatcher pathMatcher = new AntPathMatcher();
         for (String publicPath : SecurityConfig.publicRouter) {
             if (pathMatcher.match(publicPath, uri)) {
-                if(uri.startsWith("/swagger-ui") || uri.startsWith("/v3/api-docs")){
-                    filterChain.doFilter(request, response);
-                    return;
-                }
-                String xApi = request.getHeader("x-api-key");
-                if(xApi == null || !xApiSecurity.equals(xApi)){
-                    response.sendError(HttpStatus.FORBIDDEN.value(),"Access Denied: Invalid or Missing Header");
-                    return;
-                }
-                filterChain.doFilter(request, response);
+                filterChain.doFilter(request, response); // ข้ามการตรวจสอบ security
                 return;
             }
         }
+//        AntPathMatcher pathMatcher = new AntPathMatcher();
+//        for (String publicPath : SecurityConfig.publicRouter) {
+//            if (pathMatcher.match(publicPath, uri) && !uri.startsWith("/api/v1/admin")) {
+//                if(uri.startsWith("/swagger-ui") || uri.startsWith("/v3/api-docs")){
+//                    filterChain.doFilter(request, response);
+//                    return;
+//                }
+//                String xApi = request.getHeader("x-api-key");
+//                if(!xApiSecurity.equals(xApi)){
+//                    resolver.resolveException(request, response, null,
+//                            new BaseException("Unauthorized", HttpStatus.UNAUTHORIZED));
+//                    return;
+//                }
+//                filterChain.doFilter(request, response);
+//                return;
+//            }
+//        }
+
         final String authHeader = request.getHeader("Authorization");
+
         if (isTokenMissingOrInValid(authHeader)) {
             filterChain.doFilter(request, response);
-            System.out.println(String.format("ERROR IS : %s", authHeader));
+            System.out.printf("ERROR IS : %s%n", authHeader);
             return;
         }
         try {

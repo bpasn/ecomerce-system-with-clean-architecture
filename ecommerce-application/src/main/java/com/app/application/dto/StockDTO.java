@@ -1,7 +1,7 @@
 package com.app.application.dto;
 
-import com.app.domain.models.EStatusStock;
-import com.app.domain.models.EUnitType;
+import com.app.domain.enums.EStatusStock;
+import com.app.domain.enums.EUnitType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 

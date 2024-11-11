@@ -23,87 +23,91 @@ import com.app.infrastructure.entity.ProductOptionEntity;
 import com.app.infrastructure.entity.StockEntity;
 import com.app.infrastructure.entity.StoreEntity;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = {
+        ProductImageMapperInfra.class,
+        StockMapperInfra.class,
+        ProductOptionMapperInfra.class,
+//        ProductCategoryMapperInfra.class
+})
 public interface ProductMapperInfra extends GenericMapper<ProductEntity, Product> {
-    ProductMapperInfra INSTANCE = Mappers.getMapper(ProductMapperInfra.class);
 
     @Override
-    @Mapping(source = "productImages", target = "productImages", qualifiedByName = "toProductImageList")
-    @Mapping(source = "stock", target = "stock", qualifiedByName = "toStock")
-    @Mapping(source = "categories", target = "categories", qualifiedByName = "toCategoriesSet")
-    @Mapping(source = "productOptions", target = "productOptions", qualifiedByName = "toProductOptions")
+    @Mapping(source = "productImages", target = "productImages")
+    @Mapping(source = "stock", target = "stock")
+    @Mapping(source = "categories", target = "categories")
+    @Mapping(source = "productOptions", target = "productOptions")
     Product toModel(ProductEntity entity);
 
      @Override
      @Mapping(target = "stock",ignore = true)
      ProductEntity toEntity(Product product);
 
-    @Named("toCategoriesSet")
-    default Set<ProductCategories> toCategoriesSet(Set<ProductCategoriesEntity> entities) {
-        return new HashSet<>(entities.stream().map(e -> addToCategories(e)).toList());
-    }
-
-    default ProductCategories addToCategories(ProductCategoriesEntity entity) {
-        return new ProductCategories(
-                entity.getId(),
-                entity.getName(),
-                toStoreModel(entity.getStore()));
-    }
-
-    default Store toStoreModel(StoreEntity store) {
-        return new Store(store.getId(), store.getStoreName(), store.getCreatedAt(), store.getUpdatedAt());
-    }
-
-    @Named("toStock")
-    default Stock toStock(StockEntity stock) {
-        if(stock == null){
-            return null;
-        }
-        return new Stock(
-                stock.getId(),
-                stock.getUnitType(),
-                stock.getUnitQuantity(),
-                stock.getQuantity(),
-                stock.getStatus(),
-                stock.isReOrder());
-    }
-
-    @Named("toProductImageList")
-    default Set<ProductImage> toProductImageList(Set<ProductImageEntity> entities) {
-        if (entities == null) {
-            return null;
-        }
-        return new HashSet<>(entities.stream().map(e -> addProductImage(e)).toList());
-
-    }
-
-    default ProductImage addProductImage(ProductImageEntity productImageEntity) {
-        return new ProductImage(productImageEntity.getId(), productImageEntity.getSource());
-    }
-
-    @Named("toProductOptions")
-    default Set<ProductOption> toProductOptoins(Set<ProductOptionEntity> entities) {
-        return new HashSet<>(entities.stream().map(p -> addToProductOption(p)).toList());
-    }
-
-    default ProductOption addToProductOption(ProductOptionEntity entity) {
-        return new ProductOption(
-                entity.getId(),
-                entity.getOptionName(),
-                entity.isOneMustBeChosen(),
-                entity.isManyCanBeChosen(),
-                addToChoiceSet(entity.getChoices()),
-                entity.getLengthSelect(),
-                entity.getCreatedAt(),
-                entity.getUpdatedAt());
-    }
-
-    default Set<OptionChoice> addToChoiceSet(Set<OptionChoiceEntity> entities) {
-        return new HashSet<>(entities.stream().map(choice -> addTochoice(choice)).toList());
-    }
-
-    default OptionChoice addTochoice(OptionChoiceEntity entity) {
-        return new OptionChoice(entity.getId(), entity.getName(), entity.getChoiceEffect(), entity.getPrice(),
-                entity.getStatus());
-    }
+//    @Named("toCategoriesSet")
+//    default Set<ProductCategories> toCategoriesSet(Set<ProductCategoriesEntity> entities) {
+//        return new HashSet<>(entities.stream().map(e -> addToCategories(e)).toList());
+//    }
+//
+//    default ProductCategories addToCategories(ProductCategoriesEntity entity) {
+//        return new ProductCategories(
+//                entity.getId(),
+//                entity.getName(),
+//                toStoreModel(entity.getStore()));
+//    }
+//
+//    default Store toStoreModel(StoreEntity store) {
+//        return new Store(store.getId(), store.getStoreName(), store.getCreatedAt(), store.getUpdatedAt());
+//    }
+//
+//    @Named("toStock")
+//    default Stock toStock(StockEntity stock) {
+//        if(stock == null){
+//            return null;
+//        }
+//        return new Stock(
+//                stock.getId(),
+//                stock.getUnitType(),
+//                stock.getUnitQuantity(),
+//                stock.getQuantity(),
+//                stock.getStatus(),
+//                stock.isReOrder());
+//    }
+//
+//    @Named("toProductImageList")
+//    default Set<ProductImage> toProductImageList(Set<ProductImageEntity> entities) {
+//        if (entities == null) {
+//            return null;
+//        }
+//        return new HashSet<>(entities.stream().map(e -> addProductImage(e)).toList());
+//
+//    }
+//
+//    default ProductImage addProductImage(ProductImageEntity productImageEntity) {
+//        return new ProductImage(productImageEntity.getId(), productImageEntity.getSource());
+//    }
+//
+//    @Named("toProductOptions")
+//    default Set<ProductOption> toProductOptoins(Set<ProductOptionEntity> entities) {
+//        return new HashSet<>(entities.stream().map(p -> addToProductOption(p)).toList());
+//    }
+//
+//    default ProductOption addToProductOption(ProductOptionEntity entity) {
+//        return new ProductOption(
+//                entity.getId(),
+//                entity.getOptionName(),
+//                entity.isOneMustBeChosen(),
+//                entity.isManyCanBeChosen(),
+//                addToChoiceSet(entity.getChoices()),
+//                entity.getLengthSelect(),
+//                entity.getCreatedAt(),
+//                entity.getUpdatedAt());
+//    }
+//
+//    default Set<OptionChoice> addToChoiceSet(Set<OptionChoiceEntity> entities) {
+//        return new HashSet<>(entities.stream().map(choice -> addTochoice(choice)).toList());
+//    }
+//
+//    default OptionChoice addTochoice(OptionChoiceEntity entity) {
+//        return new OptionChoice(entity.getId(), entity.getName(), entity.getChoiceEffect(), entity.getPrice(),
+//                entity.getStatus());
+//    }
 }

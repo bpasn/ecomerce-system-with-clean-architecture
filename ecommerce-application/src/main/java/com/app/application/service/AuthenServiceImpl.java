@@ -1,5 +1,6 @@
 package com.app.application.service;
 
+import com.app.application.dto.auth.ProviderRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -53,8 +54,7 @@ public class AuthenServiceImpl implements AuthenService {
         if (!passwordEncoder.matches(body.getPassword(), user.getPassword())) {
             throw new BaseException("Email or password incorrect!!");
         }
-        String token = jwtService.generateToken(user.getEmail());
-        return new AuthResponse(token, jwtService.generateRefreshToken(user.getEmail()));
+       return generateAuthResponse(user.getEmail());
     }
 
     @Override
@@ -66,5 +66,39 @@ public class AuthenServiceImpl implements AuthenService {
         }
         String newAccessToken = jwtService.generateToken(userDetails.getUsername());
         return new AuthResponse(newAccessToken, refreshToken);
+    }
+
+
+    @Override
+    public Boolean findByProviderAndProviderId(String provider, String providerId) {
+        return authUseCase.findByProviderAndProviderId(provider,providerId) != null;
+    }
+
+    @Override
+    public AuthResponse signUpProvider(ProviderRequest provider) {
+        User userModel = new User();
+        userModel.setProvider(provider.getProvider());
+        userModel.setProviderId(provider.getProviderId());
+        userModel.setName(provider.getName());
+        userModel.setEmail(provider.getEmail());
+
+        User userSave = authUseCase.save(userModel);
+        return generateAuthResponse(userSave.getEmail());
+    }
+
+    @Override
+    public AuthResponse signInProvider(ProviderRequest provider) {
+        User user = authUseCase.findByProviderAndProviderId(provider.getProvider(), provider.getProviderId());
+        System.out.println("USER IS : " + user);
+        if(user == null){
+            return signUpProvider(provider);
+        }
+        return generateAuthResponse(user.getEmail());
+    }
+
+    private AuthResponse generateAuthResponse(String email) {
+        String token = jwtService.generateToken(email);
+        String refreshToken = jwtService.generateRefreshToken(email);
+        return new AuthResponse(token, refreshToken);
     }
 }

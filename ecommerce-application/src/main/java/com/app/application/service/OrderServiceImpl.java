@@ -3,15 +3,19 @@ package com.app.application.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.app.application.dto.ApiResponse;
+import com.app.application.mapper.OrderMapper;
+import com.app.domain.enums.EOrderStatus;
+import com.app.domain.enums.EStatusStock;
 import com.app.domain.models.*;
 import com.app.domain.usecase.*;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.app.application.dto.OrderDTO;
 import com.app.application.dto.OrderItemDTO;
 import com.app.application.interfaces.OrderService;
-import com.app.application.mapper.OrderMapperAbstract;
 import com.app.infrastructure.exception.BaseException;
 
 import jakarta.transaction.Transactional;
@@ -23,23 +27,23 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDTO> implement
     private final StockUseCase stockUseCase;
     private final ProductOptionUseCase productOptionUseCase;
     private final OptionChoiceUseCase optionChoiceUseCase;
-    private final OrderMapperAbstract orderMapperAbstract;
+    private final OrderMapper orderMapper;
 
     public OrderServiceImpl(
             OrderUseCase orderUseCase,
-            OrderMapperAbstract orderMapperAbstract,
+            OrderMapper orderMapper,
             ProductUseCase productUseCase,
             StockUseCase stockUseCase,
             ProductOptionUseCase productOptionUseCase,
             OptionChoiceUseCase optionChoiceUseCase
     ) {
-        super(orderUseCase, orderMapperAbstract, Order.class);
+        super(orderUseCase, orderMapper, Order.class);
         this.orderUseCase = orderUseCase;
         this.productUseCase = productUseCase;
         this.stockUseCase = stockUseCase;
-        this.orderMapperAbstract = orderMapperAbstract;
         this.productOptionUseCase = productOptionUseCase;
         this.optionChoiceUseCase = optionChoiceUseCase;
+        this.orderMapper = orderMapper;
     }
 
     @Override
@@ -133,5 +137,14 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDTO> implement
             return EStatusStock.LOW_STOCK;
         }
         return EStatusStock.IN_STOCK;
+    }
+
+    @Override
+    @JsonView(OrderDTO.BasicView.class)
+    public ApiResponse<List<OrderDTO>> getAll() {
+        List<Order> orders = orderUseCase.findAll();
+        return new ApiResponse<>(orders.stream()
+                .map(orderMapper::toDTO)
+                .collect(Collectors.toList()));
     }
 }

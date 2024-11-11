@@ -1,5 +1,8 @@
 package com.app.domain.models;
 
+import com.app.domain.enums.EStatusStock;
+import com.app.domain.enums.EUnitType;
+
 import java.time.LocalDateTime;
 
 public class Stock extends BaseModel {

@@ -118,7 +118,7 @@ public class BaseServiceImpl<M, D> implements BaseService<M, D> {
         if (principal instanceof UserDetails) {
             return (UserDetails) principal;
         }
-        return null;
+        throw new BaseException("Unauthorized",HttpStatus.UNAUTHORIZED);
     }
 
 }

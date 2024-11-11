@@ -25,4 +25,10 @@ public class AuthUseCaseImpl extends BaseUseCaseImpl<UserEntity, User> implement
         return userJpaRepository.findByEmail(email).map(userMapper::toModel).orElse(null);
     }
 
+    @Override
+    public User findByProviderAndProviderId(String provider, String providerId) {
+        UserEntity u = userJpaRepository.findByProviderAndProviderId(provider,providerId);
+        return userMapper.toModel(u);
+    }
+
 }

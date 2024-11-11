@@ -1,11 +1,9 @@
 package com.app.infrastructure.entity;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import com.app.domain.models.EOrderStatus;
+import com.app.domain.enums.EOrderStatus;
 
 import jakarta.persistence.*;
 

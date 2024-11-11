@@ -3,8 +3,8 @@ package com.app.domain.projections;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.app.domain.models.EStatusStock;
-import com.app.domain.models.EUnitType;
+import com.app.domain.enums.EStatusStock;
+import com.app.domain.enums.EUnitType;
 
 public interface StockProductProjection {
     String getProductId();

@@ -3,7 +3,7 @@ package com.app.ecommerce.api.request.order;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.domain.models.EOrderStatus;
+import com.app.domain.enums.EOrderStatus;
 
 public class OrderRequest {
     private Double totalAmount;

@@ -8,6 +8,5 @@ import com.app.infrastructure.entity.UserEntity;
 
 @Mapper(componentModel = "spring")
 public interface UserMapperInfra extends GenericMapper<UserEntity, User> {
-    public UserMapperInfra INSTANCE = Mappers.getMapper(UserMapperInfra.class);
 
 }

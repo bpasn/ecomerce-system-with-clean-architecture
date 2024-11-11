@@ -1,4 +1,4 @@
-package com.app.ecommerce.api.controllers;
+package com.app.ecommerce.api.controllers.admin;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +12,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 @RestController
-@RequestMapping(value = "${api.prefix.route}/product-option")
+@RequestMapping(value = "${api.prefix.route}/admin/product-option")
 @Tag(name = "Product Option", description = "Product option management API")
 
-public class ProductOptionController {
+public class AdminProductOptionController {
 
     private final ProductOptionService productOptionService;
 
-    public ProductOptionController(ProductOptionService productOptionService) {
+    public AdminProductOptionController(ProductOptionService productOptionService) {
         this.productOptionService = productOptionService;
     }
     

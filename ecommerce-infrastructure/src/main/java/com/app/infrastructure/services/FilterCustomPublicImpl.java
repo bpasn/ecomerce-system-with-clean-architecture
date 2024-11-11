@@ -20,6 +20,8 @@ public class FilterCustomPublicImpl extends OncePerRequestFilter implements Filt
 
     @Value("${api.security.x-api-key}")
     private String xApiSecurity;
+    @Value("${api.prefix.route}")
+    private String prefixUri;
 
     private final String REQUEST_HEADER_KEY = "x-api-key";
 
@@ -28,10 +30,9 @@ public class FilterCustomPublicImpl extends OncePerRequestFilter implements Filt
             throws ServletException, IOException {
 
         String requestUri = request.getRequestURI();
-
         if (isPublicRouter(requestUri)) {
             String xApi = request.getHeader(REQUEST_HEADER_KEY);
-            if(xApi == null || !xApiSecurity.equals(xApi)){
+            if(!xApiSecurity.equals(xApi)){
                 response.sendError(HttpStatus.FORBIDDEN.value(),"Access Denied: Invalid or Missing Header");
                 return;
             }
@@ -46,6 +47,9 @@ public class FilterCustomPublicImpl extends OncePerRequestFilter implements Filt
             return false;
         }
         for (String publicUri : SecurityConfig.publicRouter) {
+            if(uri.startsWith(prefixUri.concat("/admin"))){
+                return false;
+            }
             if (uri.startsWith(publicUri.replace("/**", ""))) {
                 {
                     return true;

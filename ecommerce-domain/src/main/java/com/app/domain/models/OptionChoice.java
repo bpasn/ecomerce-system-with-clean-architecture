@@ -1,5 +1,8 @@
 package com.app.domain.models;
 
+import com.app.domain.enums.EChoiceEffect;
+import com.app.domain.enums.EStatusChoice;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

@@ -34,7 +34,9 @@ public class SecurityConfig {
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/api/v1/auth/**",
-                        "/api/v1/client/**"
+        };
+        public static final String[] privateRoute = {
+                "/api/v1/admin/**"
         };
 
         @Bean
@@ -42,8 +44,10 @@ public class SecurityConfig {
                 http.csrf(AbstractHttpConfigurer::disable)
                                 .cors(AbstractHttpConfigurer::disable)
                                 .httpBasic(Customizer.withDefaults())
-                                .authorizeHttpRequests(authorize -> authorize.requestMatchers(publicRouter).permitAll()
-                                                .anyRequest().authenticated())
+                                .authorizeHttpRequests(authorize -> authorize.requestMatchers(privateRoute).authenticated()
+                                                .requestMatchers("/v3/api-docs/**","/swagger-ui/**","/api/v1/auth/**").permitAll()
+                                                .requestMatchers("/api/v1/**").permitAll()
+                                                )
                                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                                 .authenticationProvider(authenticationProvider)

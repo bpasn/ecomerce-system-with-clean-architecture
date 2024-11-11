@@ -9,7 +9,6 @@ import com.app.infrastructure.entity.StockEntity;
 
 @Mapper(componentModel = "spring")
 public interface StockMapperInfra extends GenericMapper<StockEntity,Stock> {
-    public StockMapperInfra INSTANCE = Mappers.getMapper(StockMapperInfra.class);
 
    @Override
    @Mapping(target = "product",ignore = true)

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 
 public class ApiResponse<D> extends BaseResponse {
+
     private final D payload;
 
     public ApiResponse(D payload) {

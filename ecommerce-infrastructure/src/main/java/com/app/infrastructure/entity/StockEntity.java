@@ -1,8 +1,7 @@
 package com.app.infrastructure.entity;
 
-import com.app.domain.models.EStatusStock;
-import com.app.domain.models.EUnitType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.app.domain.enums.EStatusStock;
+import com.app.domain.enums.EUnitType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
