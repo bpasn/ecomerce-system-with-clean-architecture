@@ -24,13 +24,13 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>com.app</groupId>
             <artifactId>ecommerce-application</artifactId>
             <version>1.0</version>
         </dependency>
-        
+
     </dependencies>
     <build>
         <plugins>

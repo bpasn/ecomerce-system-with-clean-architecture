@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  spring-boot:
+    image: spring:1.0
+    restart: always
+    environment:
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+      POSTGRESQL_DB_DDL_AUTO: update
+      SERVER_PORT: ${SERVER_PORT}
+      X_API_KEY: ${X_API_KEY}
+      MOUNT_PATH: ${MOUNT_PATH}
+      JWT_EXPIRED: ${JWT_EXPIRED}
+      JWT_REFRESH_TOKEN_EXPIRE: ${JWT_REFRESH_TOKEN_EXPIRE}
+      PRIVATE_KEY: ${PRIVATE_KEY}
+    command: /bin/sh -c 'nc -v host.docker.internal 5432'
+    networks:
+      - spring
+#    ports:
+#      - 8888:8888
+
+
+  nginx-spring:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 256MB
+    image: nginx:latest
+    depends_on:
+      - spring-boot
+    volumes:
+      - ./spring-boot.conf:/etc/nginx/conf.d/spring-boot.conf
+    ports:
+      - 8100:8100
+    networks:
+      - spring
+
+
+networks:
+  spring:

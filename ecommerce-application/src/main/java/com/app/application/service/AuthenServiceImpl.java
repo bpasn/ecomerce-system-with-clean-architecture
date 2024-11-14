@@ -75,7 +75,7 @@ public class AuthenServiceImpl implements AuthenService {
     }
 
     @Override
-    public AuthResponse signUpProvider(ProviderRequest provider) {
+    public AuthResponse providerSignUp(ProviderRequest provider) {
         User userModel = new User();
         userModel.setProvider(provider.getProvider());
         userModel.setProviderId(provider.getProviderId());
@@ -87,11 +87,10 @@ public class AuthenServiceImpl implements AuthenService {
     }
 
     @Override
-    public AuthResponse signInProvider(ProviderRequest provider) {
+    public AuthResponse provider(ProviderRequest provider) {
         User user = authUseCase.findByProviderAndProviderId(provider.getProvider(), provider.getProviderId());
-        System.out.println("USER IS : " + user);
         if(user == null){
-            return signUpProvider(provider);
+            return providerSignUp(provider);
         }
         return generateAuthResponse(user.getEmail());
     }

@@ -33,7 +33,6 @@ public class SecurityConfig {
         public static final String[] publicRouter = {
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
-                        "/api/v1/auth/**",
         };
         public static final String[] privateRoute = {
                 "/api/v1/admin/**"
@@ -45,7 +44,8 @@ public class SecurityConfig {
                                 .cors(AbstractHttpConfigurer::disable)
                                 .httpBasic(Customizer.withDefaults())
                                 .authorizeHttpRequests(authorize -> authorize.requestMatchers(privateRoute).authenticated()
-                                                .requestMatchers("/v3/api-docs/**","/swagger-ui/**","/api/v1/auth/**").permitAll()
+                                                .requestMatchers(publicRouter).permitAll()
+                                                .requestMatchers("/api/v1/auth/**").permitAll()
                                                 .requestMatchers("/api/v1/**").permitAll()
                                                 )
                                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

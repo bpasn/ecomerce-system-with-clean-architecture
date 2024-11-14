@@ -2,7 +2,6 @@ package com.app.infrastructure.services;
 
 import java.io.IOException;
 
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,10 +57,12 @@ public class JwtAuthenticationFilterImpl extends OncePerRequestFilter implements
 
         String uri = request.getRequestURI();
 
-//        if(uri.startsWith("/swagger-ui") || uri.startsWith("/v3/api-docs")){
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
+        
+       if(uri.startsWith("/swagger-ui") || uri.startsWith("/v3/api-docs")){
+        System.out.println(uri);
+           filterChain.doFilter(request, response);
+           return;
+       }
         String xApi = request.getHeader("x-api-key");
         if(!xApiSecurity.equals(xApi)){
             response.sendError(HttpStatus.FORBIDDEN.value(),"Access Denied: Invalid or Missing Header");

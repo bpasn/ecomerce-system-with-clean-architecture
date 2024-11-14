@@ -44,11 +44,7 @@ public class AdminProductController {
     }
 
 
-//    @GetMapping("/")
-//    public ResponseEntity<ApiResponse<List<ProductsDTO>>> getProduct() {
-//        return ResponseEntity.ok(productService.getProduct());
-//    }
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<ApiResponse<PageResult<ProductsDTO>>> get(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,

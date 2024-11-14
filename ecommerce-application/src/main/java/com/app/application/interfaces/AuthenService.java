@@ -12,6 +12,6 @@ public interface AuthenService {
     AuthResponse signIn(AuthReq body);
     AuthResponse refreshToken(String refreshToken);
     Boolean findByProviderAndProviderId(String provider,String providerId);
-    AuthResponse signUpProvider(ProviderRequest provider);
-    AuthResponse signInProvider(ProviderRequest provider);
+    AuthResponse providerSignUp(ProviderRequest provider);
+    AuthResponse provider(ProviderRequest provider);
 }

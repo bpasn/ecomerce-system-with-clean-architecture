@@ -9,7 +9,6 @@ import com.app.domain.enums.EOrderStatus;
 import com.app.domain.enums.EStatusStock;
 import com.app.domain.models.*;
 import com.app.domain.usecase.*;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -140,7 +139,6 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDTO> implement
     }
 
     @Override
-    @JsonView(OrderDTO.BasicView.class)
     public ApiResponse<List<OrderDTO>> getAll() {
         List<Order> orders = orderUseCase.findAll();
         return new ApiResponse<>(orders.stream()

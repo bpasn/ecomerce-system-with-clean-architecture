@@ -52,7 +52,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateToken(String username) {
         HashMap<String,String> map = new HashMap<>();
-        map.put("userId", authUseCase.findByEmail(username).getId());
+        map.put("name", authUseCase.findByEmail(username).getName());
         return generateToken(map, username, expired);
     }
 
@@ -63,9 +63,10 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateToken(Map<String, ?> extractClaims, String username,long expirationTime) {
        try {
+           String name = extractClaims.get("name") == null ? null : extractClaims.get("name").toString();
            return Jwts.builder()
                    .claims(extractClaims)
-                   .subject(username)
+                   .subject(name)
                    .issuedAt(new Date(System.currentTimeMillis()))
                    .expiration(new Date(System.currentTimeMillis() + expirationTime))
                    .signWith(getSignInKey())

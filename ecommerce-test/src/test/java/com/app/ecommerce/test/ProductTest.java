@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import com.app.infrastructure.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -52,10 +53,9 @@ import com.app.domain.usecase.ProductOptionUseCase;
 import com.app.domain.usecase.ProductUseCase;
 import com.app.domain.usecase.StockUseCase;
 import com.app.domain.usecase.StoreUseCase;
-import com.app.infrastructure.exception.NotFoundException;
 
 @SpringBootTest
-class ProductServiceImplTest {
+class ProductTest {
 
     @Mock
     private ProductUseCase productUseCase;

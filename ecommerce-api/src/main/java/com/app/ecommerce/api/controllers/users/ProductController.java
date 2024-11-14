@@ -1,6 +1,7 @@
 package com.app.ecommerce.api.controllers.users;
 
 import com.app.application.dto.ApiResponse;
+import com.app.application.dto.CategoriesDTO;
 import com.app.application.dto.CategoryWithProductDTO;
 import com.app.application.interfaces.CategoryService;
 import com.app.application.interfaces.ProductService;
@@ -19,7 +20,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
-    ProductController(ProductService productService,CategoryService categoryService){
+    public ProductController(ProductService productService,CategoryService categoryService){
         this.productService = productService;
         this.categoryService = categoryService;
     }
@@ -27,4 +28,10 @@ public class ProductController {
     public ResponseEntity<ApiResponse<List<CategoryWithProductDTO>>> getAll(){
         return ResponseEntity.ok(categoryService.getAllCategoryWIthProduct());
     }
+    @GetMapping("category")
+    public ResponseEntity<ApiResponse<List<CategoriesDTO>>>getCategory(){
+        return ResponseEntity.ok(categoryService.getAll());
+    }
+
+
 }

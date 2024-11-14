@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.domain.enums.EOrderStatus;
-import com.fasterxml.jackson.annotation.JsonView;
 
 public class OrderDTO {
 

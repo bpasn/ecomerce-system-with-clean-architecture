@@ -1,5 +1,5 @@
 environment:
-  name: WORK
+  name: work
 spring:
   servlet:
     multipart:
@@ -8,20 +8,25 @@ spring:
   application:
     name: ecommerce-api
   datasource:
-    url: jdbc:postgresql://localhost:5432/e-commerce
-    username: admin
-    password: 123456
+    url: ${POSTGRESQL_DB_URL:jdbc:postgresql://host.docker.internal:5432/e-commerce}
+    username: ${POSTGRESQL_DB_USER:admin}
+    password: ${POSTGRESQL_DB_PASSWORD:123456}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      max-lifetime: 1800000
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
-        format_sql: false
+        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 server:
-  port: 8888
+  port: ${SERVER_PORT}
 
 
 api:
@@ -29,23 +34,25 @@ api:
     route: /api/v1
     client: /api/v1/client
   security:
-    x-api-key: SPM5o11aV5YgOFv8iWk5AgCKy1FMcNTVshHvzMFf02o=
+    x-api-key: ${X_API_KEY}
 
-mount-path: D:/me/SpringBoot/
+mount-path: ${MOUNT_PATH}
 
 origin:
   merchant-portal:
     url: http://localhost:3000
 
 jwt:
-  private-key: d45c48a62cfcf0c885b1865088f14e6dc1d075383bfaf879079fee4c1aef0ef6
-  expired: 604800000 # 15 min
-  refreshTokenExpire: 604800000 # 7 DAY
+  private-key: ${PRIVATE_KEY}
+  expired: ${JWT_EXPIRED:604800000} # 15 min
+  refreshTokenExpire: ${JWT_REFRESH_TOKEN_EXPIRE:604800000} # 7 DAY
 
 logging:
   level:
     root: INFO
     sql: INFO
+    springframework:
+      jdbc: DEBUG
   #  com:
   #     app:
   #       ecommerce-api: DEBUG

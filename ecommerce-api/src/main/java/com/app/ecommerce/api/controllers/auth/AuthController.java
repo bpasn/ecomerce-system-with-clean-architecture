@@ -1,6 +1,5 @@
-package com.app.ecommerce.api.controllers;
+package com.app.ecommerce.api.controllers.auth;
 
-import com.app.application.dto.ApiResponse;
 import com.app.application.dto.BaseResponse;
 import com.app.application.dto.auth.AuthRegisReq;
 import com.app.application.dto.auth.AuthReq;
@@ -11,9 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.app.application.interfaces.AuthenService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 @RestController
@@ -43,14 +39,9 @@ public class AuthController {
     }
 
     @PostMapping("/provider")
-    public ResponseEntity<AuthResponse> signInProvider(@RequestBody ProviderRequest provider){
-        return ResponseEntity.ok(authenService.signInProvider(provider));
+    public ResponseEntity<AuthResponse> provider(@RequestBody ProviderRequest provider){
+        return ResponseEntity.ok(authenService.provider(provider));
     }
-
-//    @PostMapping("/provider/sign-up")
-//    public ResponseEntity<AuthResponse>signUpProvider(@RequestBody ProviderRequest providerRequest){
-//        return ResponseEntity.ok(authenService.signUpProvider(providerRequest));
-//    }
 
 
     record RefreshToken(String refreshToken){}
